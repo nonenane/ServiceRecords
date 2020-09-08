@@ -23,6 +23,7 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <Prefer32Bit>false</Prefer32Bit>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -33,6 +34,7 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <Prefer32Bit>false</Prefer32Bit>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="EPPlus, Version=4.0.4.0, Culture=neutral, PublicKeyToken=ea159fdaa78159a1, processorArchitecture=MSIL">
@@ -68,9 +70,6 @@
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
-    <Reference Include="Microsoft.CSharp">
-      <Private>True</Private>
-    </Reference>
     <Reference Include="System.Data" />
     <Reference Include="System.Deployment" />
     <Reference Include="System.Drawing" />
@@ -166,6 +165,12 @@
     </Compile>
     <Compile Include="globalForm\frmViewHistoryStatus.Designer.cs">
       <DependentUpon>frmViewHistoryStatus.cs</DependentUpon>
+    </Compile>
+    <Compile Include="HardWare\frmListHardware.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="HardWare\frmListHardware.Designer.cs">
+      <DependentUpon>frmListHardware.cs</DependentUpon>
     </Compile>
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
@@ -274,6 +279,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="globalForm\frmViewHistoryStatus.resx">
       <DependentUpon>frmViewHistoryStatus.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="HardWare\frmListHardware.resx">
+      <DependentUpon>frmListHardware.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="settings\frmBlockVsDeps.resx">
       <DependentUpon>frmBlockVsDeps.cs</DependentUpon>
@@ -513,6 +521,7 @@
   <ItemGroup>
     <None Include="Resources\report.jpg" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

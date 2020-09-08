@@ -22,6 +22,8 @@ namespace ServiceRecords
 
         private void frmCheckReport_Load(object sender, EventArgs e)
         {
+            colV.Visible = btnAccept.Visible = btnRefuse.Visible = !new List<string>(new string[] { "РКВ", "КНТ" }).Contains(Config.CodeUser);
+
             setDopElements();
             createCmbStatusReport();
             createCmbDebt();
@@ -45,9 +47,14 @@ namespace ServiceRecords
             dt.Rows.Add(1, "Отчет предоставлен");
             dt.Rows.Add(2, "Ожидание отчета");
             dt.Rows.Add(3, "Отчет отклонен");
+            dt.Rows.Add(4, "Отчет  подтвержден");
             cmbStatusReport.DataSource = dt;
             cmbStatusReport.DisplayMember = "name";
             cmbStatusReport.ValueMember = "id";
+
+            if (new List<string>(new string[] { "ОП" }).Contains(Config.CodeUser))
+                cmbStatusReport.SelectedValue = 1;
+
         }
 
         private void createCmbDebt()
@@ -95,25 +102,42 @@ namespace ServiceRecords
 
         private void Filter()
         {
+            if (dtReport == null || dtReport.Rows.Count == 0) {
+
+                btViewHardwareList.Enabled = false;
+                btnPrintReport.Enabled = false; return; 
+            }
             try
-            {
+            {                
                 string filter = "";
+
+                if (new List<string>(new string[] { "РКВ" }).Contains(Config.CodeUser))
+                    filter += (filter.Trim().Length == 0 ? "" : " and ") + $"id_Creator  = {Nwuram.Framework.Settings.User.UserSettings.User.Id}";
+
                 filter += cmbStatusReport.SelectedIndex == 1 ? "id_Status = 15" :
                           cmbStatusReport.SelectedIndex == 2 ? "id_Status = 14" :
-                          cmbStatusReport.SelectedIndex == 3 ? "id_Status = 19" : ""; // id_Status
-                filter += filter.Length != 0 && cmbDebt.SelectedIndex  != 0 ? " AND " : "";
+                          cmbStatusReport.SelectedIndex == 3 ? "id_Status = 19" :
+                          cmbStatusReport.SelectedIndex == 4 ? "id_Status = 20" : ""; // id_Status
+                filter += filter.Length != 0 && cmbDebt.SelectedIndex != 0 ? " AND " : "";
                 filter += cmbDebt.SelectedIndex == 1 ? "DebtReport > 0" :
                           cmbDebt.SelectedIndex == 2 ? "DebtReport = 0" : " ";
 
+                if (tbNumber.Text.Trim().Length != 0)
+                    filter += (filter.Trim().Length == 0 ? "" : " and ") + $"CONVERT(Number,'System.String') like '%{tbNumber.Text.Trim()}%'";
+
+                if (tbDiscript.Text.Trim().Length != 0)
+                    filter += (filter.Trim().Length == 0 ? "" : " and ") + $"Description like '%{tbDiscript.Text.Trim()}%'";
+
                 dtReport.DefaultView.RowFilter = filter;
+                btnPrintReport.Enabled = dtReport.DefaultView.Count != 0;
+                dgvReport_SelectionChanged(null, null);
             }
-            catch { }
+            catch (Exception ex) {
+                btViewHardwareList.Enabled = false;
+                btnPrintReport.Enabled = false;
+            }
         }
 
-        private void cmbStatusReport_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            Filter();
-        }
 
         private void cmbDebt_SelectedIndexChanged(object sender, EventArgs e)
         {
@@ -220,10 +244,120 @@ namespace ServiceRecords
             }
         }
 
+        private void setWidthColumn(int indexRow, int indexCol, int width, Nwuram.Framework.ToExcelNew.ExcelUnLoad report)
+        {
+            report.SetColumnWidth(indexRow, indexCol, indexRow, indexCol, width);
+        }
+
         private void btnPrintReport_Click(object sender, EventArgs e)
         {
-            if (dgvReport != null ? dgvReport.Rows.Count > 0 ? true: false: false)
-                PrintReport();
+            if (dtReport.DefaultView.Count == 0)
+            {
+                MessageBox.Show("Нет данных для выгрузки отчёта!","Выгрузка отчёта",MessageBoxButtons.OK,MessageBoxIcon.Information);
+                return;
+            }
+
+            Nwuram.Framework.ToExcelNew.ExcelUnLoad report = new Nwuram.Framework.ToExcelNew.ExcelUnLoad();
+
+            int indexRow = 1;
+
+            int maxColumns = 0;
+
+            foreach (DataGridViewColumn col in dgvReport.Columns)
+                if (col.Visible && !col.Name.Equals(colV.Name))
+                {
+                    maxColumns++;
+                    if (col.Name.Equals("Number")) setWidthColumn(indexRow, maxColumns, 20, report);
+                    if (col.Name.Equals("Description")) setWidthColumn(indexRow, maxColumns, 22, report);
+                    if (col.Name.Equals("Summa")) setWidthColumn(indexRow, maxColumns, 22, report);
+                    if (col.Name.Equals("Valuta")) setWidthColumn(indexRow, maxColumns, 13, report);
+                    if (col.Name.Equals("sumGet")) setWidthColumn(indexRow, maxColumns, 20, report);
+                    if (col.Name.Equals("SummaReport")) setWidthColumn(indexRow, maxColumns, 18, report);
+                    if (col.Name.Equals("DebtReport")) setWidthColumn(indexRow, maxColumns, 16, report);
+                    if (col.Name.Equals("DateEdit")) setWidthColumn(indexRow, maxColumns, 10, report);
+                    if (col.Name.Equals("typeCashNonCash")) setWidthColumn(indexRow, maxColumns, 10, report);
+                    if (col.Name.Equals("nameStatusReport")) setWidthColumn(indexRow, maxColumns, 10, report);
+                }
+
+            #region "Head"
+            report.Merge(indexRow, 1, indexRow, maxColumns);
+            report.AddSingleValue($"Проверка отчётов", indexRow, 1);
+            report.SetFontBold(indexRow, 1, indexRow, 1);
+            report.SetFontSize(indexRow, 1, indexRow, 1, 16);
+            report.SetCellAlignmentToCenter(indexRow, 1, indexRow, 1);
+            indexRow++;
+            indexRow++;
+
+            report.Merge(indexRow, 1, indexRow, maxColumns);
+            report.AddSingleValue($"Период с {dateTimeStart.Value.ToShortDateString()} по {dateTimeEnd.Value.ToShortDateString()}", indexRow, 1);
+            indexRow++;
+
+
+            report.Merge(indexRow, 1, indexRow, maxColumns);
+            report.AddSingleValue($"Статус: {cmbStatusReport.Text}", indexRow, 1);
+            indexRow++;
+
+            report.Merge(indexRow, 1, indexRow, maxColumns);
+            report.AddSingleValue($"{lbHasDebt.Text}: {cmbDebt.Text}", indexRow, 1);
+            indexRow++;
+
+            report.Merge(indexRow, 1, indexRow, maxColumns);
+            report.AddSingleValue("Выгрузил: " + Nwuram.Framework.Settings.User.UserSettings.User.FullUsername, indexRow, 1);
+            indexRow++;
+
+            report.Merge(indexRow, 1, indexRow, maxColumns);
+            report.AddSingleValue("Дата выгрузки: " + DateTime.Now.ToString(), indexRow, 1);
+            indexRow++;
+            indexRow++;
+            #endregion
+
+            int indexCol = 0;
+            foreach (DataGridViewColumn col in dgvReport.Columns)
+                if (col.Visible && !col.Name.Equals(colV.Name))
+                {
+                    indexCol++;
+                    report.AddSingleValue(col.HeaderText, indexRow, indexCol);
+                }
+            report.SetFontBold(indexRow, 1, indexRow, maxColumns);
+            report.SetBorders(indexRow, 1, indexRow, maxColumns);
+            report.SetWrapText(indexRow, 1, indexRow, maxColumns);
+            report.SetCellAlignmentToCenter(indexRow, 1, indexRow, maxColumns);
+            report.SetCellAlignmentToJustify(indexRow, 1, indexRow, maxColumns);
+            indexRow++;
+
+            foreach (DataRowView row in dtReport.DefaultView)
+            {
+                indexCol = 1;
+                report.SetWrapText(indexRow, indexCol, indexRow, maxColumns);
+                foreach (DataGridViewColumn col in dgvReport.Columns)
+                {
+                    if (col.Visible && !col.Name.Equals(colV.Name))
+                    {
+                        if (row[col.DataPropertyName] is DateTime)
+                            report.AddSingleValue(((DateTime)row[col.DataPropertyName]).ToShortDateString(), indexRow, indexCol);
+                        else
+                         if (row[col.DataPropertyName] is bool)
+                            report.AddSingleValue((bool)row[col.DataPropertyName] ? "Да" : "Нет", indexRow, indexCol);
+                        else
+                           if (row[col.DataPropertyName] is decimal)
+                        {
+                            report.AddSingleValueObject(row[col.DataPropertyName], indexRow, indexCol);
+                            report.SetFormat(indexRow, indexCol, indexRow, indexCol, "0.00");
+                        }
+                        else
+                            report.AddSingleValue(row[col.DataPropertyName].ToString(), indexRow, indexCol);
+
+                        indexCol++;
+                    }
+                }
+
+                report.SetBorders(indexRow, 1, indexRow, maxColumns);
+                report.SetCellAlignmentToCenter(indexRow, 1, indexRow, maxColumns);
+                report.SetCellAlignmentToJustify(indexRow, 1, indexRow, maxColumns);
+                indexRow++;
+            }
+
+            report.Show();
         }
 
         private void PrintReport()
@@ -294,9 +428,65 @@ namespace ServiceRecords
 
         }
 
-        private void panel4_Paint(object sender, PaintEventArgs e)
+        private void cmbStatusReport_SelectionChangeCommitted(object sender, EventArgs e)
         {
+            Filter();
+        }
 
+        private void dgvReport_ColumnWidthChanged(object sender, DataGridViewColumnEventArgs e)
+        {
+            int width = 0;
+            foreach (DataGridViewColumn col in dgvReport.Columns)
+            {
+                if (!col.Visible) continue;
+
+                if (col.Name.Equals(Number.Name))
+                {
+                    tbNumber.Location = new Point(dgvReport.Location.X + width + 1, tbNumber.Location.Y);
+                    tbNumber.Size = new Size(Number.Width, tbNumber.Size.Height);
+                }
+                else
+                    if (col.Name.Equals(Description.Name))
+                {
+                    tbDiscript.Location = new Point(dgvReport.Location.X + width + 1, tbNumber.Location.Y);
+                    tbDiscript.Size = new Size(Description.Width, tbNumber.Size.Height);
+                }
+              
+
+                width += col.Width;
+            }
+        }
+
+        private void tbNumber_TextChanged(object sender, EventArgs e)
+        {
+            Filter();
+        }
+
+        private void dgvReport_SelectionChanged(object sender, EventArgs e)
+        {
+            if(dtReport==null || dtReport.Rows.Count==0)
+            {
+                btViewHardwareList.Enabled = false;
+                return; 
+            }
+            if (dgvReport.CurrentRow == null || dgvReport.CurrentRow.Index == -1)
+            {
+                btViewHardwareList.Enabled = false;
+                return;
+            }
+
+            if (dtReport.DefaultView[dgvReport.CurrentRow.Index]["inType"] == DBNull.Value)
+            {
+                btViewHardwareList.Enabled = false; return;
+            }
+
+            btViewHardwareList.Enabled = (int)dtReport.DefaultView[dgvReport.CurrentRow.Index]["inType"] == 1;
+        }
+
+        private void btViewHardwareList_Click(object sender, EventArgs e)
+        {
+            int id_ServiceRecod = (int)dtReport.DefaultView[dgvReport.CurrentRow.Index]["id"];
+            new HardWare.frmListHardware() { id_ServiceRecod = id_ServiceRecod }.ShowDialog();
         }
     }
 }

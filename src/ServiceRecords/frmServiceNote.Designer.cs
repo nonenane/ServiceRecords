@@ -78,6 +78,8 @@
             this.cFSumma = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.cFDescript = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.groupBox3 = new ServiceRecords.elements.CustomGrpBox();
+            this.cmbTypicalWorks = new System.Windows.Forms.ComboBox();
+            this.lTypicalWorks = new System.Windows.Forms.Label();
             this.btDelFond = new System.Windows.Forms.Button();
             this.btAddFond = new System.Windows.Forms.Button();
             this.tbFond = new System.Windows.Forms.TextBox();
@@ -195,7 +197,7 @@
             // 
             // tbCommentGlobal
             // 
-            this.tbCommentGlobal.Location = new System.Drawing.Point(21, 562);
+            this.tbCommentGlobal.Location = new System.Drawing.Point(12, 562);
             this.tbCommentGlobal.Multiline = true;
             this.tbCommentGlobal.Name = "tbCommentGlobal";
             this.tbCommentGlobal.Size = new System.Drawing.Size(551, 83);
@@ -363,7 +365,7 @@
             // btAccept
             // 
             this.btAccept.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.btAccept.Location = new System.Drawing.Point(625, 651);
+            this.btAccept.Location = new System.Drawing.Point(660, 651);
             this.btAccept.Name = "btAccept";
             this.btAccept.Size = new System.Drawing.Size(110, 32);
             this.btAccept.TabIndex = 46;
@@ -375,7 +377,7 @@
             // btRefuse
             // 
             this.btRefuse.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.btRefuse.Location = new System.Drawing.Point(508, 651);
+            this.btRefuse.Location = new System.Drawing.Point(543, 651);
             this.btRefuse.Name = "btRefuse";
             this.btRefuse.Size = new System.Drawing.Size(110, 32);
             this.btRefuse.TabIndex = 47;
@@ -397,7 +399,7 @@
             // 
             this.btAddFile.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.btAddFile.Image = global::ServiceRecords.Properties.Resources.folder_htm_5356;
-            this.btAddFile.Location = new System.Drawing.Point(61, 651);
+            this.btAddFile.Location = new System.Drawing.Point(96, 651);
             this.btAddFile.Name = "btAddFile";
             this.btAddFile.Size = new System.Drawing.Size(32, 32);
             this.btAddFile.TabIndex = 24;
@@ -408,7 +410,7 @@
             // 
             this.btView.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.btView.Image = global::ServiceRecords.Properties.Resources.find_9299;
-            this.btView.Location = new System.Drawing.Point(21, 651);
+            this.btView.Location = new System.Drawing.Point(19, 651);
             this.btView.Name = "btView";
             this.btView.Size = new System.Drawing.Size(32, 32);
             this.btView.TabIndex = 25;
@@ -420,7 +422,7 @@
             // 
             this.btSelect.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.btSelect.Image = global::ServiceRecords.Properties.Resources.save_edit;
-            this.btSelect.Location = new System.Drawing.Point(859, 651);
+            this.btSelect.Location = new System.Drawing.Point(879, 651);
             this.btSelect.Name = "btSelect";
             this.btSelect.Size = new System.Drawing.Size(32, 32);
             this.btSelect.TabIndex = 22;
@@ -431,7 +433,7 @@
             // 
             this.btClose.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.btClose.Image = global::ServiceRecords.Properties.Resources.exit_8633;
-            this.btClose.Location = new System.Drawing.Point(897, 651);
+            this.btClose.Location = new System.Drawing.Point(917, 651);
             this.btClose.Name = "btClose";
             this.btClose.Size = new System.Drawing.Size(32, 32);
             this.btClose.TabIndex = 23;
@@ -443,7 +445,7 @@
             this.btnSaveComment.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.btnSaveComment.Enabled = false;
             this.btnSaveComment.Image = global::ServiceRecords.Properties.Resources.view2;
-            this.btnSaveComment.Location = new System.Drawing.Point(897, 613);
+            this.btnSaveComment.Location = new System.Drawing.Point(917, 608);
             this.btnSaveComment.Name = "btnSaveComment";
             this.btnSaveComment.Size = new System.Drawing.Size(32, 32);
             this.btnSaveComment.TabIndex = 49;
@@ -665,6 +667,8 @@
             // 
             // groupBox3
             // 
+            this.groupBox3.Controls.Add(this.cmbTypicalWorks);
+            this.groupBox3.Controls.Add(this.lTypicalWorks);
             this.groupBox3.Controls.Add(this.btDelFond);
             this.groupBox3.Controls.Add(this.btAddFond);
             this.groupBox3.Controls.Add(this.tbFond);
@@ -709,6 +713,24 @@
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "Служебная записка";
             this.groupBox3.Enter += new System.EventHandler(this.groupBox3_Enter);
+            // 
+            // cmbTypicalWorks
+            // 
+            this.cmbTypicalWorks.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cmbTypicalWorks.FormattingEnabled = true;
+            this.cmbTypicalWorks.Location = new System.Drawing.Point(76, 329);
+            this.cmbTypicalWorks.Name = "cmbTypicalWorks";
+            this.cmbTypicalWorks.Size = new System.Drawing.Size(367, 21);
+            this.cmbTypicalWorks.TabIndex = 54;
+            // 
+            // lTypicalWorks
+            // 
+            this.lTypicalWorks.AutoSize = true;
+            this.lTypicalWorks.Location = new System.Drawing.Point(12, 333);
+            this.lTypicalWorks.Name = "lTypicalWorks";
+            this.lTypicalWorks.Size = new System.Drawing.Size(58, 13);
+            this.lTypicalWorks.TabIndex = 53;
+            this.lTypicalWorks.Text = "Тип работ";
             // 
             // btDelFond
             // 
@@ -835,12 +857,13 @@
             // chbMoreNote
             // 
             this.chbMoreNote.AutoSize = true;
-            this.chbMoreNote.Location = new System.Drawing.Point(13, 329);
+            this.chbMoreNote.Location = new System.Drawing.Point(14, 406);
             this.chbMoreNote.Name = "chbMoreNote";
             this.chbMoreNote.Size = new System.Drawing.Size(261, 17);
             this.chbMoreNote.TabIndex = 43;
             this.chbMoreNote.Text = "Дата получения ДС (при распределенном ДС)";
             this.chbMoreNote.UseVisualStyleBackColor = true;
+            this.chbMoreNote.Visible = false;
             this.chbMoreNote.CheckedChanged += new System.EventHandler(this.chbMoreNote_CheckedChanged);
             // 
             // dgvNote
@@ -864,12 +887,13 @@
             this.cPlaneDate,
             this.cSign,
             this.cPass});
-            this.dgvNote.Location = new System.Drawing.Point(14, 352);
+            this.dgvNote.Location = new System.Drawing.Point(14, 429);
             this.dgvNote.MultiSelect = false;
             this.dgvNote.Name = "dgvNote";
             this.dgvNote.RowHeadersVisible = false;
-            this.dgvNote.Size = new System.Drawing.Size(531, 141);
+            this.dgvNote.Size = new System.Drawing.Size(531, 64);
             this.dgvNote.TabIndex = 41;
+            this.dgvNote.Visible = false;
             this.dgvNote.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvNote_CellContentClick);
             // 
             // cNumber
@@ -1014,6 +1038,7 @@
             this.btAddBlock.Size = new System.Drawing.Size(32, 32);
             this.btAddBlock.TabIndex = 32;
             this.btAddBlock.UseVisualStyleBackColor = true;
+            this.btAddBlock.Visible = false;
             this.btAddBlock.Click += new System.EventHandler(this.btAddBlock_Click);
             // 
             // btEditBlock
@@ -1026,6 +1051,7 @@
             this.btEditBlock.Size = new System.Drawing.Size(32, 32);
             this.btEditBlock.TabIndex = 33;
             this.btEditBlock.UseVisualStyleBackColor = true;
+            this.btEditBlock.Visible = false;
             this.btEditBlock.Click += new System.EventHandler(this.btEditBlock_Click);
             // 
             // btDelBlock
@@ -1038,6 +1064,7 @@
             this.btDelBlock.Size = new System.Drawing.Size(32, 32);
             this.btDelBlock.TabIndex = 34;
             this.btDelBlock.UseVisualStyleBackColor = true;
+            this.btDelBlock.Visible = false;
             this.btDelBlock.Click += new System.EventHandler(this.btDelBlock_Click);
             // 
             // cmbDeps
@@ -1168,7 +1195,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(928, 679);
+            this.ClientSize = new System.Drawing.Size(961, 690);
             this.ControlBox = false;
             this.Controls.Add(this.gbFond);
             this.Controls.Add(this.typeSRonTime);
@@ -1309,5 +1336,7 @@
         private System.Windows.Forms.Button btFondPrintSZ;
         private System.Windows.Forms.Label label17;
         private System.Windows.Forms.TextBox tbRealSum;
+        private System.Windows.Forms.ComboBox cmbTypicalWorks;
+        private System.Windows.Forms.Label lTypicalWorks;
     }
 }

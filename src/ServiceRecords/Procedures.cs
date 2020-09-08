@@ -6,6 +6,7 @@ using System.Data;
 using System;
 using Nwuram.Framework.Settings.User;
 using System.Windows.Forms;
+using System.Collections.Generic;
 
 namespace ServiceRecords
 {
@@ -153,6 +154,35 @@ namespace ServiceRecords
             }
         }
 
+        public DataTable GetSettingsTable(string id_value)
+        {
+            ap.Clear();
+
+            ap.Add(ConnectionSettings.GetIdProgram());
+
+            ap.Add(id_value);
+
+
+            return executeProcedure("[ServiceRecords].[GetSettings]",
+                new string[2] { "@id_prog", "@id_value" },
+                new DbType[2] { DbType.Int32, DbType.String }, ap);
+        }
+
+        public void SetSettingsMulti(string id_value, string value,bool isDel)
+        {
+            ap.Clear();
+            ap.Add(ConnectionSettings.GetIdProgram());
+            ap.Add(id_value);
+            ap.Add("N");
+            ap.Add("");
+            ap.Add(value);
+            ap.Add(isDel);
+
+            executeProcedure("[ServiceRecords].[SetSettingsMulti]",
+                new string[] { "@id_prog", "@id_value", "@type_value", "@value_name", "@value","@isDel" },
+                new DbType[] { DbType.Int32, DbType.String, DbType.String, DbType.String, DbType.String,DbType.Boolean }, ap);
+        }
+
         #endregion
 
         #region "Маршруты"
@@ -243,7 +273,8 @@ namespace ServiceRecords
             decimal SummaCash = 0,
             decimal SummaNonCash = 0,
             bool Mix = false,
-            int? id_fond = null)
+            int? id_fond = null,
+            int? inType = null)
         {
             ap.Clear();
 
@@ -266,6 +297,7 @@ namespace ServiceRecords
             ap.Add(SummaNonCash);
             ap.Add(Mix);
             ap.Add(id_fond);
+            ap.Add(inType);
 
             return executeProcedure("[ServiceRecords].[setServiceRecords]",
                  new string[] { "@Description",		
@@ -286,7 +318,8 @@ namespace ServiceRecords
                                 "@SummaCash",
                                 "@SummaNonCash",
                                 "@Mix",
-                                "@id_fond"
+                                "@id_fond",
+                                "@inType"
                             },
                  new DbType[] { 
                                 DbType.String,
@@ -307,6 +340,7 @@ namespace ServiceRecords
                                 DbType.Decimal,
                                 DbType.Decimal,
                                 DbType.Boolean,
+                                DbType.Int32,
                                 DbType.Int32
                  }, ap);
         }
@@ -549,7 +583,8 @@ namespace ServiceRecords
             decimal SummaCash,
             decimal SummaNonCash,
             bool Mix,
-            int? id_fond)
+            int? id_fond,
+            int? inType)
         {
             ap.Clear();
 
@@ -573,6 +608,7 @@ namespace ServiceRecords
             ap.Add(SummaNonCash);
             ap.Add(Mix);
             ap.Add(id_fond);
+            ap.Add(inType);
 
             return executeProcedure("[ServiceRecords].[updateServiceRecords]",
                  new string[] { "@Description",		
@@ -594,7 +630,8 @@ namespace ServiceRecords
                                 "@SummaCash",
                                 "@SummaNonCash",
                                 "@Mix",
-                                "@id_fond"
+                                "@id_fond",
+                                "@inType"
                             },
                  new DbType[] { 
                                 DbType.String,
@@ -616,6 +653,7 @@ namespace ServiceRecords
                                 DbType.Decimal,
                                 DbType.Decimal,
                                 DbType.Boolean,
+                                DbType.Int32,
                                 DbType.Int32
                  }, ap);
         }
@@ -729,14 +767,16 @@ namespace ServiceRecords
 
             ap.Add(dateTimeStart);
             ap.Add(dateTimeEnd);
-
+            if (new List<string>(new string[] { "КНТ" }).Contains(Config.CodeUser))
+                ap.Add(Nwuram.Framework.Settings.User.UserSettings.User.IdDepartment);
+            else
+                ap.Add(0);
 
             return executeProcedure("[ServiceRecords].[getReportForCheck]",
-                 new string[] { "@dateTimeStart", "@dateTimeEnd" },
-                 new DbType[] { DbType.DateTime, DbType.DateTime }, ap);
+                 new string[] { "@dateTimeStart", "@dateTimeEnd","@id_Block" },
+                 new DbType[] { DbType.DateTime, DbType.DateTime,DbType.Int32 }, ap);
 
         }
-
 
         public void updateStatusReport(int id_Report, int status)
         {
@@ -961,6 +1001,63 @@ namespace ServiceRecords
                   new string[1] { "@id_fond" },
                   new DbType[1] { DbType.Int32 }, ap);
         }
+
+        #endregion
+
+        #region "Типы работ"
+        public DataTable getTypicalWorks(bool withAllDeps = false)
+        {
+            ap.Clear();
+
+            DataTable dtResult = executeProcedure("[ServiceRecords].[getTypicalWorks]",
+                 new string[0] { },
+                 new DbType[0] { }, ap);
+
+            if (withAllDeps)
+            {
+                if (dtResult != null)
+                {
+                    if (!dtResult.Columns.Contains("isMain"))
+                    {
+                        DataColumn col = new DataColumn("isMain", typeof(int));
+                        col.DefaultValue = 1;
+                        dtResult.Columns.Add(col);
+                        dtResult.AcceptChanges();
+                    }
+
+                    DataRow row = dtResult.NewRow();
+
+                    row["cName"] = "Все типы работ";
+                    row["id"] = 0;
+                    row["isMain"] = 0;
+                    dtResult.Rows.Add(row);
+                    dtResult.AcceptChanges();
+                    dtResult.DefaultView.RowFilter = "isActive = 1";
+                    dtResult.DefaultView.Sort = "isMain asc, id asc";
+                    dtResult = dtResult.DefaultView.ToTable().Copy();
+                }
+            }
+            else
+            {
+                dtResult.DefaultView.RowFilter = "isActive = 1";
+                dtResult.DefaultView.Sort = "id asc";
+                dtResult = dtResult.DefaultView.ToTable().Copy();
+            }
+
+            return dtResult;
+        }
+
+        public DataTable getListHardwareForServiceRecord(int id_ServiceRecord)
+        {
+            ap.Clear();
+            ap.Add(id_ServiceRecord);
+
+            return executeProcedure("[ServiceRecords].[getListHardwareForServiceRecord]",
+                  new string[1] { "@id_ServiceRecord" },
+                  new DbType[1] { DbType.Int32 }, ap);            
+
+        }
+
 
         #endregion
     }

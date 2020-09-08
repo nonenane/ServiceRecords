@@ -28,16 +28,14 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle9 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle10 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle11 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle12 = new System.Windows.Forms.DataGridViewCellStyle();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tbGlobal = new System.Windows.Forms.TabPage();
             this.groupBox4 = new System.Windows.Forms.GroupBox();
             this.dgvDepsSettings = new System.Windows.Forms.DataGridView();
-            this.cNameDepsProg = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.cVDeps = new System.Windows.Forms.DataGridViewCheckBoxColumn();
             this.rbNotNeed = new System.Windows.Forms.RadioButton();
             this.rbNeed = new System.Windows.Forms.RadioButton();
             this.nudTimeSafe = new System.Windows.Forms.NumericUpDown();
@@ -83,6 +81,8 @@
             this.count = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.btSelect = new System.Windows.Forms.Button();
             this.btClose = new System.Windows.Forms.Button();
+            this.cNameDepsProg = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.cVDeps = new System.Windows.Forms.DataGridViewCheckBoxColumn();
             this.tabControl1.SuspendLayout();
             this.tbGlobal.SuspendLayout();
             this.groupBox4.SuspendLayout();
@@ -111,7 +111,7 @@
             this.tabControl1.Location = new System.Drawing.Point(0, 0);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(820, 504);
+            this.tabControl1.Size = new System.Drawing.Size(816, 504);
             this.tabControl1.TabIndex = 0;
             // 
             // tbGlobal
@@ -128,7 +128,7 @@
             this.tbGlobal.Location = new System.Drawing.Point(4, 22);
             this.tbGlobal.Name = "tbGlobal";
             this.tbGlobal.Padding = new System.Windows.Forms.Padding(3);
-            this.tbGlobal.Size = new System.Drawing.Size(812, 478);
+            this.tbGlobal.Size = new System.Drawing.Size(808, 478);
             this.tbGlobal.TabIndex = 0;
             this.tbGlobal.Text = "Общие";
             this.tbGlobal.UseVisualStyleBackColor = true;
@@ -149,14 +149,14 @@
             this.dgvDepsSettings.AllowUserToDeleteRows = false;
             this.dgvDepsSettings.AllowUserToResizeRows = false;
             this.dgvDepsSettings.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
-            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.dgvDepsSettings.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
+            dataGridViewCellStyle9.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle9.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle9.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            dataGridViewCellStyle9.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle9.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle9.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle9.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dgvDepsSettings.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle9;
             this.dgvDepsSettings.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgvDepsSettings.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.cNameDepsProg,
@@ -168,20 +168,6 @@
             this.dgvDepsSettings.RowHeadersVisible = false;
             this.dgvDepsSettings.Size = new System.Drawing.Size(405, 441);
             this.dgvDepsSettings.TabIndex = 1;
-            // 
-            // cNameDepsProg
-            // 
-            this.cNameDepsProg.DataPropertyName = "name";
-            this.cNameDepsProg.HeaderText = "Отдел";
-            this.cNameDepsProg.Name = "cNameDepsProg";
-            // 
-            // cVDeps
-            // 
-            this.cVDeps.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
-            this.cVDeps.HeaderText = "V";
-            this.cVDeps.MinimumWidth = 45;
-            this.cVDeps.Name = "cVDeps";
-            this.cVDeps.Width = 45;
             // 
             // rbNotNeed
             // 
@@ -288,7 +274,7 @@
             this.tbLink.Location = new System.Drawing.Point(4, 22);
             this.tbLink.Name = "tbLink";
             this.tbLink.Padding = new System.Windows.Forms.Padding(3);
-            this.tbLink.Size = new System.Drawing.Size(816, 478);
+            this.tbLink.Size = new System.Drawing.Size(808, 478);
             this.tbLink.TabIndex = 1;
             this.tbLink.Text = "Связь маршрутов и отделов";
             this.tbLink.UseVisualStyleBackColor = true;
@@ -297,7 +283,7 @@
             // 
             this.btAdd.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.btAdd.Image = global::ServiceRecords.Properties.Resources.old_edit_redo;
-            this.btAdd.Location = new System.Drawing.Point(362, 165);
+            this.btAdd.Location = new System.Drawing.Point(358, 165);
             this.btAdd.Name = "btAdd";
             this.btAdd.Size = new System.Drawing.Size(32, 32);
             this.btAdd.TabIndex = 11;
@@ -308,7 +294,7 @@
             // 
             this.btDel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.btDel.Image = global::ServiceRecords.Properties.Resources.old_edit_undo;
-            this.btDel.Location = new System.Drawing.Point(362, 118);
+            this.btDel.Location = new System.Drawing.Point(358, 118);
             this.btDel.Name = "btDel";
             this.btDel.Size = new System.Drawing.Size(32, 32);
             this.btDel.TabIndex = 11;
@@ -362,14 +348,14 @@
             this.dgvDepVsRoute.AllowUserToDeleteRows = false;
             this.dgvDepVsRoute.AllowUserToResizeRows = false;
             this.dgvDepVsRoute.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
-            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle2.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            dataGridViewCellStyle2.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.dgvDepVsRoute.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle2;
+            dataGridViewCellStyle10.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle10.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle10.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            dataGridViewCellStyle10.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle10.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle10.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle10.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dgvDepVsRoute.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle10;
             this.dgvDepVsRoute.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgvDepVsRoute.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.cDeps,
@@ -433,14 +419,14 @@
             this.dgvRoute.AllowUserToDeleteRows = false;
             this.dgvRoute.AllowUserToResizeRows = false;
             this.dgvRoute.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
-            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle3.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle3.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            dataGridViewCellStyle3.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle3.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle3.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.dgvRoute.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle3;
+            dataGridViewCellStyle11.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle11.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle11.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            dataGridViewCellStyle11.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle11.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle11.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle11.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dgvRoute.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle11;
             this.dgvRoute.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgvRoute.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.cRoute});
@@ -468,7 +454,7 @@
             this.tbBlockDeps.Controls.Add(this.groupBox3);
             this.tbBlockDeps.Location = new System.Drawing.Point(4, 22);
             this.tbBlockDeps.Name = "tbBlockDeps";
-            this.tbBlockDeps.Size = new System.Drawing.Size(816, 478);
+            this.tbBlockDeps.Size = new System.Drawing.Size(808, 478);
             this.tbBlockDeps.TabIndex = 2;
             this.tbBlockDeps.Text = "Настройка блоков/отделов";
             this.tbBlockDeps.UseVisualStyleBackColor = true;
@@ -477,7 +463,7 @@
             // 
             this.btAddBlock.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.btAddBlock.Image = global::ServiceRecords.Properties.Resources.document_add;
-            this.btAddBlock.Location = new System.Drawing.Point(348, 433);
+            this.btAddBlock.Location = new System.Drawing.Point(344, 433);
             this.btAddBlock.Name = "btAddBlock";
             this.btAddBlock.Size = new System.Drawing.Size(32, 32);
             this.btAddBlock.TabIndex = 18;
@@ -488,7 +474,7 @@
             // 
             this.btEditBlock.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.btEditBlock.Image = global::ServiceRecords.Properties.Resources.edit;
-            this.btEditBlock.Location = new System.Drawing.Point(386, 433);
+            this.btEditBlock.Location = new System.Drawing.Point(382, 433);
             this.btEditBlock.Name = "btEditBlock";
             this.btEditBlock.Size = new System.Drawing.Size(32, 32);
             this.btEditBlock.TabIndex = 18;
@@ -499,7 +485,7 @@
             // 
             this.btDelBlock.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.btDelBlock.Image = global::ServiceRecords.Properties.Resources.document_delete;
-            this.btDelBlock.Location = new System.Drawing.Point(424, 433);
+            this.btDelBlock.Location = new System.Drawing.Point(420, 433);
             this.btDelBlock.Name = "btDelBlock";
             this.btDelBlock.Size = new System.Drawing.Size(32, 32);
             this.btDelBlock.TabIndex = 18;
@@ -522,14 +508,14 @@
             this.dgvBlokVsDeps.AllowUserToDeleteRows = false;
             this.dgvBlokVsDeps.AllowUserToResizeRows = false;
             this.dgvBlokVsDeps.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
-            dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle4.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle4.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            dataGridViewCellStyle4.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle4.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle4.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle4.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.dgvBlokVsDeps.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle4;
+            dataGridViewCellStyle12.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle12.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle12.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            dataGridViewCellStyle12.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle12.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle12.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle12.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dgvBlokVsDeps.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle12;
             this.dgvBlokVsDeps.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgvBlokVsDeps.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.cBlockVsDeps});
@@ -562,7 +548,7 @@
             this.tbObjectsHandbook.Location = new System.Drawing.Point(4, 22);
             this.tbObjectsHandbook.Name = "tbObjectsHandbook";
             this.tbObjectsHandbook.Padding = new System.Windows.Forms.Padding(3);
-            this.tbObjectsHandbook.Size = new System.Drawing.Size(816, 478);
+            this.tbObjectsHandbook.Size = new System.Drawing.Size(808, 478);
             this.tbObjectsHandbook.TabIndex = 3;
             this.tbObjectsHandbook.Text = "Справочник объектов";
             this.tbObjectsHandbook.UseVisualStyleBackColor = true;
@@ -701,7 +687,7 @@
             // 
             this.btSelect.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.btSelect.Image = global::ServiceRecords.Properties.Resources.save_edit;
-            this.btSelect.Location = new System.Drawing.Point(741, 517);
+            this.btSelect.Location = new System.Drawing.Point(730, 510);
             this.btSelect.Name = "btSelect";
             this.btSelect.Size = new System.Drawing.Size(32, 32);
             this.btSelect.TabIndex = 16;
@@ -712,19 +698,33 @@
             // 
             this.btClose.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.btClose.Image = global::ServiceRecords.Properties.Resources.exit_8633;
-            this.btClose.Location = new System.Drawing.Point(780, 517);
+            this.btClose.Location = new System.Drawing.Point(772, 510);
             this.btClose.Name = "btClose";
             this.btClose.Size = new System.Drawing.Size(32, 32);
             this.btClose.TabIndex = 17;
             this.btClose.UseVisualStyleBackColor = true;
             this.btClose.Click += new System.EventHandler(this.btClose_Click);
             // 
+            // cNameDepsProg
+            // 
+            this.cNameDepsProg.DataPropertyName = "cName";
+            this.cNameDepsProg.HeaderText = "Отдел";
+            this.cNameDepsProg.Name = "cNameDepsProg";
+            // 
+            // cVDeps
+            // 
+            this.cVDeps.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
+            this.cVDeps.DataPropertyName = "isSelect";
+            this.cVDeps.HeaderText = "V";
+            this.cVDeps.MinimumWidth = 45;
+            this.cVDeps.Name = "cVDeps";
+            this.cVDeps.Width = 45;
+            // 
             // frmSettings
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(820, 553);
-            this.ControlBox = false;
+            this.ClientSize = new System.Drawing.Size(816, 549);
             this.Controls.Add(this.btSelect);
             this.Controls.Add(this.btClose);
             this.Controls.Add(this.tabControl1);
@@ -732,8 +732,6 @@
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "frmSettings";
-            this.ShowIcon = false;
-            this.ShowInTaskbar = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Настройки";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.frmSettings_FormClosing);

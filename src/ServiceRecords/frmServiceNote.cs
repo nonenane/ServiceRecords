@@ -18,6 +18,8 @@ namespace ServiceRecords
 {
     public partial class frmServiceNote : Form
     {
+        public bool isScan = false;
+
         private int id_ServiceRecords = 0;
         private bool isCreate = true;
         private bool isView = false;
@@ -27,13 +29,13 @@ namespace ServiceRecords
         private bool isEdit = false;
         private bool isDopFond = false;
         private DataTable dtTmpData;
-        decimal Allsumma;
-        private string resultScaner = "";
-        public bool isScan = false;
+        private decimal Allsumma;
+        private string resultScaner = "";        
         private int? idFond = null;
         private readonly string NameFileFinger = @"C:\AppAuth\ServiceRecords\fingers.txt";
         private readonly string NameFileResult = @"C:\AppAuth\ServiceRecords\result.txt";
         private readonly string NameProgramm = @"C:\AppAuth\ServiceRecords\Demo.exe";
+        private DataTable dtListDeps;
 
         public void setIsView()
         {
@@ -55,6 +57,10 @@ namespace ServiceRecords
             tt.SetToolTip(btFondPrintSZ, "Сформировать отчёт по фонду");
             tt.SetToolTip(btFondViewSZ, "Посмотреть прикреплённую СЗ");
             dgvFond.AutoGenerateColumns = false;
+
+            chbMoreNote.Visible = false;
+            dgvNote.Visible = false;
+            btAddBlock.Visible = btEditBlock.Visible = btDelBlock.Visible = false;
         }
 
         public void frmServiceNote_Load(object sender, EventArgs e)
@@ -69,6 +75,9 @@ namespace ServiceRecords
             //createDeps();
             createValuta();
             getMultipleReceivingMone();
+            getTypicalWorks();
+            dtListDeps = Config.hCntMain.GetSettingsTable("otna");
+            cmbDeps_SelectionChangeCommitted(null, null);
 
             if (id != -1)
             {
@@ -275,6 +284,13 @@ namespace ServiceRecords
 
                 getMultipleReceivingMone();
 
+                cmbTypicalWorks.SelectedValue = dtTmp.Rows[0]["inType"];
+
+                cmbTypicalWorks.Enabled = 
+                    (new List<string>(new string[] { "ОП", "РКВ" }).Contains(Config.CodeUser) && new List<int>(new int[] { 1 }).Contains((int)dtTmp.Rows[0]["id_Status"])) ||
+                    (new List<string>(new string[] { "КНТ" }).Contains(Config.CodeUser) && new List<int>(new int[] { 2, 8 }).Contains((int)dtTmp.Rows[0]["id_Status"]));
+
+
                 isCreate = false;
             }
             //else tbComment.Enabled = btnSaveComment.Enabled = false;
@@ -425,6 +441,15 @@ namespace ServiceRecords
                 else createDeps();
             }
             catch (Exception e) { Process.GetCurrentProcess().Kill(); }
+        }
+
+        private void getTypicalWorks()
+        {
+            DataTable dtTypicalWorks = Config.hCntMain.getTypicalWorks(false);
+            cmbTypicalWorks.DataSource = dtTypicalWorks;
+            cmbTypicalWorks.DisplayMember = "cName";
+            cmbTypicalWorks.ValueMember = "id";
+            cmbTypicalWorks.SelectedIndex = -1;
         }
 
         private void findDepartment()
@@ -590,9 +615,8 @@ namespace ServiceRecords
                 {
                     MessageBox.Show(Config.centralText("Несовпадение суммы нал. и безнал.\nс главной суммой \n"), "Информирование", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     return;
-                }
+                }               
             }
-
             else
             {
                 if (rbCard.Checked || rbMix.Checked)
@@ -624,6 +648,13 @@ namespace ServiceRecords
                     MessageBox.Show(Config.centralText("Несовпадение суммы нал. и безнал.\nс главной суммой \n"), "Информирование", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     return;
                 }
+            }
+
+            if (cmbTypicalWorks.Visible && cmbTypicalWorks.SelectedIndex == -1)
+            {
+                MessageBox.Show($"Необходимо выбрать: \"{lTypicalWorks.Text}\"", "", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                cmbTypicalWorks.Focus();
+                return;
             }
 
             #endregion
@@ -684,6 +715,9 @@ namespace ServiceRecords
                 }
             }
 
+            int? inType = null;
+            if (cmbTypicalWorks.SelectedIndex != -1 && cmbTypicalWorks.Visible)
+                inType = (int)cmbTypicalWorks.SelectedValue;
 
 
             if (isCreate && Allsumma <= decimal.Parse(tbSumma.Text.Trim()))
@@ -705,7 +739,8 @@ namespace ServiceRecords
                     decimal.Parse(tbSummaCash.Text),
                     decimal.Parse(tbSummaNonCash.Text),
                     mix,
-                    idFond);
+                    idFond,
+                    inType);
 
                 id_ServiceRecords = int.Parse(dtTmp.Rows[0]["id"].ToString());
                 if (Config.bufferDataTable != null && Config.bufferDataTable.Rows.Count > 0)
@@ -746,7 +781,8 @@ namespace ServiceRecords
                                                     decimal.Parse(tbSummaCash.Text),
                                                     decimal.Parse(tbSummaNonCash.Text),
                                                     rbMix.Checked,
-                                                    idFond);
+                                                    idFond,
+                                                    inType);
             }
 
             #endregion
@@ -1304,6 +1340,14 @@ namespace ServiceRecords
         private void cmbDeps_SelectionChangeCommitted(object sender, EventArgs e)
         {
             isEdit = true;
+            if (cmbDeps.SelectedIndex==-1 || cmbDeps.SelectedValue == null)
+            {
+                lTypicalWorks.Visible = cmbTypicalWorks.Visible = false;
+                return;
+            }
+            int _id_deps = (int)cmbDeps.SelectedValue;
+            EnumerableRowCollection<DataRow> rowCollect = dtListDeps.AsEnumerable().Where(r => r.Field<string>("value").Equals(_id_deps.ToString()));
+            lTypicalWorks.Visible = cmbTypicalWorks.Visible = rowCollect.Count() > 0;
         }
 
         private void dtpNextDate_ValueChanged(object sender, EventArgs e)

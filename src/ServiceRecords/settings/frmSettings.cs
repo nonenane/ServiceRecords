@@ -31,6 +31,7 @@ namespace ServiceRecords.settings
             dgvRoute.AutoGenerateColumns = false;
             dgvDepVsRoute.AutoGenerateColumns = false;
             dgvBlokVsDeps.AutoGenerateColumns = false;
+            dgvDepsSettings.AutoGenerateColumns = false;
 
             ToolTip tt = new ToolTip();
             tt.SetToolTip(btClose, "Выход");
@@ -55,6 +56,11 @@ namespace ServiceRecords.settings
 
         private void btClose_Click(object sender, EventArgs e)
         {
+            var differences =
+                dtDepsSettings.AsEnumerable().Except(dtDepsSettings_old.AsEnumerable(),
+                                            DataRowComparer.Default);
+            isEdit = differences.Count() > 0;
+
             //this.DialogResult = DialogResult.Cancel;
             Close();
         }
@@ -72,25 +78,34 @@ namespace ServiceRecords.settings
             if (rbNeed.Checked) valueSettings = "1"; else if (rbNotNeed.Checked) valueSettings = "0";
             Config.hCntMain.SetSettings("опрф", valueSettings);
 
+            foreach (DataRow row in dtDepsSettings.AsEnumerable().Where(r => r.Field<bool>("isSelect")))
+                Config.hCntMain.SetSettingsMulti("otna", row["id_Department"].ToString(),false);
+
+            foreach (DataRow row in dtDepsSettings_old.AsEnumerable().Where(r => r.Field<bool>("isSelect")))
+            {
+                EnumerableRowCollection<DataRow> rowCollect = dtDepsSettings.AsEnumerable().Where(r => r.Field<int>("id_Department") == (int)row["id_Department"] && !r.Field<bool>("isSelect"));
+                if(rowCollect.Count()>0)
+                    Config.hCntMain.SetSettingsMulti("otna", row["id_Department"].ToString(),true);
+            }
+
             Logging.StartFirstLevel(353);
 
             Logging.Comment("Ограничение по времени на получение ДС: " + dtpLimit.Value.ToShortTimeString());
             Logging.Comment("Срок хранения обработанных СЗ: " + nudTimeSafe.Value.ToString());
             Logging.Comment("Прикрепление файлов «Отчет по ДС к СЗ»: " + (rbNeed.Checked ? rbNeed.Text : rbNotNeed.Text));
 
-
             Logging.Comment("Операцию выполнил: ID:" + Nwuram.Framework.Settings.User.UserSettings.User.Id
                 + " ; ФИО:" + Nwuram.Framework.Settings.User.UserSettings.User.FullUsername);
             Logging.StopFirstLevel();
 
             #endregion
-
+            dtDepsSettings_old = dtDepsSettings.Copy();
             isEdit = false;
             MessageBox.Show("Данные сохранены!", "Информирование", MessageBoxButtons.OK, MessageBoxIcon.Information);
             this.DialogResult = DialogResult.OK;
         }
 
-        DataTable dtRoute, dtRouteToCMB, dtDeps, dtRouteVsDeps;
+        DataTable dtRoute, dtRouteToCMB, dtDeps, dtRouteVsDeps, dtDepsSettings, dtDepsSettings_old;
 
         private void getData()
         {
@@ -112,8 +127,14 @@ namespace ServiceRecords.settings
                 rbNotNeed.Checked = valueSettings.Equals("0");
             }
 
-
+            DataTable dtListDeps = Config.hCntMain.GetSettingsTable("otna");
             DataTable dtTmp = Config.hCntMain.getBlockVsDepartment();
+            dtDepsSettings = new DataTable();
+            dtDepsSettings.Columns.Add("id_Department", typeof(int));
+            dtDepsSettings.Columns.Add("cName", typeof(string));
+            dtDepsSettings.Columns.Add("isSelect", typeof(bool));
+            dtDepsSettings.AcceptChanges();
+
             var result = (from table in dtTmp.AsEnumerable()
                           group table by new
                           {
@@ -123,11 +144,21 @@ namespace ServiceRecords.settings
                 into g
                           select new
                           {
-                              id_Department = (int)g.Key.id_Department,
-                              nameDeps = ((string)g.Key.nameDeps).Trim()
+                              g.Key.id_Department,
+                              g.Key.nameDeps
+
                           }).OrderBy(r => r.nameDeps);
 
-            dgvDepsSettings.DataSource = result;
+            foreach (var d in result)
+            {
+                DataRow row = dtDepsSettings.NewRow();
+                row["id_Department"] = d.id_Department;
+                row["cName"] = d.nameDeps;
+                row["isSelect"] = dtListDeps.AsEnumerable().Where(r => r.Field<string>("value").Equals(d.id_Department.ToString())).Count() > 0;
+                dtDepsSettings.Rows.Add(row);
+            }
+            dtDepsSettings_old = dtDepsSettings.Copy();
+            dgvDepsSettings.DataSource = dtDepsSettings;
 
             #endregion
 

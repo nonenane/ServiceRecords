@@ -13,18 +13,18 @@ namespace ServiceRecords.workDoc
     public partial class frmSetReport : Form
     {
         public int id_ServiceRecords { get; set; }
-        public  int numberSR { get; set; }
+        public int numberSR { get; set; }
         public int typeSZ { get; set; }
         public decimal Summa { get; set; }
         public string Valuta { get; set; }
         public bool Mix;
-        private DataTable dtHistory = new DataTable()
+        private DataTable dtHistory = new DataTable();
 
-;        public frmSetReport()
+        public frmSetReport()
         {
             InitializeComponent();
         }
-        
+
         private void frmSetReport_Load(object sender, EventArgs e)
         {
             Config.bufferDataTable = null;
@@ -54,12 +54,12 @@ namespace ServiceRecords.workDoc
                     SZ.sumGetCashMinusReturn = decimal.Parse(dtHistory.Rows[0]["sumGetCash"].ToString()) - decimal.Parse(dtHistory.Rows[0]["sumReturnCash"].ToString());
                 else SZ.sumGetCashMinusReturn = decimal.Parse(dtHistory.Rows[0]["sumGetLastMonthCash"].ToString()) - decimal.Parse(dtHistory.Rows[0]["sumReturnCash"].ToString());
                 if (decimal.Parse(dtHistory.Rows[0]["sumGetNonCash"].ToString()) != 0)
-                SZ.sumGetNonCashMinusReturn = decimal.Parse(dtHistory.Rows[0]["sumGetNonCash"].ToString()) - decimal.Parse(dtHistory.Rows[0]["sumReturnNonCash"].ToString());
+                    SZ.sumGetNonCashMinusReturn = decimal.Parse(dtHistory.Rows[0]["sumGetNonCash"].ToString()) - decimal.Parse(dtHistory.Rows[0]["sumReturnNonCash"].ToString());
                 else SZ.sumGetNonCashMinusReturn = decimal.Parse(dtHistory.Rows[0]["sumGetLastMonthNonCash"].ToString()) - decimal.Parse(dtHistory.Rows[0]["sumReturnNonCash"].ToString());
                 if (cbTypeOrderMoney.SelectedValue.ToString() == "0")
-                        SZ.oldSummaReportCash =  decimal.Parse(dtHistory.Rows[0]["sumReportCash"].ToString());
-                    else 
-                        SZ.oldSummaReportNonCash = decimal.Parse(dtHistory.Rows[0]["sumReportNonCash"].ToString());
+                    SZ.oldSummaReportCash = decimal.Parse(dtHistory.Rows[0]["sumReportCash"].ToString());
+                else
+                    SZ.oldSummaReportNonCash = decimal.Parse(dtHistory.Rows[0]["sumReportNonCash"].ToString());
             }
             else
             {
@@ -69,7 +69,7 @@ namespace ServiceRecords.workDoc
                 if (decimal.Parse(dtHistory.Rows[0]["sumGet"].ToString()) != 0)
                     SZ.sumGetMinusReturn = decimal.Parse(dtHistory.Rows[0]["sumGet"].ToString()) - decimal.Parse(dtHistory.Rows[0]["sumReturn"].ToString());
                 else SZ.sumGetMinusReturn = decimal.Parse(dtHistory.Rows[0]["sumGetLastMonth"].ToString()) - decimal.Parse(dtHistory.Rows[0]["sumReturn"].ToString());
-                    SZ.oldSummaReport = decimal.Parse(dtHistory.Rows[0]["sumReport"].ToString());
+                SZ.oldSummaReport = decimal.Parse(dtHistory.Rows[0]["sumReport"].ToString());
 
             }
         }
@@ -146,14 +146,14 @@ namespace ServiceRecords.workDoc
             DataTable dtScan = Config.hCntMain.getScan(id_ServiceRecords, -1);
             if (dtScan.Select("TypeScan = 3").ToList().Count < 1)
             {
-                    MessageBox.Show(Config.centralText("Вы не прикрепили к отчету\nподтверждающую документацию.\nСохранение отчета невозможно!\n"), "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    return;
+                MessageBox.Show(Config.centralText("Вы не прикрепили к отчету\nподтверждающую документацию.\nСохранение отчета невозможно!\n"), "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
             }
 
             //Сохранение отчета
             Config.hCntMain.updateReport(id_ServiceRecords, SummaReport, decimal.Parse(tbDebt.Text), (int)cbTypeOrderMoney.SelectedValue);
 
-            DataTable dtResult=null;
+            DataTable dtResult = null;
 
             //Сохранение документов
             if (Config.bufferDataTable != null && Config.bufferDataTable.Rows.Count > 0)
@@ -177,9 +177,9 @@ namespace ServiceRecords.workDoc
             if (double.Parse(tbDebt.Text) == 0 && ((Mix && debtReportCash == 0
                     && debtReportNonCash == 0) || !Mix))
             {
-                dtResult=  Config.hCntMain.updateStatus(id_ServiceRecords, 15); // 15 - отчет предоставлен
-                    MessageBox.Show(Config.centralText("Отчет предоставлен.\n Ожидайте проверки отчета оператором.\n"), "Предоставление отчета", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    this.DialogResult = DialogResult.OK;
+                dtResult = Config.hCntMain.updateStatus(id_ServiceRecords, 15); // 15 - отчет предоставлен
+                MessageBox.Show(Config.centralText("Отчет предоставлен.\n Ожидайте проверки отчета оператором.\n"), "Предоставление отчета", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                this.DialogResult = DialogResult.OK;
             }
             else
             {

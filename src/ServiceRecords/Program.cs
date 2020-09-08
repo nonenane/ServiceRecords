@@ -44,8 +44,7 @@ namespace ServiceRecords
                         }
                     }
 
-
-                    //Application.Run(new fond.frmFond());
+                    //Application.Run(new HardWare.frmListHardware() { id_ServiceRecod = 8305 });
                     //return;
                     Console.WriteLine(UserSettings.User.Id);
                     if (Config.CodeUser.Equals("АДМ"))
