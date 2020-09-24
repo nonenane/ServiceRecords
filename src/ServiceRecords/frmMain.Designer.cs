@@ -29,10 +29,10 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle7 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle8 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
             this.cmbDeps = new System.Windows.Forms.ComboBox();
             this.cmbBlock = new System.Windows.Forms.ComboBox();
             this.label4 = new System.Windows.Forms.Label();
@@ -109,6 +109,7 @@
             this.panel7 = new System.Windows.Forms.Panel();
             this.label10 = new System.Windows.Forms.Label();
             this.btnPrintFond = new System.Windows.Forms.Button();
+            this.chbReportPreMonth = new System.Windows.Forms.CheckBox();
             this.groupBox1.SuspendLayout();
             this.cmsWorking.SuspendLayout();
             this.menuStrip1.SuspendLayout();
@@ -277,41 +278,41 @@
             this.tsmiSetReport,
             this.tsmiAnylSZ});
             this.cmsWorking.Name = "cmsWorking";
-            this.cmsWorking.Size = new System.Drawing.Size(184, 136);
+            this.cmsWorking.Size = new System.Drawing.Size(181, 136);
             this.cmsWorking.Opening += new System.ComponentModel.CancelEventHandler(this.cmsWorking_Opening);
             // 
             // cmsiTakeMoney
             // 
             this.cmsiTakeMoney.Name = "cmsiTakeMoney";
-            this.cmsiTakeMoney.Size = new System.Drawing.Size(183, 22);
+            this.cmsiTakeMoney.Size = new System.Drawing.Size(180, 22);
             this.cmsiTakeMoney.Text = "Заказать Деньги";
             this.cmsiTakeMoney.Click += new System.EventHandler(this.cmsiTakeMoney_Click);
             // 
             // cmsiDropeMoney
             // 
             this.cmsiDropeMoney.Name = "cmsiDropeMoney";
-            this.cmsiDropeMoney.Size = new System.Drawing.Size(183, 22);
+            this.cmsiDropeMoney.Size = new System.Drawing.Size(180, 22);
             this.cmsiDropeMoney.Text = "Вернуть Деньги";
             this.cmsiDropeMoney.Click += new System.EventHandler(this.cmsiDropeMoney_Click);
             // 
             // tsmiAddDoc
             // 
             this.tsmiAddDoc.Name = "tsmiAddDoc";
-            this.tsmiAddDoc.Size = new System.Drawing.Size(183, 22);
+            this.tsmiAddDoc.Size = new System.Drawing.Size(180, 22);
             this.tsmiAddDoc.Text = "Добавить документ";
             this.tsmiAddDoc.Click += new System.EventHandler(this.tsmiAddDoc_Click);
             // 
             // tsmiClose
             // 
             this.tsmiClose.Name = "tsmiClose";
-            this.tsmiClose.Size = new System.Drawing.Size(183, 22);
+            this.tsmiClose.Size = new System.Drawing.Size(180, 22);
             this.tsmiClose.Text = "Закрыть служебку";
             this.tsmiClose.Click += new System.EventHandler(this.tsmiClose_Click);
             // 
             // tsmiSetReport
             // 
             this.tsmiSetReport.Name = "tsmiSetReport";
-            this.tsmiSetReport.Size = new System.Drawing.Size(183, 22);
+            this.tsmiSetReport.Size = new System.Drawing.Size(180, 22);
             this.tsmiSetReport.Text = "Предоставить отчет";
             this.tsmiSetReport.Visible = false;
             this.tsmiSetReport.Click += new System.EventHandler(this.tsmiSetReport_Click);
@@ -319,7 +320,7 @@
             // tsmiAnylSZ
             // 
             this.tsmiAnylSZ.Name = "tsmiAnylSZ";
-            this.tsmiAnylSZ.Size = new System.Drawing.Size(183, 22);
+            this.tsmiAnylSZ.Size = new System.Drawing.Size(180, 22);
             this.tsmiAnylSZ.Text = "Анулировать СЗ";
             this.tsmiAnylSZ.Visible = false;
             this.tsmiAnylSZ.Click += new System.EventHandler(this.анулироватьСЗToolStripMenuItem_Click);
@@ -334,12 +335,13 @@
             this.menuStrip1.Size = new System.Drawing.Size(1023, 24);
             this.menuStrip1.TabIndex = 49;
             this.menuStrip1.Text = "menuStrip1";
+            this.menuStrip1.ItemClicked += new System.Windows.Forms.ToolStripItemClickedEventHandler(this.menuStrip1_ItemClicked);
             // 
             // помощьToolStripMenuItem
             // 
             this.помощьToolStripMenuItem.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
             this.помощьToolStripMenuItem.Name = "помощьToolStripMenuItem";
-            this.помощьToolStripMenuItem.Size = new System.Drawing.Size(68, 20);
+            this.помощьToolStripMenuItem.Size = new System.Drawing.Size(59, 20);
             this.помощьToolStripMenuItem.Text = "Помощь";
             this.помощьToolStripMenuItem.Click += new System.EventHandler(this.помощьToolStripMenuItem_Click);
             // 
@@ -411,7 +413,7 @@
             this.panel1.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
             this.panel1.Controls.Add(this.panel2);
             this.panel1.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(224)))), ((int)(((byte)(192)))));
-            this.panel1.Location = new System.Drawing.Point(12, 527);
+            this.panel1.Location = new System.Drawing.Point(12, 528);
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(20, 20);
             this.panel1.TabIndex = 55;
@@ -429,7 +431,7 @@
             // 
             this.label6.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(42, 531);
+            this.label6.Location = new System.Drawing.Point(42, 532);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(73, 13);
             this.label6.TabIndex = 56;
@@ -440,7 +442,7 @@
             this.panel3.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.panel3.BackColor = System.Drawing.Color.PowderBlue;
             this.panel3.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.panel3.Location = new System.Drawing.Point(11, 554);
+            this.panel3.Location = new System.Drawing.Point(11, 555);
             this.panel3.Name = "panel3";
             this.panel3.Size = new System.Drawing.Size(20, 20);
             this.panel3.TabIndex = 57;
@@ -460,7 +462,7 @@
             this.panel4.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.panel4.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(128)))), ((int)(((byte)(128)))));
             this.panel4.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.panel4.Location = new System.Drawing.Point(166, 527);
+            this.panel4.Location = new System.Drawing.Point(166, 528);
             this.panel4.Name = "panel4";
             this.panel4.Size = new System.Drawing.Size(20, 20);
             this.panel4.TabIndex = 59;
@@ -469,7 +471,7 @@
             // 
             this.label8.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.label8.AutoSize = true;
-            this.label8.Location = new System.Drawing.Point(192, 531);
+            this.label8.Location = new System.Drawing.Point(192, 532);
             this.label8.Name = "label8";
             this.label8.Size = new System.Drawing.Size(57, 13);
             this.label8.TabIndex = 60;
@@ -559,7 +561,7 @@
             // 
             this.btAccept.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.btAccept.Image = global::ServiceRecords.Properties.Resources.old_edit_redo1;
-            this.btAccept.Location = new System.Drawing.Point(746, 594);
+            this.btAccept.Location = new System.Drawing.Point(737, 594);
             this.btAccept.Name = "btAccept";
             this.btAccept.Size = new System.Drawing.Size(32, 32);
             this.btAccept.TabIndex = 45;
@@ -570,7 +572,7 @@
             // 
             this.btRefuse.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.btRefuse.Image = global::ServiceRecords.Properties.Resources.old_edit_undo1;
-            this.btRefuse.Location = new System.Drawing.Point(705, 594);
+            this.btRefuse.Location = new System.Drawing.Point(696, 594);
             this.btRefuse.Name = "btRefuse";
             this.btRefuse.Size = new System.Drawing.Size(32, 32);
             this.btRefuse.TabIndex = 45;
@@ -581,7 +583,7 @@
             // 
             this.btView.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.btView.Image = global::ServiceRecords.Properties.Resources.old_edit_find;
-            this.btView.Location = new System.Drawing.Point(834, 594);
+            this.btView.Location = new System.Drawing.Point(825, 594);
             this.btView.Name = "btView";
             this.btView.Size = new System.Drawing.Size(32, 32);
             this.btView.TabIndex = 43;
@@ -603,7 +605,7 @@
             // 
             this.btClose.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.btClose.Image = global::ServiceRecords.Properties.Resources.exit_8633;
-            this.btClose.Location = new System.Drawing.Point(988, 594);
+            this.btClose.Location = new System.Drawing.Point(979, 594);
             this.btClose.Name = "btClose";
             this.btClose.Size = new System.Drawing.Size(32, 32);
             this.btClose.TabIndex = 39;
@@ -614,7 +616,7 @@
             // 
             this.btAddBlock.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.btAddBlock.Image = global::ServiceRecords.Properties.Resources.document_add;
-            this.btAddBlock.Location = new System.Drawing.Point(872, 594);
+            this.btAddBlock.Location = new System.Drawing.Point(863, 594);
             this.btAddBlock.Name = "btAddBlock";
             this.btAddBlock.Size = new System.Drawing.Size(32, 32);
             this.btAddBlock.TabIndex = 40;
@@ -625,7 +627,7 @@
             // 
             this.btEditBlock.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.btEditBlock.Image = global::ServiceRecords.Properties.Resources.edit;
-            this.btEditBlock.Location = new System.Drawing.Point(911, 594);
+            this.btEditBlock.Location = new System.Drawing.Point(902, 594);
             this.btEditBlock.Name = "btEditBlock";
             this.btEditBlock.Size = new System.Drawing.Size(32, 32);
             this.btEditBlock.TabIndex = 41;
@@ -636,7 +638,7 @@
             // 
             this.btDelBlock.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.btDelBlock.Image = global::ServiceRecords.Properties.Resources.document_delete;
-            this.btDelBlock.Location = new System.Drawing.Point(950, 594);
+            this.btDelBlock.Location = new System.Drawing.Point(941, 594);
             this.btDelBlock.Name = "btDelBlock";
             this.btDelBlock.Size = new System.Drawing.Size(32, 32);
             this.btDelBlock.TabIndex = 42;
@@ -685,14 +687,14 @@
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.dgvMain.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
-            dataGridViewCellStyle5.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle5.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle5.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            dataGridViewCellStyle5.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle5.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle5.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle5.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.dgvMain.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle5;
+            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dgvMain.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
             this.dgvMain.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgvMain.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.Enter,
@@ -740,8 +742,8 @@
             // 
             this.cNumber.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
             this.cNumber.DataPropertyName = "Number";
-            dataGridViewCellStyle6.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            this.cNumber.DefaultCellStyle = dataGridViewCellStyle6;
+            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.cNumber.DefaultCellStyle = dataGridViewCellStyle2;
             this.cNumber.FillWeight = 199.1216F;
             this.cNumber.HeaderText = "№ СЗ";
             this.cNumber.MinimumWidth = 40;
@@ -784,8 +786,8 @@
             // cSumma
             // 
             this.cSumma.DataPropertyName = "Summa";
-            dataGridViewCellStyle7.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            this.cSumma.DefaultCellStyle = dataGridViewCellStyle7;
+            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.cSumma.DefaultCellStyle = dataGridViewCellStyle3;
             this.cSumma.FillWeight = 22.47935F;
             this.cSumma.HeaderText = "Сумма СЗ";
             this.cSumma.Name = "cSumma";
@@ -794,8 +796,8 @@
             // Valuta
             // 
             this.Valuta.DataPropertyName = "Valuta";
-            dataGridViewCellStyle8.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            this.Valuta.DefaultCellStyle = dataGridViewCellStyle8;
+            dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.Valuta.DefaultCellStyle = dataGridViewCellStyle4;
             this.Valuta.FillWeight = 18.70806F;
             this.Valuta.HeaderText = "Валюта";
             this.Valuta.Name = "Valuta";
@@ -876,7 +878,7 @@
             this.panel6.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
             this.panel6.Controls.Add(this.panel7);
             this.panel6.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(224)))), ((int)(((byte)(192)))));
-            this.panel6.Location = new System.Drawing.Point(331, 527);
+            this.panel6.Location = new System.Drawing.Point(331, 528);
             this.panel6.Name = "panel6";
             this.panel6.Size = new System.Drawing.Size(20, 20);
             this.panel6.TabIndex = 55;
@@ -894,7 +896,7 @@
             // 
             this.label10.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.label10.AutoSize = true;
-            this.label10.Location = new System.Drawing.Point(361, 531);
+            this.label10.Location = new System.Drawing.Point(361, 532);
             this.label10.Name = "label10";
             this.label10.Size = new System.Drawing.Size(42, 13);
             this.label10.TabIndex = 56;
@@ -904,18 +906,33 @@
             // 
             this.btnPrintFond.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.btnPrintFond.Image = global::ServiceRecords.Properties.Resources.klpq_2511;
-            this.btnPrintFond.Location = new System.Drawing.Point(796, 594);
+            this.btnPrintFond.Location = new System.Drawing.Point(787, 594);
             this.btnPrintFond.Name = "btnPrintFond";
             this.btnPrintFond.Size = new System.Drawing.Size(32, 32);
             this.btnPrintFond.TabIndex = 65;
             this.btnPrintFond.UseVisualStyleBackColor = true;
             this.btnPrintFond.Click += new System.EventHandler(this.btnPrintFond_Click);
             // 
+            // chbReportPreMonth
+            // 
+            this.chbReportPreMonth.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.chbReportPreMonth.AutoSize = true;
+            this.chbReportPreMonth.Checked = true;
+            this.chbReportPreMonth.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.chbReportPreMonth.Location = new System.Drawing.Point(415, 530);
+            this.chbReportPreMonth.Name = "chbReportPreMonth";
+            this.chbReportPreMonth.Size = new System.Drawing.Size(225, 17);
+            this.chbReportPreMonth.TabIndex = 66;
+            this.chbReportPreMonth.Text = "предоставить отчет за прошлый месяц";
+            this.chbReportPreMonth.UseVisualStyleBackColor = true;
+            this.chbReportPreMonth.Click += new System.EventHandler(this.chbReportPreMonth_Click);
+            // 
             // frmMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1023, 638);
+            this.Controls.Add(this.chbReportPreMonth);
             this.Controls.Add(this.btnPrintFond);
             this.Controls.Add(this.dgvMain);
             this.Controls.Add(this.label9);
@@ -1058,6 +1075,7 @@
         private System.Windows.Forms.Panel panel7;
         private System.Windows.Forms.Label label10;
         private System.Windows.Forms.Button btnPrintFond;
+        private System.Windows.Forms.CheckBox chbReportPreMonth;
     }
 }
 

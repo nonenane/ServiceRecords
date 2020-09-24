@@ -168,13 +168,13 @@ namespace ServiceRecords
                 new DbType[2] { DbType.Int32, DbType.String }, ap);
         }
 
-        public void SetSettingsMulti(string id_value, string value,bool isDel)
+        public void SetSettingsMulti(string id_value, string value,string value_name,bool isDel)
         {
             ap.Clear();
             ap.Add(ConnectionSettings.GetIdProgram());
             ap.Add(id_value);
             ap.Add("N");
-            ap.Add("");
+            ap.Add(value_name);
             ap.Add(value);
             ap.Add(isDel);
 

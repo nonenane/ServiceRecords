@@ -46,7 +46,7 @@ namespace ServiceRecords
 
                     //Application.Run(new HardWare.frmListHardware() { id_ServiceRecod = 8305 });
                     //return;
-                    Console.WriteLine(UserSettings.User.Id);
+                    //Console.WriteLine(UserSettings.User.Id);
                     if (Config.CodeUser.Equals("АДМ"))
                         Application.Run(new settings.frmSettings());
                     else

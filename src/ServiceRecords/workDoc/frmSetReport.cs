@@ -17,17 +17,23 @@ namespace ServiceRecords.workDoc
         public int typeSZ { get; set; }
         public decimal Summa { get; set; }
         public string Valuta { get; set; }
+
+        public int? inType { set; private get; }
+
         public bool Mix;
         private DataTable dtHistory = new DataTable();
 
         public frmSetReport()
         {
             InitializeComponent();
+            ToolTip tp = new ToolTip();
+            tp.SetToolTip(btViewHardwareList, "Просмотр компьютерного оборудования");
         }
 
         private void frmSetReport_Load(object sender, EventArgs e)
         {
             Config.bufferDataTable = null;
+            btViewHardwareList.Visible = (inType != null && inType == 1);
             create_cbTypeOrderMoney();
             update();
         }
@@ -150,10 +156,22 @@ namespace ServiceRecords.workDoc
                 return;
             }
 
+            DataTable dtResult = null;
+            if (inType != null && inType == 1)
+            {
+                dtResult = Config.hCntMain.getListHardwareForServiceRecord(id_ServiceRecords);
+                if (dtResult == null || dtResult.Rows.Count == 0)
+                {
+                    MessageBox.Show(Config.centralText("У выбранной СЗ есть признак \"Закупка компьютерного оборудования\".\nДля сохранения отчёта требуется ввести данные по оборудованию\n в учёте компьютерного оборудования.\n"), "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
+                }
+            }
+
+
             //Сохранение отчета
             Config.hCntMain.updateReport(id_ServiceRecords, SummaReport, decimal.Parse(tbDebt.Text), (int)cbTypeOrderMoney.SelectedValue);
 
-            DataTable dtResult = null;
+            dtResult = null;
 
             //Сохранение документов
             if (Config.bufferDataTable != null && Config.bufferDataTable.Rows.Count > 0)
@@ -329,6 +347,11 @@ namespace ServiceRecords.workDoc
                 tbSummaInReport.Text = "0,00";
             else
                 tbSummaInReport.Text = decimal.Parse(tbSummaInReport.Text.ToString()).ToString("######0.00");
+        }
+
+        private void btViewHardwareList_Click(object sender, EventArgs e)
+        {            
+            new HardWare.frmListHardware() { id_ServiceRecod = id_ServiceRecords }.ShowDialog();
         }
     }
 }

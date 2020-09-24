@@ -48,6 +48,7 @@
             this.label4 = new System.Windows.Forms.Label();
             this.cbTypeOrderMoney = new System.Windows.Forms.ComboBox();
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
+            this.btViewHardwareList = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // label1
@@ -160,7 +161,7 @@
             // btnSave
             // 
             this.btnSave.Image = global::ServiceRecords.Properties.Resources.save_edit;
-            this.btnSave.Location = new System.Drawing.Point(166, 179);
+            this.btnSave.Location = new System.Drawing.Point(206, 178);
             this.btnSave.Name = "btnSave";
             this.btnSave.Size = new System.Drawing.Size(32, 32);
             this.btnSave.TabIndex = 15;
@@ -171,7 +172,7 @@
             // btClose
             // 
             this.btClose.Image = global::ServiceRecords.Properties.Resources.exit_8633;
-            this.btClose.Location = new System.Drawing.Point(212, 179);
+            this.btClose.Location = new System.Drawing.Point(244, 178);
             this.btClose.Name = "btClose";
             this.btClose.Size = new System.Drawing.Size(32, 32);
             this.btClose.TabIndex = 40;
@@ -217,12 +218,24 @@
             this.cbTypeOrderMoney.TabIndex = 51;
             this.cbTypeOrderMoney.SelectedIndexChanged += new System.EventHandler(this.cbTypeOrderMoney_SelectedIndexChanged);
             // 
+            // btViewHardwareList
+            // 
+            this.btViewHardwareList.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.btViewHardwareList.Image = global::ServiceRecords.Properties.Resources.screen_monitor_computer;
+            this.btViewHardwareList.Location = new System.Drawing.Point(164, 178);
+            this.btViewHardwareList.Name = "btViewHardwareList";
+            this.btViewHardwareList.Size = new System.Drawing.Size(32, 32);
+            this.btViewHardwareList.TabIndex = 83;
+            this.btViewHardwareList.UseVisualStyleBackColor = true;
+            this.btViewHardwareList.Click += new System.EventHandler(this.btViewHardwareList_Click);
+            // 
             // frmSetReport
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(292, 228);
+            this.ClientSize = new System.Drawing.Size(288, 224);
             this.ControlBox = false;
+            this.Controls.Add(this.btViewHardwareList);
             this.Controls.Add(this.cbTypeOrderMoney);
             this.Controls.Add(this.label4);
             this.Controls.Add(this.label3);
@@ -277,5 +290,6 @@
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.ComboBox cbTypeOrderMoney;
         private System.Windows.Forms.ToolTip toolTip1;
+        private System.Windows.Forms.Button btViewHardwareList;
     }
 }

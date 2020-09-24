@@ -11,7 +11,7 @@ GO
 -- Create date: 2020-09-08
 -- Description:	Получение списка оборудования по СЗ
 -- =============================================
-CREATE PROCEDURE [ServiceRecords].[getListHardwareForServiceRecord]
+ALTER PROCEDURE [ServiceRecords].[getListHardwareForServiceRecord]
 			@id_ServiceRecord int 
 AS
 BEGIN
@@ -27,7 +27,7 @@ select
 		when h.TypeComponentsHardware = 0 then 'Оборудование'
 		when h.TypeComponentsHardware = 1 then 'Комплектующие'
 	end as nameType,
-	l.cName as nameLoc,
+	isnull(ltrim(rtrim(l.cName)),'') as nameLoc,
 	isnull(k.lastname+' ','')+isnull(k.firstname+' ','')+isnull(k.secondname,'') as fio,
 	case 
 		when h.Status = 1 then  'Поставлено на баланс МОЛ' 
@@ -38,7 +38,7 @@ select
 from 
 	ServiceRecords.j_ListServiceRecords s
 	inner join hardware.j_Hardware h on h.id_ListServiceRecords = s.id
-	inner join hardware.s_Location l on l.id = h.id_Location	
+	left join hardware.s_Location l on l.id = h.id_Location	
 	left join hardware.s_Responsible r on r.id = h.id_Responsible
 	left join dbo.s_kadr k on k.id = r.id_Kadr
 where

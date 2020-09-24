@@ -361,6 +361,7 @@ namespace ServiceRecords
             cmbDeps.DataSource = dtDeps;
             cmbDeps.DisplayMember = "name";
             cmbDeps.ValueMember = "id_Department";
+            cmbDeps_SelectionChangeCommitted(null, null);
         }
 
         private void getBlock()

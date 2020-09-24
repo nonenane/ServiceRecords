@@ -28,15 +28,30 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle9 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle10 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle11 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle12 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle13 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle14 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle15 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle16 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle7 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle8 = new System.Windows.Forms.DataGridViewCellStyle();
             this.dgvReport = new System.Windows.Forms.DataGridView();
+            this.colV = new System.Windows.Forms.DataGridViewCheckBoxColumn();
+            this.id = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.id_report = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Number = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Description = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Summa = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Valuta = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.SummaAmountReceived = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.SummaReport = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.DebtReport = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.DateEdit = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.typeCashNonCash = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.id_Status = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Mix = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.cStatus = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.btClose = new System.Windows.Forms.Button();
             this.dateTimeStart = new System.Windows.Forms.DateTimePicker();
             this.dateTimeEnd = new System.Windows.Forms.DateTimePicker();
@@ -55,21 +70,6 @@
             this.tbNumber = new System.Windows.Forms.TextBox();
             this.tbDiscript = new System.Windows.Forms.TextBox();
             this.btViewHardwareList = new System.Windows.Forms.Button();
-            this.colV = new System.Windows.Forms.DataGridViewCheckBoxColumn();
-            this.id = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.id_report = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Number = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Description = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Summa = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Valuta = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.SummaAmountReceived = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.SummaReport = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.DebtReport = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.DateEdit = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.typeCashNonCash = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.id_Status = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Mix = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.cStatus = new System.Windows.Forms.DataGridViewTextBoxColumn();
             ((System.ComponentModel.ISupportInitialize)(this.dgvReport)).BeginInit();
             this.SuspendLayout();
             // 
@@ -83,14 +83,14 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.dgvReport.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.dgvReport.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            dataGridViewCellStyle9.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle9.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle9.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            dataGridViewCellStyle9.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle9.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle9.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle9.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.dgvReport.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle9;
+            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dgvReport.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
             this.dgvReport.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgvReport.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.colV,
@@ -122,6 +122,168 @@
             this.dgvReport.ColumnWidthChanged += new System.Windows.Forms.DataGridViewColumnEventHandler(this.dgvReport_ColumnWidthChanged);
             this.dgvReport.RowPrePaint += new System.Windows.Forms.DataGridViewRowPrePaintEventHandler(this.dgvReport_RowPrePaint);
             this.dgvReport.SelectionChanged += new System.EventHandler(this.dgvReport_SelectionChanged);
+            // 
+            // colV
+            // 
+            this.colV.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
+            this.colV.FalseValue = "false";
+            this.colV.HeaderText = "V";
+            this.colV.MinimumWidth = 35;
+            this.colV.Name = "colV";
+            this.colV.ReadOnly = true;
+            this.colV.TrueValue = "true";
+            this.colV.Width = 35;
+            // 
+            // id
+            // 
+            this.id.DataPropertyName = "id";
+            this.id.HeaderText = "idSZ";
+            this.id.Name = "id";
+            this.id.ReadOnly = true;
+            this.id.Visible = false;
+            // 
+            // id_report
+            // 
+            this.id_report.DataPropertyName = "id_report";
+            this.id_report.HeaderText = "id_report";
+            this.id_report.Name = "id_report";
+            this.id_report.ReadOnly = true;
+            this.id_report.Visible = false;
+            // 
+            // Number
+            // 
+            this.Number.DataPropertyName = "Number";
+            this.Number.HeaderText = "№ СЗ";
+            this.Number.MinimumWidth = 50;
+            this.Number.Name = "Number";
+            this.Number.ReadOnly = true;
+            this.Number.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            // 
+            // Description
+            // 
+            this.Description.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
+            this.Description.DataPropertyName = "Description";
+            this.Description.HeaderText = "Описание";
+            this.Description.MinimumWidth = 120;
+            this.Description.Name = "Description";
+            this.Description.ReadOnly = true;
+            this.Description.Width = 120;
+            // 
+            // Summa
+            // 
+            this.Summa.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
+            this.Summa.DataPropertyName = "Summa";
+            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle2.Format = "N2";
+            dataGridViewCellStyle2.NullValue = "0";
+            this.Summa.DefaultCellStyle = dataGridViewCellStyle2;
+            this.Summa.HeaderText = "Сумма СЗ";
+            this.Summa.MinimumWidth = 70;
+            this.Summa.Name = "Summa";
+            this.Summa.ReadOnly = true;
+            this.Summa.Width = 70;
+            // 
+            // Valuta
+            // 
+            this.Valuta.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
+            this.Valuta.DataPropertyName = "Valuta";
+            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.Valuta.DefaultCellStyle = dataGridViewCellStyle3;
+            this.Valuta.HeaderText = "Валюта";
+            this.Valuta.MinimumWidth = 50;
+            this.Valuta.Name = "Valuta";
+            this.Valuta.ReadOnly = true;
+            this.Valuta.Width = 50;
+            // 
+            // SummaAmountReceived
+            // 
+            this.SummaAmountReceived.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
+            this.SummaAmountReceived.DataPropertyName = "sumGet";
+            dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle4.Format = "C2";
+            dataGridViewCellStyle4.NullValue = "0";
+            this.SummaAmountReceived.DefaultCellStyle = dataGridViewCellStyle4;
+            this.SummaAmountReceived.HeaderText = "Взято";
+            this.SummaAmountReceived.MinimumWidth = 70;
+            this.SummaAmountReceived.Name = "SummaAmountReceived";
+            this.SummaAmountReceived.ReadOnly = true;
+            this.SummaAmountReceived.Width = 70;
+            // 
+            // SummaReport
+            // 
+            this.SummaReport.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
+            this.SummaReport.DataPropertyName = "SummaReport";
+            dataGridViewCellStyle5.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle5.Format = "C2";
+            dataGridViewCellStyle5.NullValue = "0";
+            this.SummaReport.DefaultCellStyle = dataGridViewCellStyle5;
+            this.SummaReport.HeaderText = "Сумма отчета";
+            this.SummaReport.MinimumWidth = 70;
+            this.SummaReport.Name = "SummaReport";
+            this.SummaReport.ReadOnly = true;
+            this.SummaReport.Width = 70;
+            // 
+            // DebtReport
+            // 
+            this.DebtReport.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
+            this.DebtReport.DataPropertyName = "DebtReport";
+            dataGridViewCellStyle6.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle6.Format = "C2";
+            dataGridViewCellStyle6.NullValue = "0";
+            this.DebtReport.DefaultCellStyle = dataGridViewCellStyle6;
+            this.DebtReport.HeaderText = "Долг";
+            this.DebtReport.MinimumWidth = 70;
+            this.DebtReport.Name = "DebtReport";
+            this.DebtReport.ReadOnly = true;
+            this.DebtReport.Width = 70;
+            // 
+            // DateEdit
+            // 
+            this.DateEdit.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
+            this.DateEdit.DataPropertyName = "DateEdit";
+            dataGridViewCellStyle7.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle7.Format = "d";
+            dataGridViewCellStyle7.NullValue = null;
+            this.DateEdit.DefaultCellStyle = dataGridViewCellStyle7;
+            this.DateEdit.HeaderText = "Дата и время предоставления отчета";
+            this.DateEdit.MinimumWidth = 103;
+            this.DateEdit.Name = "DateEdit";
+            this.DateEdit.ReadOnly = true;
+            this.DateEdit.Width = 103;
+            // 
+            // typeCashNonCash
+            // 
+            this.typeCashNonCash.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
+            this.typeCashNonCash.DataPropertyName = "typeCashNonCash";
+            dataGridViewCellStyle8.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.typeCashNonCash.DefaultCellStyle = dataGridViewCellStyle8;
+            this.typeCashNonCash.HeaderText = "Оплата";
+            this.typeCashNonCash.MinimumWidth = 100;
+            this.typeCashNonCash.Name = "typeCashNonCash";
+            this.typeCashNonCash.ReadOnly = true;
+            // 
+            // id_Status
+            // 
+            this.id_Status.DataPropertyName = "id_Status";
+            this.id_Status.HeaderText = "id_Status";
+            this.id_Status.Name = "id_Status";
+            this.id_Status.ReadOnly = true;
+            this.id_Status.Visible = false;
+            // 
+            // Mix
+            // 
+            this.Mix.DataPropertyName = "Mix";
+            this.Mix.HeaderText = "Mix";
+            this.Mix.Name = "Mix";
+            this.Mix.ReadOnly = true;
+            this.Mix.Visible = false;
+            // 
+            // cStatus
+            // 
+            this.cStatus.DataPropertyName = "nameStatusReport";
+            this.cStatus.HeaderText = "Статус";
+            this.cStatus.Name = "cStatus";
+            this.cStatus.ReadOnly = true;
             // 
             // btClose
             // 
@@ -299,6 +461,7 @@
             // btViewHardwareList
             // 
             this.btViewHardwareList.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.btViewHardwareList.Image = global::ServiceRecords.Properties.Resources.screen_monitor_computer1;
             this.btViewHardwareList.Location = new System.Drawing.Point(880, 443);
             this.btViewHardwareList.Name = "btViewHardwareList";
             this.btViewHardwareList.Size = new System.Drawing.Size(32, 32);
@@ -306,173 +469,11 @@
             this.btViewHardwareList.UseVisualStyleBackColor = true;
             this.btViewHardwareList.Click += new System.EventHandler(this.btViewHardwareList_Click);
             // 
-            // colV
-            // 
-            this.colV.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
-            this.colV.FalseValue = "false";
-            this.colV.HeaderText = "V";
-            this.colV.MinimumWidth = 35;
-            this.colV.Name = "colV";
-            this.colV.ReadOnly = true;
-            this.colV.TrueValue = "true";
-            this.colV.Width = 35;
-            // 
-            // id
-            // 
-            this.id.DataPropertyName = "id";
-            this.id.HeaderText = "idSZ";
-            this.id.Name = "id";
-            this.id.ReadOnly = true;
-            this.id.Visible = false;
-            // 
-            // id_report
-            // 
-            this.id_report.DataPropertyName = "id_report";
-            this.id_report.HeaderText = "id_report";
-            this.id_report.Name = "id_report";
-            this.id_report.ReadOnly = true;
-            this.id_report.Visible = false;
-            // 
-            // Number
-            // 
-            this.Number.DataPropertyName = "Number";
-            this.Number.HeaderText = "№ СЗ";
-            this.Number.MinimumWidth = 50;
-            this.Number.Name = "Number";
-            this.Number.ReadOnly = true;
-            this.Number.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-            // 
-            // Description
-            // 
-            this.Description.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
-            this.Description.DataPropertyName = "Description";
-            this.Description.HeaderText = "Описание";
-            this.Description.MinimumWidth = 120;
-            this.Description.Name = "Description";
-            this.Description.ReadOnly = true;
-            this.Description.Width = 120;
-            // 
-            // Summa
-            // 
-            this.Summa.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
-            this.Summa.DataPropertyName = "Summa";
-            dataGridViewCellStyle10.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle10.Format = "N2";
-            dataGridViewCellStyle10.NullValue = "0";
-            this.Summa.DefaultCellStyle = dataGridViewCellStyle10;
-            this.Summa.HeaderText = "Сумма СЗ";
-            this.Summa.MinimumWidth = 70;
-            this.Summa.Name = "Summa";
-            this.Summa.ReadOnly = true;
-            this.Summa.Width = 70;
-            // 
-            // Valuta
-            // 
-            this.Valuta.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
-            this.Valuta.DataPropertyName = "Valuta";
-            dataGridViewCellStyle11.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            this.Valuta.DefaultCellStyle = dataGridViewCellStyle11;
-            this.Valuta.HeaderText = "Валюта";
-            this.Valuta.MinimumWidth = 50;
-            this.Valuta.Name = "Valuta";
-            this.Valuta.ReadOnly = true;
-            this.Valuta.Width = 50;
-            // 
-            // SummaAmountReceived
-            // 
-            this.SummaAmountReceived.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
-            this.SummaAmountReceived.DataPropertyName = "sumGet";
-            dataGridViewCellStyle12.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle12.Format = "C2";
-            dataGridViewCellStyle12.NullValue = "0";
-            this.SummaAmountReceived.DefaultCellStyle = dataGridViewCellStyle12;
-            this.SummaAmountReceived.HeaderText = "Взято";
-            this.SummaAmountReceived.MinimumWidth = 70;
-            this.SummaAmountReceived.Name = "SummaAmountReceived";
-            this.SummaAmountReceived.ReadOnly = true;
-            this.SummaAmountReceived.Width = 70;
-            // 
-            // SummaReport
-            // 
-            this.SummaReport.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
-            this.SummaReport.DataPropertyName = "SummaReport";
-            dataGridViewCellStyle13.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle13.Format = "C2";
-            dataGridViewCellStyle13.NullValue = "0";
-            this.SummaReport.DefaultCellStyle = dataGridViewCellStyle13;
-            this.SummaReport.HeaderText = "Сумма отчета";
-            this.SummaReport.MinimumWidth = 70;
-            this.SummaReport.Name = "SummaReport";
-            this.SummaReport.ReadOnly = true;
-            this.SummaReport.Width = 70;
-            // 
-            // DebtReport
-            // 
-            this.DebtReport.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
-            this.DebtReport.DataPropertyName = "DebtReport";
-            dataGridViewCellStyle14.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle14.Format = "C2";
-            dataGridViewCellStyle14.NullValue = "0";
-            this.DebtReport.DefaultCellStyle = dataGridViewCellStyle14;
-            this.DebtReport.HeaderText = "Долг";
-            this.DebtReport.MinimumWidth = 70;
-            this.DebtReport.Name = "DebtReport";
-            this.DebtReport.ReadOnly = true;
-            this.DebtReport.Width = 70;
-            // 
-            // DateEdit
-            // 
-            this.DateEdit.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
-            this.DateEdit.DataPropertyName = "DateEdit";
-            dataGridViewCellStyle15.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle15.Format = "d";
-            dataGridViewCellStyle15.NullValue = null;
-            this.DateEdit.DefaultCellStyle = dataGridViewCellStyle15;
-            this.DateEdit.HeaderText = "Дата и время предоставления отчета";
-            this.DateEdit.MinimumWidth = 103;
-            this.DateEdit.Name = "DateEdit";
-            this.DateEdit.ReadOnly = true;
-            this.DateEdit.Width = 103;
-            // 
-            // typeCashNonCash
-            // 
-            this.typeCashNonCash.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
-            this.typeCashNonCash.DataPropertyName = "typeCashNonCash";
-            dataGridViewCellStyle16.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            this.typeCashNonCash.DefaultCellStyle = dataGridViewCellStyle16;
-            this.typeCashNonCash.HeaderText = "Оплата";
-            this.typeCashNonCash.MinimumWidth = 100;
-            this.typeCashNonCash.Name = "typeCashNonCash";
-            this.typeCashNonCash.ReadOnly = true;
-            // 
-            // id_Status
-            // 
-            this.id_Status.DataPropertyName = "id_Status";
-            this.id_Status.HeaderText = "id_Status";
-            this.id_Status.Name = "id_Status";
-            this.id_Status.ReadOnly = true;
-            this.id_Status.Visible = false;
-            // 
-            // Mix
-            // 
-            this.Mix.DataPropertyName = "Mix";
-            this.Mix.HeaderText = "Mix";
-            this.Mix.Name = "Mix";
-            this.Mix.ReadOnly = true;
-            this.Mix.Visible = false;
-            // 
-            // cStatus
-            // 
-            this.cStatus.DataPropertyName = "nameStatusReport";
-            this.cStatus.HeaderText = "Статус";
-            this.cStatus.Name = "cStatus";
-            this.cStatus.ReadOnly = true;
-            // 
             // frmCheckReport
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1034, 483);
+            this.ClientSize = new System.Drawing.Size(1030, 479);
             this.ControlBox = false;
             this.Controls.Add(this.btViewHardwareList);
             this.Controls.Add(this.tbDiscript);

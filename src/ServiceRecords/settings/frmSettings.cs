@@ -45,7 +45,7 @@ namespace ServiceRecords.settings
             tt.SetToolTip(btEditBlock, "Редактировать");
             tt.SetToolTip(btDelBlock, "Удалить");
 
-            tt.SetToolTip(groupBox4, "Для выбранных отделов  будет отображаться раскрывающийся список «Тип работ» на формах создания, редактирования и просмотра СЗ (обязательный для заполнения).");
+            tt.SetToolTip(groupBox4, Config.centralText("Для выбранных отделов  будет отображаться раскрывающийся \nсписок «Тип работ» на формах создания, редактирования\n и просмотра СЗ (обязательный для заполнения).\n"));
         }
 
         private void frmSettings_Load(object sender, EventArgs e)
@@ -79,13 +79,13 @@ namespace ServiceRecords.settings
             Config.hCntMain.SetSettings("опрф", valueSettings);
 
             foreach (DataRow row in dtDepsSettings.AsEnumerable().Where(r => r.Field<bool>("isSelect")))
-                Config.hCntMain.SetSettingsMulti("otna", row["id_Department"].ToString(),false);
+                Config.hCntMain.SetSettingsMulti("otna", row["id_Department"].ToString(), "отображение элемента «тип работ» на форме создания СЗ", false);
 
             foreach (DataRow row in dtDepsSettings_old.AsEnumerable().Where(r => r.Field<bool>("isSelect")))
             {
                 EnumerableRowCollection<DataRow> rowCollect = dtDepsSettings.AsEnumerable().Where(r => r.Field<int>("id_Department") == (int)row["id_Department"] && !r.Field<bool>("isSelect"));
                 if(rowCollect.Count()>0)
-                    Config.hCntMain.SetSettingsMulti("otna", row["id_Department"].ToString(),true);
+                    Config.hCntMain.SetSettingsMulti("otna", row["id_Department"].ToString(), "отображение элемента «тип работ» на форме создания СЗ", true);
             }
 
             Logging.StartFirstLevel(353);

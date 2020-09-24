@@ -331,7 +331,10 @@ namespace ServiceRecords.workDoc
                 else if (TypeScan == 3)
                     rColor = panel1.BackColor;
 
-                dgvScan.Rows[indexRow].DefaultCellStyle.BackColor = rColor;
+                dgvScan.Rows[indexRow].DefaultCellStyle.BackColor =
+                dgvScan.Rows[e.RowIndex].DefaultCellStyle.SelectionBackColor = rColor;
+
+                dgvScan.Rows[e.RowIndex].DefaultCellStyle.SelectionForeColor = Color.Black;
 
             }
             else if (e.RowIndex != -1 && Config.bufferDataTable != null && Config.bufferDataTable.DefaultView.Count > 0 && id_ServiceRecords == -1)
@@ -345,7 +348,10 @@ namespace ServiceRecords.workDoc
                 else if (TypeScan == 3)
                     rColor = panel1.BackColor;
 
-                dgvScan.Rows[indexRow].DefaultCellStyle.BackColor = rColor;
+                dgvScan.Rows[indexRow].DefaultCellStyle.BackColor =                 
+                dgvScan.Rows[e.RowIndex].DefaultCellStyle.SelectionBackColor = rColor;
+
+                dgvScan.Rows[e.RowIndex].DefaultCellStyle.SelectionForeColor = Color.Black;
             }
         }
 
@@ -505,5 +511,78 @@ namespace ServiceRecords.workDoc
                + " ; ФИО:" + Nwuram.Framework.Settings.User.UserSettings.User.FullUsername);
             Logging.StopFirstLevel();
         }
+
+        private void dgvScan_RowPostPaint(object sender, DataGridViewRowPostPaintEventArgs e)
+        {
+            DataGridView dgv = sender as DataGridView;
+            //Рисуем рамку для выделеной строки
+            if (dgv.Rows[e.RowIndex].Selected)
+            {
+                int width = dgv.Width;
+                Rectangle r = dgv.GetRowDisplayRectangle(e.RowIndex, false);
+                Rectangle rect = new Rectangle(r.X, r.Y, width - 1, r.Height - 1);
+
+                ControlPaint.DrawBorder(e.Graphics, rect,
+                    SystemColors.Highlight, 2, ButtonBorderStyle.Solid,
+                    SystemColors.Highlight, 2, ButtonBorderStyle.Solid,
+                    SystemColors.Highlight, 2, ButtonBorderStyle.Solid,
+                    SystemColors.Highlight, 2, ButtonBorderStyle.Solid);
+            }
+        }
+
+        private void btSave_Click(object sender, EventArgs e)
+        {
+            if (saveFileDialog1.ShowDialog() == DialogResult.Cancel)
+                return;
+            string filename = saveFileDialog1.FileName;
+
+            if (dtScan != null && dtScan.DefaultView.Count > 0 && dgvScan.CurrentRow != null && id_ServiceRecords != -1)
+            {
+                int indexRow = dgvScan.CurrentRow.Index;
+                int id = int.Parse(dtScan.DefaultView[indexRow]["id"].ToString());
+                DataTable dtFile = Config.hCntMain.getScan(id_ServiceRecords, id);
+                if (dtFile != null && dtFile.Rows.Count > 0 && dtFile.Rows[0]["Scan"] != DBNull.Value)
+                {
+                    byte[] img = (byte[])dtFile.Rows[0]["Scan"];
+                    string @Extension = (string)dtScan.DefaultView[indexRow]["Extension"];
+
+                    try
+                    {
+                        using (var fs = new FileStream(filename + @Extension, FileMode.Create, FileAccess.Write))
+                        {
+                            fs.Write(img, 0, img.Length);
+                            return;
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        Console.WriteLine("Exception caught in process: {0}", ex);
+                        return;
+                    }
+                }
+            }
+            else
+                if (id_ServiceRecords == -1 && Config.bufferDataTable != null && Config.bufferDataTable.Rows.Count > 0 && dgvScan.CurrentRow != null)
+            {
+                int indexRow = dgvScan.CurrentRow.Index;
+                byte[] img = (byte[])Config.bufferDataTable.DefaultView[indexRow]["img"];
+                string @Extension = (string)Config.bufferDataTable.DefaultView[indexRow]["Extension"];
+
+                try
+                {
+                    using (var fs = new FileStream(filename + @Extension, FileMode.Create, FileAccess.Write))
+                    {
+                        fs.Write(img, 0, img.Length);
+                        return;
+                    }
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine("Exception caught in process: {0}", ex);
+                    return;
+                }
+            }
+        }
+
     }
 }

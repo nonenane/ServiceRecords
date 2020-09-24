@@ -18,6 +18,8 @@ namespace ServiceRecords
         public frmCheckReport()
         {
             InitializeComponent();
+            ToolTip tp = new ToolTip();
+            tp.SetToolTip(btViewHardwareList, "Просмотр компьютерного оборудования");
         }
 
         private void frmCheckReport_Load(object sender, EventArgs e)

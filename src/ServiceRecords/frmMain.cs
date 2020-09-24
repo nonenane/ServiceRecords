@@ -369,6 +369,19 @@ namespace ServiceRecords
 
             filter += Config.CodeUser.Equals("КД") && chbKD.Checked ? " AND (id_Status = 4 OR id_Status = 10)" : ""; // На согласовании с КД и На повторном согласовании с КД
 
+
+            if (chbReportPreMonth.Visible && chbReportPreMonth.Checked)
+            {
+                filter = "";
+                filter += "isReportPreMonth = 1 and id_Status in (14,19)";
+                filter += (tbNumber.Text.Length != 0 ?
+                 (filter.Length == 0 ? "" : " AND ") + "CONVERT(Number, 'System.String') LIKE '%" + tbNumber.Text + "%'" : "");
+
+                filter += (tbInfo.Text.Length != 0 ?
+                  (filter.Length == 0 ? "" : " AND ") + "CONVERT(Description, 'System.String') LIKE '%" + tbInfo.Text + "%'" : "");
+            }
+
+
             try
             {
                 dtMain.DefaultView.RowFilter = filter;
@@ -390,7 +403,7 @@ namespace ServiceRecords
             frmS.Text = "Добавить СЗ";
             if (DialogResult.OK == frmS.ShowDialog())
             {
-                int currentRow = dgvMain.CurrentCell.RowIndex;
+                int currentRow = dgvMain.CurrentCell == null ? 0 : dgvMain.CurrentCell.RowIndex;
                 getData();
                 if (dgvMain.Rows.Count > currentRow)
                 {
@@ -920,10 +933,11 @@ namespace ServiceRecords
             btDelBlock.Visible = Config.CodeUser.Equals("РКВ") || Config.CodeUser.Equals("ОП");
             btViewPayment.Visible = Config.CodeUser.Equals("ОП") || Config.CodeUser.Equals("РКВ");
             btnAccept.Visible = btnRefuse.Visible = Config.CodeUser.Equals("КД");
-            btnCheckReport.Visible = Config.CodeUser.Equals("ОП");
+            btnCheckReport.Visible = Config.CodeUser.Equals("ОП") || Config.CodeUser.Equals("КНТ") || Config.CodeUser.Equals("РКВ");
             Enter.Visible = Config.CodeUser.Equals("КД");
             chbKD.Visible = Config.CodeUser.Equals("КД");
             label9.Visible = panel5.Visible = Config.CodeUser == "КД";
+            chbReportPreMonth.Visible = Config.CodeUser.Equals("ОП") || Config.CodeUser.Equals("РКВ");
         }
 
         private void enabledElements()
@@ -1392,13 +1406,19 @@ namespace ServiceRecords
 
         private void tsmiSetReport_Click(object sender, EventArgs e)
         {
+            int? inType = null;
+            if (dtMain.DefaultView[dgvMain.CurrentRow.Index]["inType"] != DBNull.Value)
+                inType = (int)dtMain.DefaultView[dgvMain.CurrentRow.Index]["inType"];
+
+
             workDoc.frmSetReport frm = new workDoc.frmSetReport()
             { id_ServiceRecords = (int)dtMain.DefaultView[dgvMain.CurrentRow.Index]["id"],
                 numberSR = (int)dtMain.DefaultView[dgvMain.CurrentRow.Index]["Number"],
                 typeSZ = (int)dtMain.DefaultView[dgvMain.CurrentRow.Index]["TypeServiceRecord"],
                 Summa = (decimal)dtMain.DefaultView[dgvMain.CurrentRow.Index]["Summa"],
                 Valuta = dtMain.DefaultView[dgvMain.CurrentRow.Index]["Valuta"].ToString(),
-                Mix = (bool)dtMain.DefaultView[dgvMain.CurrentRow.Index]["Mix"]
+                Mix = (bool)dtMain.DefaultView[dgvMain.CurrentRow.Index]["Mix"],
+                inType = inType
             };
 
             if (DialogResult.OK == frm.ShowDialog())
@@ -2021,6 +2041,16 @@ namespace ServiceRecords
             report.SetColumnAutoSize(1, 1, indexRow, maxColumn);
             report.SetPageSetup(1, 999, true);
             report.Show();
+        }
+
+        private void menuStrip1_ItemClicked(object sender, ToolStripItemClickedEventArgs e)
+        {
+
+        }
+
+        private void chbReportPreMonth_Click(object sender, EventArgs e)
+        {
+            setFilter();
         }
 
         private void timUpdate_Tick(object sender, EventArgs e)
