@@ -12,3 +12,12 @@ GO
 
 INSERT INTO [ServiceRecords].[s_TypicalWorks] (cName,isActive)
 values ('Закупка компьютерного оборудования',1),('Другое',1)
+
+
+
+--NEW 2020-10-15
+ALTER TABLE ServiceRecords.s_TypicalWorks ADD isBonus bit not null default 0
+
+
+INSERT INTO ServiceRecords.s_TypicalWorks (cName,isActive,isBonus)
+	VALUES ('Премии по ДЗ',1,1)

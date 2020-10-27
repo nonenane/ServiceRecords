@@ -376,25 +376,32 @@ namespace ServiceRecords
         {
             ap.Clear();
             //ap.Add(idUser);
-            ap.Add(UserSettings.User.Id);
+            //ap.Add(UserSettings.User.Id);
+            ap.Add(UserSettings.User.IdDepartment);
 
             return executeProcedure("[ServiceRecords].[getUserDepartment]",
                  new string[] { "@idUser" },
                  new DbType[] { DbType.String }, ap);
 
            }
+        
         public DataTable getUserDepartmentId()
         {
             ap.Clear();
             //ap.Add(idUser);
-            ap.Add(UserSettings.User.Id);
+            //ap.Add(UserSettings.User.Id);
+            ap.Add(UserSettings.User.IdDepartment);
 
             return executeProcedure("[ServiceRecords].[getUserDepartmentId]",
                  new string[] { "@idUser" },
                  new DbType[] { DbType.Int32 }, ap);
 
+
+
+
         }
-        public DataTable getUserProgramsStatus ()
+        
+        public DataTable getUserProgramsStatus()
         {
             ap.Clear();
             //ap.Add(idUser);
@@ -424,16 +431,17 @@ namespace ServiceRecords
 
         }
 
-        public DataTable getServiceRecords(DateTime dateStart, DateTime dateEnd)
+        public DataTable getServiceRecords(DateTime dateStart, DateTime dateEnd,bool isReport=false)
         {
             ap.Clear();
 
             ap.Add(dateStart);
             ap.Add(dateEnd);
+            ap.Add(isReport);
 
             return executeProcedure("[ServiceRecords].[getServiceRecords]",
-                 new string[] { "@dateStart", "@dateEnd" },
-                 new DbType[] { DbType.Date, DbType.Date }, ap);
+                 new string[3] { "@dateStart", "@dateEnd","@isReport" },
+                 new DbType[3] { DbType.Date, DbType.Date,DbType.Boolean }, ap);
         }
 
         public DataTable delServiceRecords(int id)
@@ -804,6 +812,7 @@ namespace ServiceRecords
 
             return 0;
         }
+       
         public decimal getSumPayments(int id_ServiceRecords)
         {
             //ap.Clear();
@@ -1030,6 +1039,7 @@ namespace ServiceRecords
                     row["cName"] = "Все типы работ";
                     row["id"] = 0;
                     row["isMain"] = 0;
+                    row["isBonus"] = 0;
                     dtResult.Rows.Add(row);
                     dtResult.AcceptChanges();
                     dtResult.DefaultView.RowFilter = "isActive = 1";
@@ -1058,6 +1068,73 @@ namespace ServiceRecords
 
         }
 
+
+        #endregion
+
+        #region "Документооборот"
+
+        public DataTable getMemorandums(DateTime dateStart,DateTime dateEnd, int id_ListServiceRecords,bool isAll)
+        {
+            ap.Clear();
+            ap.Add(dateStart);
+            ap.Add(dateEnd);
+            ap.Add(id_ListServiceRecords);
+            ap.Add(isAll);
+
+            return executeProcedure("[ServiceRecords].[getMemorandums]",
+                  new string[4] { "@dateStart", "@dateEnd", "@id_ListServiceRecords", "@isAll" },
+                  new DbType[4] { DbType.Date, DbType.Date, DbType.Int32,DbType.Boolean }, ap);
+
+        }
+
+
+        public DataTable getListViolation(int id_Memorandums)
+        {
+            ap.Clear();
+            ap.Add(id_Memorandums);
+
+            return executeProcedure("[ServiceRecords].[getListViolation]",
+                  new string[1] { "@id_Memorandums" },
+                  new DbType[1] { DbType.Int32 }, ap);
+
+        }
+
+        public DataTable setMemorandums(int id, int? id_ListServiceRecords,decimal SumBonus, bool isEdit,bool isDel,bool isUpdateData)
+        {
+            ap.Clear();
+            ap.Add(id);
+            ap.Add(id_ListServiceRecords);
+            ap.Add(SumBonus);
+            ap.Add(isEdit);
+            ap.Add(UserSettings.User.Id);
+            ap.Add(isDel);
+            ap.Add(isUpdateData);
+
+            return executeProcedure("[ServiceRecords].[setMemorandums]",
+                  new string[7] {"@id", "@id_ListServiceRecords", "@SumBonus", "@isEdit", "@id_user", "@isDel","@isUpdateData" },
+                  new DbType[7] { DbType.Int32,DbType.Int32,DbType.Decimal,DbType.Boolean,DbType.Int32,DbType.Boolean, DbType.Boolean }, ap);
+
+        }
+
+        public DataTable setMoveDocument(int? id_doc)
+        {
+            ap.Clear();
+            ap.Add(id_doc);
+
+            return executeProcedure("[dbo].[setMoveDocument]",
+                  new string[1] { "@id_doc" },
+                  new DbType[1] { DbType.Int32 }, ap);
+        }
+
+        public DataTable rollbackMoveDocument(int? id_doc)
+        {
+            ap.Clear();
+            ap.Add(id_doc);
+
+            return executeProcedure("[dbo].[rollbackMoveDocument]",
+                  new string[1] { "@id_doc" },
+                  new DbType[1] { DbType.Int32 }, ap);
+        }
 
         #endregion
     }

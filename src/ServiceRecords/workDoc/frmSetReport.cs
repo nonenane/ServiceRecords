@@ -162,7 +162,7 @@ namespace ServiceRecords.workDoc
                 dtResult = Config.hCntMain.getListHardwareForServiceRecord(id_ServiceRecords);
                 if (dtResult == null || dtResult.Rows.Count == 0)
                 {
-                    MessageBox.Show(Config.centralText("У выбранной СЗ есть признак \"Закупка компьютерного оборудования\".\nДля сохранения отчёта требуется ввести данные по оборудованию\n в учёте компьютерного оборудования.\n"), "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show(Config.centralText("У выбранной СЗ есть признак \n\"Закупка компьютерного оборудования\".\nДля сохранения отчёта требуется ввести данные по \nоборудованию в учёте компьютерного оборудования.\n"), "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     return;
                 }
             }

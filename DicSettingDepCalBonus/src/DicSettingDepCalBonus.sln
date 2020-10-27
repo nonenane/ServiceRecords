@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30523.141
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DicSettingDepCalBonus", "DicSettingDepCalBonus\DicSettingDepCalBonus.csproj", "{83AB2FE9-19BA-4D6C-B32F-8CC154852B20}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{83AB2FE9-19BA-4D6C-B32F-8CC154852B20}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{83AB2FE9-19BA-4D6C-B32F-8CC154852B20}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{83AB2FE9-19BA-4D6C-B32F-8CC154852B20}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{83AB2FE9-19BA-4D6C-B32F-8CC154852B20}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {8355A3AA-85BF-41B0-BBD0-6A706BEE81BA}
+	EndGlobalSection
+EndGlobal

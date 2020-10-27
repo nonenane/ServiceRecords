@@ -78,6 +78,7 @@
             this.cFSumma = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.cFDescript = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.groupBox3 = new ServiceRecords.elements.CustomGrpBox();
+            this.btSelectDZ = new System.Windows.Forms.Button();
             this.cmbTypicalWorks = new System.Windows.Forms.ComboBox();
             this.lTypicalWorks = new System.Windows.Forms.Label();
             this.btDelFond = new System.Windows.Forms.Button();
@@ -365,7 +366,7 @@
             // btAccept
             // 
             this.btAccept.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.btAccept.Location = new System.Drawing.Point(660, 651);
+            this.btAccept.Location = new System.Drawing.Point(645, 654);
             this.btAccept.Name = "btAccept";
             this.btAccept.Size = new System.Drawing.Size(110, 32);
             this.btAccept.TabIndex = 46;
@@ -377,7 +378,7 @@
             // btRefuse
             // 
             this.btRefuse.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.btRefuse.Location = new System.Drawing.Point(543, 651);
+            this.btRefuse.Location = new System.Drawing.Point(528, 654);
             this.btRefuse.Name = "btRefuse";
             this.btRefuse.Size = new System.Drawing.Size(110, 32);
             this.btRefuse.TabIndex = 47;
@@ -399,7 +400,7 @@
             // 
             this.btAddFile.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.btAddFile.Image = global::ServiceRecords.Properties.Resources.folder_htm_5356;
-            this.btAddFile.Location = new System.Drawing.Point(96, 651);
+            this.btAddFile.Location = new System.Drawing.Point(61, 654);
             this.btAddFile.Name = "btAddFile";
             this.btAddFile.Size = new System.Drawing.Size(32, 32);
             this.btAddFile.TabIndex = 24;
@@ -410,7 +411,7 @@
             // 
             this.btView.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.btView.Image = global::ServiceRecords.Properties.Resources.find_9299;
-            this.btView.Location = new System.Drawing.Point(19, 651);
+            this.btView.Location = new System.Drawing.Point(19, 654);
             this.btView.Name = "btView";
             this.btView.Size = new System.Drawing.Size(32, 32);
             this.btView.TabIndex = 25;
@@ -422,7 +423,7 @@
             // 
             this.btSelect.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.btSelect.Image = global::ServiceRecords.Properties.Resources.save_edit;
-            this.btSelect.Location = new System.Drawing.Point(879, 651);
+            this.btSelect.Location = new System.Drawing.Point(884, 654);
             this.btSelect.Name = "btSelect";
             this.btSelect.Size = new System.Drawing.Size(32, 32);
             this.btSelect.TabIndex = 22;
@@ -433,7 +434,7 @@
             // 
             this.btClose.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.btClose.Image = global::ServiceRecords.Properties.Resources.exit_8633;
-            this.btClose.Location = new System.Drawing.Point(917, 651);
+            this.btClose.Location = new System.Drawing.Point(922, 654);
             this.btClose.Name = "btClose";
             this.btClose.Size = new System.Drawing.Size(32, 32);
             this.btClose.TabIndex = 23;
@@ -445,7 +446,7 @@
             this.btnSaveComment.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.btnSaveComment.Enabled = false;
             this.btnSaveComment.Image = global::ServiceRecords.Properties.Resources.view2;
-            this.btnSaveComment.Location = new System.Drawing.Point(917, 608);
+            this.btnSaveComment.Location = new System.Drawing.Point(922, 613);
             this.btnSaveComment.Name = "btnSaveComment";
             this.btnSaveComment.Size = new System.Drawing.Size(32, 32);
             this.btnSaveComment.TabIndex = 49;
@@ -667,6 +668,7 @@
             // 
             // groupBox3
             // 
+            this.groupBox3.Controls.Add(this.btSelectDZ);
             this.groupBox3.Controls.Add(this.cmbTypicalWorks);
             this.groupBox3.Controls.Add(this.lTypicalWorks);
             this.groupBox3.Controls.Add(this.btDelFond);
@@ -714,6 +716,17 @@
             this.groupBox3.Text = "Служебная записка";
             this.groupBox3.Enter += new System.EventHandler(this.groupBox3_Enter);
             // 
+            // btSelectDZ
+            // 
+            this.btSelectDZ.Location = new System.Drawing.Point(449, 327);
+            this.btSelectDZ.Name = "btSelectDZ";
+            this.btSelectDZ.Size = new System.Drawing.Size(87, 23);
+            this.btSelectDZ.TabIndex = 55;
+            this.btSelectDZ.Text = "Выбрать ДЗ";
+            this.btSelectDZ.UseVisualStyleBackColor = true;
+            this.btSelectDZ.Visible = false;
+            this.btSelectDZ.Click += new System.EventHandler(this.btSelectDZ_Click);
+            // 
             // cmbTypicalWorks
             // 
             this.cmbTypicalWorks.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
@@ -722,6 +735,8 @@
             this.cmbTypicalWorks.Name = "cmbTypicalWorks";
             this.cmbTypicalWorks.Size = new System.Drawing.Size(367, 21);
             this.cmbTypicalWorks.TabIndex = 54;
+            this.cmbTypicalWorks.DropDown += new System.EventHandler(this.cmbDeps_DropDown);
+            this.cmbTypicalWorks.SelectionChangeCommitted += new System.EventHandler(this.cmbTypicalWorks_SelectionChangeCommitted);
             // 
             // lTypicalWorks
             // 
@@ -938,7 +953,7 @@
             // 
             this.dtpSingleNote.Enabled = false;
             this.dtpSingleNote.Format = System.Windows.Forms.DateTimePickerFormat.Short;
-            this.dtpSingleNote.Location = new System.Drawing.Point(337, 301);
+            this.dtpSingleNote.Location = new System.Drawing.Point(337, 304);
             this.dtpSingleNote.Name = "dtpSingleNote";
             this.dtpSingleNote.Size = new System.Drawing.Size(106, 20);
             this.dtpSingleNote.TabIndex = 40;
@@ -1025,6 +1040,7 @@
             this.tbCommentNote.MaxLength = 300;
             this.tbCommentNote.Multiline = true;
             this.tbCommentNote.Name = "tbCommentNote";
+            this.tbCommentNote.ScrollBars = System.Windows.Forms.ScrollBars.Both;
             this.tbCommentNote.Size = new System.Drawing.Size(315, 78);
             this.tbCommentNote.TabIndex = 27;
             // 
@@ -1195,7 +1211,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(961, 690);
+            this.ClientSize = new System.Drawing.Size(962, 694);
             this.ControlBox = false;
             this.Controls.Add(this.gbFond);
             this.Controls.Add(this.typeSRonTime);
@@ -1338,5 +1354,6 @@
         private System.Windows.Forms.TextBox tbRealSum;
         private System.Windows.Forms.ComboBox cmbTypicalWorks;
         private System.Windows.Forms.Label lTypicalWorks;
+        private System.Windows.Forms.Button btSelectDZ;
     }
 }

@@ -65,6 +65,7 @@ namespace ServiceRecords
 
         public void frmServiceNote_Load(object sender, EventArgs e)
         {
+            dtListDeps = Config.hCntMain.GetSettingsTable("otna");
             dtStatus = Config.hCntMain.getStatus();
             Config.bufferDataTable = null;
             dtpNextDate.Value = new DateTime(DateTime.Now.Year, DateTime.Now.Month, 1);
@@ -76,7 +77,7 @@ namespace ServiceRecords
             createValuta();
             getMultipleReceivingMone();
             getTypicalWorks();
-            dtListDeps = Config.hCntMain.GetSettingsTable("otna");
+            
             cmbDeps_SelectionChangeCommitted(null, null);
 
             if (id != -1)
@@ -98,6 +99,7 @@ namespace ServiceRecords
                 cmbBlock.SelectedValue = (int)dtTmp.Rows[0]["id_Block"];
                 createDeps();
                 cmbDeps.SelectedValue = (int)dtTmp.Rows[0]["id_Department"];
+                cmbDeps_SelectionChangeCommitted(null, null);
 
 
                 tbSumma.Text = decimal.Parse(dtTmp.Rows[0]["Summa"].ToString()).ToString("0.00");
@@ -266,7 +268,7 @@ namespace ServiceRecords
                 {
                     lTConfirmationD.Visible = lConfirmationD.Visible = picBoxConfirmationD.Visible = true;
                 }
-                if (isView) initIsView();
+               
 
                 if (cmbObjects.Enabled = cmbDeps.Enabled)
                 {
@@ -285,13 +287,26 @@ namespace ServiceRecords
                 getMultipleReceivingMone();
 
                 cmbTypicalWorks.SelectedValue = dtTmp.Rows[0]["inType"];
+                cmbTypicalWorks_SelectionChangeCommitted(null, null);
 
                 cmbTypicalWorks.Enabled = 
                     (new List<string>(new string[] { "ОП", "РКВ" }).Contains(Config.CodeUser) && new List<int>(new int[] { 1 }).Contains((int)dtTmp.Rows[0]["id_Status"])) ||
                     (new List<string>(new string[] { "КНТ" }).Contains(Config.CodeUser) && new List<int>(new int[] { 2, 8 }).Contains((int)dtTmp.Rows[0]["id_Status"]));
 
+                DataTable dtTmpMemo = Config.hCntMain.getMemorandums(DateTime.Now, DateTime.Now, id, false);
+                if (dtTmpMemo != null && dtTmpMemo.Rows.Count > 0)
+                {
+                    foreach (DataRow row in dtTmpMemo.Rows)
+                    {
+                        string str = $"{row["FIOBonus"]} - {row["SumBonus"]}";
+                        int _id = (int)row["id"];
+                        dicListMemorandum.Add(_id, str);
+                        dicListMemorandum_old.Add(_id, str);
+                    }
+                }
 
                 isCreate = false;
+                if (isView) initIsView();
             }
             //else tbComment.Enabled = btnSaveComment.Enabled = false;
             isEdit = false;
@@ -662,6 +677,11 @@ namespace ServiceRecords
 
             #region "Сохранение"
 
+            if (btSelectDZ.Visible && dicListMemorandum.Count == 0)
+            {
+                 MessageBox.Show("Выберите ДЗ", "Информирование", MessageBoxButtons.OK, MessageBoxIcon.Information); return; 
+            }
+
 
             string Description = tbCommentNote.Text.Trim();
             DateTime CreateServiceRecord = dtpDateNote.Value;
@@ -744,6 +764,7 @@ namespace ServiceRecords
                     inType);
 
                 id_ServiceRecords = int.Parse(dtTmp.Rows[0]["id"].ToString());
+                id = id_ServiceRecords;
                 if (Config.bufferDataTable != null && Config.bufferDataTable.Rows.Count > 0)
                     foreach (DataRow row in Config.bufferDataTable.Rows)
                     {
@@ -785,6 +806,19 @@ namespace ServiceRecords
                                                     idFond,
                                                     inType);
             }
+
+
+            foreach (int idMemo in dicListMemorandum.Keys)
+            {
+                Config.hCntMain.setMemorandums(idMemo, id, 0.00M, true, false, false);
+                if (dicListMemorandum_old.ContainsKey(idMemo)) dicListMemorandum_old.Remove(idMemo);
+            }
+
+            foreach (int idMemo in dicListMemorandum_old.Keys)
+            {
+                Config.hCntMain.setMemorandums(idMemo, null, 0.00M, true, false, false);
+            }
+
 
             #endregion
 
@@ -1341,7 +1375,7 @@ namespace ServiceRecords
         private void cmbDeps_SelectionChangeCommitted(object sender, EventArgs e)
         {
             isEdit = true;
-            if (cmbDeps.SelectedIndex==-1 || cmbDeps.SelectedValue == null)
+            if (cmbDeps.SelectedIndex==-1 || cmbDeps.SelectedValue == null || dtListDeps==null || dtListDeps.Rows.Count==0)
             {
                 lTypicalWorks.Visible = cmbTypicalWorks.Visible = false;
                 return;
@@ -1522,6 +1556,7 @@ namespace ServiceRecords
                 rbStandart.Checked = true;
                 rbMoney.Checked = true;
                 gbFond.Visible = true;
+                rbMoney_Click(null, null);
                 fondEnableelement();
             }
         }
@@ -1830,6 +1865,113 @@ namespace ServiceRecords
             {
                 dgvFond_SelectionChanged(null, null);
             }
+        }
+
+        private void cmbDeps_DropDown(object sender, EventArgs e)
+        {
+            var senderComboBox = (ComboBox)sender;
+            int width = senderComboBox.DropDownWidth;
+            Graphics g = senderComboBox.CreateGraphics();
+            Font font = senderComboBox.Font;
+
+            int vertScrollBarWidth = (senderComboBox.Items.Count > senderComboBox.MaxDropDownItems)
+                    ? SystemInformation.VerticalScrollBarWidth : 0;
+
+            //var itemsList = senderComboBox.Items.Cast<object>().Select(item => item.ToString());
+            //foreach (string s in itemsList)
+            //{
+            //    int newWidth = (int)g.MeasureString(s, font).Width + vertScrollBarWidth;
+
+            //    if (width < newWidth)
+            //    {
+            //        width = newWidth;
+            //    }
+            //}
+
+            DataTable dtList = (DataTable)senderComboBox.DataSource;
+
+
+            foreach (DataRow r in dtList.Rows)
+            {
+                string s = (string)r["cName"];
+
+                int newWidth = (int)g.MeasureString(s, font).Width + vertScrollBarWidth;
+
+                if (width < newWidth)
+                {
+                    width = newWidth;
+                }
+            }
+
+            senderComboBox.DropDownWidth = width;
+            //senderComboBox.DropDownHeight = 40;
+        }
+
+        private void cmbTypicalWorks_SelectionChangeCommitted(object sender, EventArgs e)
+        {
+            if (isView) return;
+
+            if (cmbTypicalWorks.SelectedValue == null || cmbTypicalWorks.SelectedIndex == -1) { btSelect.Visible = false;return; }
+            btSelectDZ.Visible = (bool)(cmbTypicalWorks.DataSource as DataTable).AsEnumerable()
+                .Where(r => r.Field<int>("id") == (int)cmbTypicalWorks.SelectedValue).First()["isBonus"] && new List<string>(new string[] { "РКВ", "КД" }).Contains(UserSettings.User.StatusCode);
+
+            if (new List<string>(new string[] { "РКВ", "КД" }).Contains(UserSettings.User.StatusCode) && btSelectDZ.Visible)
+            {
+                tbSumma.ReadOnly = true;
+                rbMix.Enabled = false;
+                rbMoney.Checked = true;
+                rbMoney_Click(null, null);
+            }
+            else
+            {
+                tbSumma.ReadOnly = false;
+                rbMix.Enabled = true;
+            }
+        }
+        private Dictionary<int, string> dicListMemorandum = new Dictionary<int, string>();
+        private Dictionary<int, string> dicListMemorandum_old = new Dictionary<int, string>();
+        private void btSelectDZ_Click(object sender, EventArgs e)
+        {
+            //Config.listSelectedDZ.Clear();
+
+            docmoverDZ.frmSelect fSelect = new docmoverDZ.frmSelect() { id_ListServiceRecords = id, Owner = this };
+            fSelect.setListMemorandum(dicListMemorandum);
+            if (fSelect.ShowDialog() == DialogResult.OK)
+            {
+
+                int startFind = tbCommentNote.Text.IndexOf("Премии:[");
+                if (startFind != -1)
+                {
+                    try
+                    {
+                        int endFind = tbCommentNote.Text.IndexOf("]", startFind + 1);
+                        tbCommentNote.Text = tbCommentNote.Text.Remove(startFind, endFind - startFind + 1);
+                    }
+                    catch
+                    { }
+                    finally {
+                        tbCommentNote.Text = tbCommentNote.Text.Trim();
+                    }
+                }
+
+
+                dicListMemorandum = fSelect.getListMemorandum();
+
+                tbCommentNote.Text += Environment.NewLine + "Премии:[" + Environment.NewLine;
+
+                tbCommentNote.Text += fSelect.textDZ;
+
+                //int indexStr = 1;
+                //foreach (string str in dicListMemorandum.Values)
+                //{
+                //    tbCommentNote.Text += $"{indexStr}.{str}" + Environment.NewLine;
+                //    indexStr++;
+                //}
+                tbCommentNote.Text += "]" + Environment.NewLine;
+                tbSumma.Text = fSelect.sumDZ.ToString("0.00");
+            }
+
+            //Config.listSelectedDZ.Add(1);
         }
 
         private void dgvFond_SelectionChanged(object sender, EventArgs e)

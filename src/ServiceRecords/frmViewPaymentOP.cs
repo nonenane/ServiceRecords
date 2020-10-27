@@ -700,7 +700,8 @@ namespace ServiceRecords
             //MessageBox.Show(cbTypeGet.SelectedValue.ToString());
             string constFilter = "";
             if (Config.CodeUser.Equals("РКВ"))
-                constFilter += "( id_MoneyRecipient = '" + UserSettings.User.Id + "' OR id_Creator = '" + UserSettings.User.Id + "' )";
+                //constFilter += "( id_MoneyRecipient = '" + UserSettings.User.Id + "' OR id_Creator = '" + UserSettings.User.Id + "' )";
+                constFilter += "( id_Department = '" + UserSettings.User.IdDepartment + "' OR id_Block = '" + UserSettings.User.IdDepartment + "' )";
 
             string filter = "";
             filter += constFilter.Length == 0 ? (cbTypeOperation.SelectedIndex == 0 ? ""
@@ -850,6 +851,8 @@ namespace ServiceRecords
         private void btnDelete_Click(object sender, EventArgs e)
         {
             int idOrder = (int)dtPayment.DefaultView[dgvNote.CurrentRow.Index]["id"];
+            int id_ServiceRecords = (int)dtPayment.DefaultView[dgvNote.CurrentRow.Index]["id_ServiceRecords"];
+
             if (DialogResult.Yes == MessageBox.Show(Config.centralText("Вы уверены,\nчто хотите удалить запись\nпо СЗ № " +
                 (int)dtPayment.DefaultView[dgvNote.CurrentRow.Index]["Number"] + "?\n"), "Запрос", MessageBoxButtons.YesNo, MessageBoxIcon.Question))
             {
@@ -860,6 +863,18 @@ namespace ServiceRecords
                     getData();
                     return;
                 }
+
+
+                DataTable dtTmpMemo = Config.hCntMain.getMemorandums(DateTime.Now, DateTime.Now, id_ServiceRecords, false);
+                if (dtTmpMemo != null && dtTmpMemo.Rows.Count > 0)
+                {
+                    foreach (DataRow row in dtTmpMemo.Rows)
+                    {
+                        int id_doc = (int)row["id_doc"];
+                        Config.hCntDocumentsDZ.rollbackMoveDocument(id_doc);
+                    }
+                }
+
 
                 if ((bool)dtPayment.DefaultView[dgvNote.CurrentRow.Index]["Mix"] && dtPayment.Select($"Number = {(int)dtPayment.DefaultView[dgvNote.CurrentRow.Index]["Number"]}").ToList().Count().ToString() == "2")
                     MessageBox.Show(Config.centralText($"Для выполнения повторной операции\nна «{dgvNote.CurrentRow.Cells["cOperation"].Value.ToString() }»  ДС\n" +

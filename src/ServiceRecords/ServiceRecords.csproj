@@ -36,6 +36,9 @@
     <Prefer32Bit>false</Prefer32Bit>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>icons8-деньги-в-руке-32.ico</ApplicationIcon>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="EPPlus, Version=4.0.4.0, Culture=neutral, PublicKeyToken=ea159fdaa78159a1, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -79,6 +82,18 @@
   <ItemGroup>
     <Compile Include="cnvXLSToPDF.cs" />
     <Compile Include="Config.cs" />
+    <Compile Include="docmoverDZ\frmEdit.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="docmoverDZ\frmEdit.Designer.cs">
+      <DependentUpon>frmEdit.cs</DependentUpon>
+    </Compile>
+    <Compile Include="docmoverDZ\frmSelect.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="docmoverDZ\frmSelect.Designer.cs">
+      <DependentUpon>frmSelect.cs</DependentUpon>
+    </Compile>
     <Compile Include="elements\CustomGrpBox.cs">
       <SubType>Component</SubType>
     </Compile>
@@ -235,6 +250,12 @@
     <Compile Include="workDoc\frmTypeDoc.Designer.cs">
       <DependentUpon>frmTypeDoc.cs</DependentUpon>
     </Compile>
+    <EmbeddedResource Include="docmoverDZ\frmEdit.resx">
+      <DependentUpon>frmEdit.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="docmoverDZ\frmSelect.resx">
+      <DependentUpon>frmSelect.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="fond\frmFond.resx">
       <DependentUpon>frmFond.cs</DependentUpon>
     </EmbeddedResource>
@@ -526,6 +547,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\screen_monitor_computer1.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="icons8-деньги-в-руке-32.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

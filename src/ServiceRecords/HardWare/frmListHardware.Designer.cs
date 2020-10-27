@@ -143,58 +143,84 @@
             // 
             // cNum
             // 
+            this.cNum.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
             this.cNum.DataPropertyName = "InventoryNumber";
+            this.cNum.FillWeight = 45.60068F;
             this.cNum.HeaderText = "Инв. №";
+            this.cNum.MinimumWidth = 50;
             this.cNum.Name = "cNum";
             this.cNum.ReadOnly = true;
+            this.cNum.Width = 50;
             // 
             // cEan
             // 
+            this.cEan.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
             this.cEan.DataPropertyName = "EAN";
+            this.cEan.FillWeight = 426.3959F;
             this.cEan.HeaderText = "EAN";
+            this.cEan.MinimumWidth = 80;
             this.cEan.Name = "cEan";
             this.cEan.ReadOnly = true;
+            this.cEan.Width = 110;
             // 
             // cName
             // 
             this.cName.DataPropertyName = "cName";
+            this.cName.FillWeight = 45.60068F;
             this.cName.HeaderText = "Наименование";
+            this.cName.MinimumWidth = 120;
             this.cName.Name = "cName";
             this.cName.ReadOnly = true;
             // 
             // cType
             // 
+            this.cType.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
             this.cType.DataPropertyName = "nameType";
+            this.cType.FillWeight = 45.60068F;
             this.cType.HeaderText = "Оборудование/ Комплектующие";
+            this.cType.MinimumWidth = 90;
             this.cType.Name = "cType";
             this.cType.ReadOnly = true;
+            this.cType.Width = 130;
             // 
             // cLoc
             // 
+            this.cLoc.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
             this.cLoc.DataPropertyName = "nameLoc";
+            this.cLoc.FillWeight = 45.60068F;
             this.cLoc.HeaderText = "Местоположение";
+            this.cLoc.MinimumWidth = 100;
             this.cLoc.Name = "cLoc";
             this.cLoc.ReadOnly = true;
+            this.cLoc.Width = 130;
             // 
             // cMaster
             // 
+            this.cMaster.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
             this.cMaster.DataPropertyName = "fio";
+            this.cMaster.FillWeight = 45.60068F;
             this.cMaster.HeaderText = "Ответственный";
+            this.cMaster.MinimumWidth = 85;
             this.cMaster.Name = "cMaster";
             this.cMaster.ReadOnly = true;
+            this.cMaster.Width = 130;
             // 
             // cStatus
             // 
+            this.cStatus.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
             this.cStatus.DataPropertyName = "nameStatus";
+            this.cStatus.FillWeight = 45.60068F;
             this.cStatus.HeaderText = "Статус";
+            this.cStatus.MinimumWidth = 80;
             this.cStatus.Name = "cStatus";
             this.cStatus.ReadOnly = true;
+            this.cStatus.Width = 80;
             // 
             // frmListHardware
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1055, 375);
+            this.ClientSize = new System.Drawing.Size(1051, 371);
             this.ControlBox = false;
             this.Controls.Add(this.label1);
             this.Controls.Add(this.tbNumSZ);

@@ -13,6 +13,9 @@ namespace ServiceRecords
     {
         public static Procedures hCntMain { get; set; } //осн. коннект
         public static Procedures hCntSecond { get; set; } //доп. коннект
+
+        public static Procedures hCntDocumentsDZ { get; set; } //DocumentsDZ
+
         public static string[] RunArguments = null;
 
         public static string CodeUser = "";
@@ -134,6 +137,7 @@ namespace ServiceRecords
           symmK.Clear();
           return Encoding.UTF8.GetString(plainTextBytes, 0, byteCount);
         }
- 
+
+        public static List<int> listSelectedDZ = new List<int>();
     }
 }

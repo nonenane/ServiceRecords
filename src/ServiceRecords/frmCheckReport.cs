@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 using Nwuram.Framework.Logging;
+using Nwuram.Framework.Settings.User;
 using Nwuram.Framework.ToExcel;
 
 namespace ServiceRecords
@@ -114,7 +115,9 @@ namespace ServiceRecords
                 string filter = "";
 
                 if (new List<string>(new string[] { "РКВ" }).Contains(Config.CodeUser))
-                    filter += (filter.Trim().Length == 0 ? "" : " and ") + $"id_Creator  = {Nwuram.Framework.Settings.User.UserSettings.User.Id}";
+                    //filter += (filter.Trim().Length == 0 ? "" : " and ") + $"id_Creator  = {Nwuram.Framework.Settings.User.UserSettings.User.Id}";
+                    filter += "( id_Department = '" + UserSettings.User.IdDepartment + "' OR id_Block = '" + UserSettings.User.IdDepartment + "' )";
+
 
                 filter += cmbStatusReport.SelectedIndex == 1 ? "id_Status = 15" :
                           cmbStatusReport.SelectedIndex == 2 ? "id_Status = 14" :
@@ -303,6 +306,15 @@ namespace ServiceRecords
             report.AddSingleValue($"{lbHasDebt.Text}: {cmbDebt.Text}", indexRow, 1);
             indexRow++;
 
+            if (tbNumber.Text.Trim().Length != 0 || tbDiscript.Text.Trim().Length != 0)
+            {
+                report.Merge(indexRow, 1, indexRow, maxColumns);
+                report.AddSingleValue($"Фильтры:" +
+                    $"{(tbNumber.Text.Trim().Length==0?"":$"{Number.HeaderText}:{tbNumber.Text}")} " +
+                    $"{(tbDiscript.Text.Trim().Length == 0 ? "" : $"{Description.HeaderText}:{tbDiscript.Text}")}", indexRow, 1);
+                indexRow++;
+            }
+
             report.Merge(indexRow, 1, indexRow, maxColumns);
             report.AddSingleValue("Выгрузил: " + Nwuram.Framework.Settings.User.UserSettings.User.FullUsername, indexRow, 1);
             indexRow++;
@@ -358,7 +370,7 @@ namespace ServiceRecords
                 report.SetCellAlignmentToJustify(indexRow, 1, indexRow, maxColumns);
                 indexRow++;
             }
-
+            report.SetPageSetup(1, 999, true);
             report.Show();
         }
 

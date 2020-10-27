@@ -24,6 +24,8 @@ namespace ServiceRecords
             if (args.Length != 0)
                 if (Project.FillSettings(args))
                 {
+
+
                     Logging.Init(ConnectionSettings.GetServer(), ConnectionSettings.GetDatabase(), ConnectionSettings.GetUsername(), ConnectionSettings.GetPassword(), ConnectionSettings.ProgramName);
                     Logging.StartFirstLevel(1);
                     Logging.Comment("Вход в программу");
@@ -31,6 +33,11 @@ namespace ServiceRecords
 
                     Config.hCntMain = new Procedures(ConnectionSettings.GetServer(), ConnectionSettings.GetDatabase(), ConnectionSettings.GetUsername(), ConnectionSettings.GetPassword(), ConnectionSettings.ProgramName);
                     Config.hCntSecond = new Procedures(ConnectionSettings.GetServer("2"), ConnectionSettings.GetDatabase("2"), ConnectionSettings.GetUsername(), ConnectionSettings.GetPassword(), ConnectionSettings.ProgramName);
+
+
+                    Config.hCntDocumentsDZ = new Procedures(ConnectionSettings.GetServer("3"), ConnectionSettings.GetDatabase("3"), ConnectionSettings.GetUsername(), ConnectionSettings.GetPassword(), ConnectionSettings.ProgramName);
+
+
                     Config.CodeUser = Nwuram.Framework.Settings.User.UserSettings.User.StatusCode.ToUpper();
 
                     DataTable dtPassword = Config.hCntMain.getrUsers();
@@ -44,7 +51,7 @@ namespace ServiceRecords
                         }
                     }
 
-                    //Application.Run(new HardWare.frmListHardware() { id_ServiceRecod = 8305 });
+                    //Application.Run(new docmoverDZ.frmSelect() { id_ListServiceRecords = 8488 });
                     //return;
                     //Console.WriteLine(UserSettings.User.Id);
                     if (Config.CodeUser.Equals("АДМ"))

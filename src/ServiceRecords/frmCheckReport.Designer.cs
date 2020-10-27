@@ -28,14 +28,14 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle7 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle8 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle9 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle10 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle11 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle12 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle13 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle14 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle15 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle16 = new System.Windows.Forms.DataGridViewCellStyle();
             this.dgvReport = new System.Windows.Forms.DataGridView();
             this.colV = new System.Windows.Forms.DataGridViewCheckBoxColumn();
             this.id = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -83,14 +83,14 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.dgvReport.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.dgvReport.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.dgvReport.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
+            dataGridViewCellStyle9.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle9.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle9.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            dataGridViewCellStyle9.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle9.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle9.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle9.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dgvReport.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle9;
             this.dgvReport.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgvReport.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.colV,
@@ -115,7 +115,7 @@
             this.dgvReport.ReadOnly = true;
             this.dgvReport.RowHeadersVisible = false;
             this.dgvReport.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dgvReport.Size = new System.Drawing.Size(1001, 338);
+            this.dgvReport.Size = new System.Drawing.Size(993, 338);
             this.dgvReport.TabIndex = 0;
             this.dgvReport.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvReport_CellContentClick);
             this.dgvReport.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvReport_CellDoubleClick);
@@ -173,10 +173,10 @@
             // 
             this.Summa.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
             this.Summa.DataPropertyName = "Summa";
-            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle2.Format = "N2";
-            dataGridViewCellStyle2.NullValue = "0";
-            this.Summa.DefaultCellStyle = dataGridViewCellStyle2;
+            dataGridViewCellStyle10.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle10.Format = "N2";
+            dataGridViewCellStyle10.NullValue = "0";
+            this.Summa.DefaultCellStyle = dataGridViewCellStyle10;
             this.Summa.HeaderText = "Сумма СЗ";
             this.Summa.MinimumWidth = 70;
             this.Summa.Name = "Summa";
@@ -187,8 +187,8 @@
             // 
             this.Valuta.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
             this.Valuta.DataPropertyName = "Valuta";
-            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            this.Valuta.DefaultCellStyle = dataGridViewCellStyle3;
+            dataGridViewCellStyle11.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.Valuta.DefaultCellStyle = dataGridViewCellStyle11;
             this.Valuta.HeaderText = "Валюта";
             this.Valuta.MinimumWidth = 50;
             this.Valuta.Name = "Valuta";
@@ -199,10 +199,10 @@
             // 
             this.SummaAmountReceived.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
             this.SummaAmountReceived.DataPropertyName = "sumGet";
-            dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle4.Format = "C2";
-            dataGridViewCellStyle4.NullValue = "0";
-            this.SummaAmountReceived.DefaultCellStyle = dataGridViewCellStyle4;
+            dataGridViewCellStyle12.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle12.Format = "C2";
+            dataGridViewCellStyle12.NullValue = "0";
+            this.SummaAmountReceived.DefaultCellStyle = dataGridViewCellStyle12;
             this.SummaAmountReceived.HeaderText = "Взято";
             this.SummaAmountReceived.MinimumWidth = 70;
             this.SummaAmountReceived.Name = "SummaAmountReceived";
@@ -213,10 +213,10 @@
             // 
             this.SummaReport.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
             this.SummaReport.DataPropertyName = "SummaReport";
-            dataGridViewCellStyle5.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle5.Format = "C2";
-            dataGridViewCellStyle5.NullValue = "0";
-            this.SummaReport.DefaultCellStyle = dataGridViewCellStyle5;
+            dataGridViewCellStyle13.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle13.Format = "C2";
+            dataGridViewCellStyle13.NullValue = "0";
+            this.SummaReport.DefaultCellStyle = dataGridViewCellStyle13;
             this.SummaReport.HeaderText = "Сумма отчета";
             this.SummaReport.MinimumWidth = 70;
             this.SummaReport.Name = "SummaReport";
@@ -227,10 +227,10 @@
             // 
             this.DebtReport.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
             this.DebtReport.DataPropertyName = "DebtReport";
-            dataGridViewCellStyle6.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle6.Format = "C2";
-            dataGridViewCellStyle6.NullValue = "0";
-            this.DebtReport.DefaultCellStyle = dataGridViewCellStyle6;
+            dataGridViewCellStyle14.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle14.Format = "C2";
+            dataGridViewCellStyle14.NullValue = "0";
+            this.DebtReport.DefaultCellStyle = dataGridViewCellStyle14;
             this.DebtReport.HeaderText = "Долг";
             this.DebtReport.MinimumWidth = 70;
             this.DebtReport.Name = "DebtReport";
@@ -241,10 +241,10 @@
             // 
             this.DateEdit.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
             this.DateEdit.DataPropertyName = "DateEdit";
-            dataGridViewCellStyle7.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle7.Format = "d";
-            dataGridViewCellStyle7.NullValue = null;
-            this.DateEdit.DefaultCellStyle = dataGridViewCellStyle7;
+            dataGridViewCellStyle15.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle15.Format = "d";
+            dataGridViewCellStyle15.NullValue = null;
+            this.DateEdit.DefaultCellStyle = dataGridViewCellStyle15;
             this.DateEdit.HeaderText = "Дата и время предоставления отчета";
             this.DateEdit.MinimumWidth = 103;
             this.DateEdit.Name = "DateEdit";
@@ -255,8 +255,8 @@
             // 
             this.typeCashNonCash.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
             this.typeCashNonCash.DataPropertyName = "typeCashNonCash";
-            dataGridViewCellStyle8.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            this.typeCashNonCash.DefaultCellStyle = dataGridViewCellStyle8;
+            dataGridViewCellStyle16.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.typeCashNonCash.DefaultCellStyle = dataGridViewCellStyle16;
             this.typeCashNonCash.HeaderText = "Оплата";
             this.typeCashNonCash.MinimumWidth = 100;
             this.typeCashNonCash.Name = "typeCashNonCash";
@@ -289,7 +289,7 @@
             // 
             this.btClose.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.btClose.Image = global::ServiceRecords.Properties.Resources.exit_8633;
-            this.btClose.Location = new System.Drawing.Point(990, 443);
+            this.btClose.Location = new System.Drawing.Point(982, 445);
             this.btClose.Name = "btClose";
             this.btClose.Size = new System.Drawing.Size(32, 32);
             this.btClose.TabIndex = 40;
@@ -353,7 +353,7 @@
             this.btnAccept.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.btnAccept.Enabled = false;
-            this.btnAccept.Location = new System.Drawing.Point(404, 442);
+            this.btnAccept.Location = new System.Drawing.Point(404, 445);
             this.btnAccept.Margin = new System.Windows.Forms.Padding(2);
             this.btnAccept.MaximumSize = new System.Drawing.Size(85, 32);
             this.btnAccept.MinimumSize = new System.Drawing.Size(85, 32);
@@ -369,7 +369,7 @@
             this.btnRefuse.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.btnRefuse.Enabled = false;
-            this.btnRefuse.Location = new System.Drawing.Point(319, 442);
+            this.btnRefuse.Location = new System.Drawing.Point(319, 445);
             this.btnRefuse.Margin = new System.Windows.Forms.Padding(2);
             this.btnRefuse.MaximumSize = new System.Drawing.Size(81, 32);
             this.btnRefuse.MinimumSize = new System.Drawing.Size(81, 32);
@@ -384,7 +384,7 @@
             // 
             this.btnPrintReport.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.btnPrintReport.Image = global::ServiceRecords.Properties.Resources.klpq_2511;
-            this.btnPrintReport.Location = new System.Drawing.Point(952, 443);
+            this.btnPrintReport.Location = new System.Drawing.Point(944, 445);
             this.btnPrintReport.Name = "btnPrintReport";
             this.btnPrintReport.Size = new System.Drawing.Size(32, 32);
             this.btnPrintReport.TabIndex = 75;
@@ -396,7 +396,7 @@
             this.panel4.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.panel4.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(128)))), ((int)(((byte)(128)))));
             this.panel4.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.panel4.Location = new System.Drawing.Point(21, 443);
+            this.panel4.Location = new System.Drawing.Point(21, 451);
             this.panel4.Name = "panel4";
             this.panel4.Size = new System.Drawing.Size(20, 20);
             this.panel4.TabIndex = 76;
@@ -405,7 +405,7 @@
             // 
             this.lbDebt.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.lbDebt.AutoSize = true;
-            this.lbDebt.Location = new System.Drawing.Point(47, 447);
+            this.lbDebt.Location = new System.Drawing.Point(47, 455);
             this.lbDebt.Name = "lbDebt";
             this.lbDebt.Size = new System.Drawing.Size(57, 13);
             this.lbDebt.TabIndex = 77;
@@ -417,7 +417,7 @@
             this.btnUpdate.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.btnUpdate.BackgroundImage = global::ServiceRecords.Properties.Resources.reload_8055;
             this.btnUpdate.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
-            this.btnUpdate.Location = new System.Drawing.Point(992, 6);
+            this.btnUpdate.Location = new System.Drawing.Point(982, 5);
             this.btnUpdate.Name = "btnUpdate";
             this.btnUpdate.Size = new System.Drawing.Size(30, 30);
             this.btnUpdate.TabIndex = 78;
@@ -462,7 +462,7 @@
             // 
             this.btViewHardwareList.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.btViewHardwareList.Image = global::ServiceRecords.Properties.Resources.screen_monitor_computer1;
-            this.btViewHardwareList.Location = new System.Drawing.Point(880, 443);
+            this.btViewHardwareList.Location = new System.Drawing.Point(872, 445);
             this.btViewHardwareList.Name = "btViewHardwareList";
             this.btViewHardwareList.Size = new System.Drawing.Size(32, 32);
             this.btViewHardwareList.TabIndex = 82;
@@ -473,7 +473,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1030, 479);
+            this.ClientSize = new System.Drawing.Size(1026, 489);
             this.ControlBox = false;
             this.Controls.Add(this.btViewHardwareList);
             this.Controls.Add(this.tbDiscript);

@@ -19,7 +19,8 @@ BEGIN
 
 select 	
 	s.id,
-	cast(s.id as varchar(1024))+' № '+isnull(cast(s.Number as varchar(1024)),'')+isnull(' от '+convert(varchar(1024),s.DateConfirmationD,104),'') as number,
+	--cast(s.id as varchar(1024))+' № '+isnull(cast(s.Number as varchar(1024)),'')+isnull(' от '+convert(varchar(1024),s.DateConfirmationD,104),'') as number,
+	'№ '+isnull(cast(s.Number as varchar(1024)),'')+isnull(' от '+convert(varchar(1024),s.DateConfirmationD,104),'') as number,
 	h.InventoryNumber,
 	h.EAN,
 	h.cName,

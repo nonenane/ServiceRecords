@@ -59,8 +59,7 @@ namespace ServiceRecords
             getData();
             timUpdate.Interval = 1000 * 60 * 10;
             chbUpdate.Checked = Config.hCntMain.getSettingUpdateButton() == 1;
-
-
+           
         }
 
         #region "Выпадающие списки"
@@ -110,7 +109,7 @@ namespace ServiceRecords
         {
             userStatus = Config.hCntMain.getUserProgramsStatus();
             userDepartmentName = Config.hCntMain.getUserDepartment();
-            idDepartament = Config.hCntMain.getUserDepartmentId();
+            idDepartament = Config.hCntMain.getUserDepartmentId();            
             try
             {
                 if (/*userStatus != null && userStatus.Rows.Count > 0 &&*/ (Config.CodeUser.Equals("РКВ") || Config.CodeUser.Equals("КНТ")))
@@ -277,6 +276,8 @@ namespace ServiceRecords
         #region "Выборка данных"
 
         DataTable dtMain;
+        bool isMsg = true;
+        bool showMsg = false;
 
         private void getData()
         {
@@ -285,12 +286,44 @@ namespace ServiceRecords
             dateStart = dtpStart.Value.Date;
             dateEnd = dtpEnd.Value.Date;
 
-            dtMain = Config.hCntMain.getServiceRecords(dateStart, dateEnd);
+            if (chbReportPreMonth.Visible)
+                dtMain = Config.hCntMain.getServiceRecords(dateStart, dateEnd, chbReportPreMonth.Checked);
+            else
+                dtMain = Config.hCntMain.getServiceRecords(dateStart, dateEnd);
+
+
             if (Config.CodeUser == "КД")
             {
                 foreach (DataRow row in dtMain.Rows)
                     row["Description"] = row["Description"].ToString().Replace("Разовая.", "");
             }
+
+            if (chbReportPreMonth.Visible && chbReportPreMonth.Checked && isMsg)
+            {
+                if (dtMain != null && dtMain.Rows.Count > 0)
+                {
+                    EnumerableRowCollection<DataRow> rowColect = dtMain.AsEnumerable().Where(r => r.Field<bool>("isReportPreMonth") && new List<int>(new int[] { 14, 19 }).Contains(r.Field<int>("id_Status")));
+
+                    if (rowColect.Count() > 0)
+                    {
+                        showMsg = true;
+                        //MessageBox.Show(Config.centralText("У Вас присутствует СЗ за прошлый\nмесяц по которым требуется\nпредоставить отчёт.\n"), "Отчёт за предыдущий месяц", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    }
+                    else
+                    {
+                        chbReportPreMonth.Checked = false;
+                        getData();
+                    }
+                }
+                else
+                {
+                    chbReportPreMonth.Checked = false;
+                    getData();
+                }
+
+                isMsg = false;
+            }
+
             setFilter();
             dgvMain.DataSource = dtMain;
             if (sortCol != null)
@@ -835,12 +868,17 @@ namespace ServiceRecords
             int id_ServiceRecords = (int)dtMain.DefaultView[dgvMain.CurrentRow.Index]["id"];
             decimal maxSumma = (decimal)dtMain.DefaultView[dgvMain.CurrentRow.Index]["Summa"];
             string valuta = dtMain.DefaultView[dgvMain.CurrentRow.Index]["Valuta"].ToString();
+            int _inType = (int)dtMain.DefaultView[dgvMain.CurrentRow.Index]["inType"]; 
+            //int? id_doc = null;
+            //if (dtMain.DefaultView[dgvMain.CurrentRow.Index]["id_doc"] != DBNull.Value)
+            //id_doc = (int)dtMain.DefaultView[dgvMain.CurrentRow.Index]["id_doc"];
 
             frmOrderMoney frmO = new frmOrderMoney() {type = 1, status = 16,
                                                         id_ServiceRecords = id_ServiceRecords,
                 maxSumma = maxSumma,
                 valuta = valuta,
-                isEdit = false
+                isEdit = false,
+                inType = _inType
             };
 
             frmOrderMoneyMix frmO2 = new frmOrderMoneyMix() {
@@ -1414,7 +1452,8 @@ namespace ServiceRecords
             workDoc.frmSetReport frm = new workDoc.frmSetReport()
             { id_ServiceRecords = (int)dtMain.DefaultView[dgvMain.CurrentRow.Index]["id"],
                 numberSR = (int)dtMain.DefaultView[dgvMain.CurrentRow.Index]["Number"],
-                typeSZ = (int)dtMain.DefaultView[dgvMain.CurrentRow.Index]["TypeServiceRecord"],
+                //typeSZ = (int)dtMain.DefaultView[dgvMain.CurrentRow.Index]["TypeServiceRecord"],//bCashNonCash
+                typeSZ = (bool)dtMain.DefaultView[dgvMain.CurrentRow.Index]["bCashNonCash"]?1:0,//bCashNonCash
                 Summa = (decimal)dtMain.DefaultView[dgvMain.CurrentRow.Index]["Summa"],
                 Valuta = dtMain.DefaultView[dgvMain.CurrentRow.Index]["Valuta"].ToString(),
                 Mix = (bool)dtMain.DefaultView[dgvMain.CurrentRow.Index]["Mix"],
@@ -1442,7 +1481,9 @@ namespace ServiceRecords
             int monthDateCreateReport = DateTime.Parse(dtHistory.Rows[0]["DateCreateReport"].ToString()).Month;
             int yearDateCreateReport = DateTime.Parse(dtHistory.Rows[0]["DateCreateReport"].ToString()).Year;
             bool isTodayMonthCreateReport = DateTime.Now.Month.Equals(monthDateCreateReport) && DateTime.Now.Year.Equals(yearDateCreateReport);
-           
+            int _inType = (int)dtMain.DefaultView[dgvMain.CurrentRow.Index]["inType"];
+
+
             //string valueSettings = Config.hCntMain.GetSettings("овпд");
 
             List<int> takeMoneylist = new List<int> {5, 11, 14, 15, 19, 20 };
@@ -1469,9 +1510,10 @@ namespace ServiceRecords
                                         && id_Creator == Nwuram.Framework.Settings.User.UserSettings.User.Id;
 
 
-            cmsiDropeMoney.Visible = (Config.CodeUser.Equals("РКВ") || Config.CodeUser.Equals("ОП")) 
-                                    && id_Creator == Nwuram.Framework.Settings.User.UserSettings.User.Id 
-                                    && (debtReport > 0 || balanceReturn > 0) && dropeMoneylist.Contains(id_Status);
+            cmsiDropeMoney.Visible = (Config.CodeUser.Equals("РКВ") || Config.CodeUser.Equals("ОП"))
+                                    && id_Creator == Nwuram.Framework.Settings.User.UserSettings.User.Id
+                                    && (debtReport > 0 || balanceReturn > 0) && dropeMoneylist.Contains(id_Status)
+                                    && _inType != 3;
 
             tsmiSetReport.Visible = SetReportlist.Contains(id_Status) && (debtReport >= 0)
                                     && (Config.CodeUser.Equals("РКВ") || Config.CodeUser.Equals("ОП")) 
@@ -1486,7 +1528,7 @@ namespace ServiceRecords
 
             //tsmiAddDoc.Visible = (Config.CodeUser.Equals("РКВ") || Config.CodeUser.Equals("ОП")) && id_Creator == Nwuram.Framework.Settings.User.UserSettings.User.Id;
 
-            if (typeSZonTime == 2 && (id_Status == 14 || id_Status == 15 || id_Status == 19) /* && debtReport > 0*/ && !isTodayMonthCreateReport && (Config.CodeUser.Equals("РКВ") || Config.CodeUser.Equals("ОП")) && id_Creator == Nwuram.Framework.Settings.User.UserSettings.User.Id)
+            if (_inType!=3 && typeSZonTime == 2 && (id_Status == 14 || id_Status == 15 || id_Status == 19) /* && debtReport > 0*/ && !isTodayMonthCreateReport && (Config.CodeUser.Equals("РКВ") || Config.CodeUser.Equals("ОП")) && id_Creator == Nwuram.Framework.Settings.User.UserSettings.User.Id)
             {
                 MessageBox.Show(Config.centralText("Для заказа по ежемесячной СЗ\nотчет должен быть подтвержден оператором.\n"), "Предупреждение", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 if (debtReport > 0)
@@ -1497,6 +1539,8 @@ namespace ServiceRecords
             {
                 MessageBox.Show(Config.centralText("Вы сможете заказать ДС только в следующем месяце.\n"), "Предупреждение", MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
+
+
 
         }
 
@@ -2050,7 +2094,18 @@ namespace ServiceRecords
 
         private void chbReportPreMonth_Click(object sender, EventArgs e)
         {
-            setFilter();
+            //setFilter();
+            getData();
+        }
+
+        private void frmMain_Shown(object sender, EventArgs e)
+        {
+            if (showMsg)
+            {
+                MessageBox.Show(Config.centralText("У Вас присутствует СЗ за прошлый\nмесяц по которым требуется\nпредоставить отчёт.\n"), "Отчёт за предыдущий месяц", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                showMsg = false;
+                    
+            }
         }
 
         private void timUpdate_Tick(object sender, EventArgs e)

@@ -116,7 +116,7 @@
             this.tabControl1.Location = new System.Drawing.Point(12, 6);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(972, 456);
+            this.tabControl1.Size = new System.Drawing.Size(989, 456);
             this.tabControl1.TabIndex = 0;
             this.tabControl1.Click += new System.EventHandler(this.tabControl1_Click);
             // 
@@ -136,7 +136,7 @@
             this.tpInWork.Location = new System.Drawing.Point(4, 22);
             this.tpInWork.Name = "tpInWork";
             this.tpInWork.Padding = new System.Windows.Forms.Padding(3);
-            this.tpInWork.Size = new System.Drawing.Size(964, 430);
+            this.tpInWork.Size = new System.Drawing.Size(981, 430);
             this.tpInWork.TabIndex = 0;
             this.tpInWork.Text = "В работе";
             this.tpInWork.UseVisualStyleBackColor = true;
@@ -146,7 +146,7 @@
             this.btnEdit.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.btnEdit.Enabled = false;
             this.btnEdit.Image = global::ServiceRecords.Properties.Resources.edit;
-            this.btnEdit.Location = new System.Drawing.Point(885, 328);
+            this.btnEdit.Location = new System.Drawing.Point(902, 328);
             this.btnEdit.Name = "btnEdit";
             this.btnEdit.Size = new System.Drawing.Size(32, 32);
             this.btnEdit.TabIndex = 66;
@@ -159,7 +159,7 @@
             this.btnDelete.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.btnDelete.Enabled = false;
             this.btnDelete.Image = global::ServiceRecords.Properties.Resources.document_delete;
-            this.btnDelete.Location = new System.Drawing.Point(923, 328);
+            this.btnDelete.Location = new System.Drawing.Point(940, 328);
             this.btnDelete.Name = "btnDelete";
             this.btnDelete.Size = new System.Drawing.Size(32, 32);
             this.btnDelete.TabIndex = 65;
@@ -246,7 +246,7 @@
             // 
             this.btClose.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.btClose.Image = global::ServiceRecords.Properties.Resources.pict_close;
-            this.btClose.Location = new System.Drawing.Point(923, 375);
+            this.btClose.Location = new System.Drawing.Point(940, 375);
             this.btClose.Name = "btClose";
             this.btClose.Size = new System.Drawing.Size(32, 32);
             this.btClose.TabIndex = 55;
@@ -304,7 +304,7 @@
             this.dgvNote.RowHeadersDefaultCellStyle = dataGridViewCellStyle6;
             this.dgvNote.RowHeadersVisible = false;
             this.dgvNote.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dgvNote.Size = new System.Drawing.Size(949, 313);
+            this.dgvNote.Size = new System.Drawing.Size(966, 313);
             this.dgvNote.TabIndex = 56;
             this.dgvNote.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvNote_CellClick);
             this.dgvNote.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvNote_CellContentClick);
@@ -729,7 +729,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(983, 478);
+            this.ClientSize = new System.Drawing.Size(1013, 478);
             this.ControlBox = false;
             this.Controls.Add(this.tabControl1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;

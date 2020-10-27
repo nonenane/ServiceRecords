@@ -11,7 +11,7 @@ GO
 -- Create date: 2020-09-08
 -- Description:	Получение списка типов работ
 -- =============================================
-CREATE PROCEDURE [ServiceRecords].[getTypicalWorks]
+ALTER PROCEDURE [ServiceRecords].[getTypicalWorks]
 		
 AS
 BEGIN
@@ -20,7 +20,8 @@ BEGIN
 	SELECT 
 		t.id,
 		t.cName,
-		t.isActive
+		t.isActive,
+		t.isBonus
 	FROM
 		[ServiceRecords].[s_TypicalWorks] t
 

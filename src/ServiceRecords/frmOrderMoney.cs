@@ -15,11 +15,12 @@ namespace ServiceRecords
     public partial class frmOrderMoney : Form
     {
         public int id_ServiceRecords { private get; set; }
+        public int inType { private get; set; }
         public int type { private get; set; }
         public int status { private get; set; }
         public decimal maxSumma { private get; set; }
         public string valuta { private get; set; }
-        public bool isEdit { private get;  set; }
+        public bool isEdit { private get;  set; }        
 
         bool checkSumInRub = false;
         public int idOrder = 0;
@@ -136,6 +137,12 @@ namespace ServiceRecords
                 if (idOrder == 0)
                     this.Text = "Возврат денег ";
                 else this.Text = "Редактирование возврата денег ";
+            }
+
+            if (inType == 3)
+            {
+                tbMoney.ReadOnly = true;
+                tbMoney.Text = maxSumma.ToString("0.00");
             }
 
              checkValuta();
@@ -310,6 +317,22 @@ namespace ServiceRecords
                 }
                 else
                     setLog(id_ServiceRecords, "", 0, type);
+
+
+                //тут запись в ДО ДЗ
+
+                DataTable dtTmpMemo = Config.hCntMain.getMemorandums(DateTime.Now, DateTime.Now, id_ServiceRecords, false);
+                if (dtTmpMemo != null && dtTmpMemo.Rows.Count > 0)
+                {
+                    foreach (DataRow row in dtTmpMemo.Rows)
+                    {                      
+                        int id_doc = (int)row["id_doc"];
+                        Config.hCntDocumentsDZ.setMoveDocument(id_doc);
+                    }
+                }
+                //if (id_doc != null)
+                    //Config.hCntDocumentsDZ.setMoveDocument(id_doc);
+                //
 
                 this.DialogResult = DialogResult.OK;
             }
