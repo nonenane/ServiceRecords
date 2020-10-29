@@ -802,8 +802,10 @@ namespace ServiceRecords
             string FIO = (string)dtPayment.DefaultView[dgvNote.CurrentRow.Index]["FIO"];
             string Valuta = (string)dtPayment.DefaultView[dgvNote.CurrentRow.Index]["Valuta"];
             int type = (int)dtPayment.DefaultView[dgvNote.CurrentRow.Index]["type"];
-
             int t = type;
+            int _inType = dtPayment.DefaultView[dgvNote.CurrentRow.Index]["inType"] == DBNull.Value ? -1 : (int)dtPayment.DefaultView[dgvNote.CurrentRow.Index]["inType"];
+
+
             frmOrderMoney frmO = new frmOrderMoney(Summa.ToString(), Valuta, idOrder, FIO, SummaInValuta)
             {
                 type = type,
@@ -812,7 +814,8 @@ namespace ServiceRecords
                 maxSumma = maxSumma,
                 valuta = Valuta,
                 idDirector = (int)dtPayment.DefaultView[dgvNote.CurrentRow.Index]["id_MoneyRecipient"],
-                isEdit = true
+                isEdit = true,
+                inType = _inType
             };
 
             frmOrderMoneyMix frmO2 = new frmOrderMoneyMix(Summa.ToString(),

@@ -1911,7 +1911,7 @@ namespace ServiceRecords
         {
             if (isView) return;
 
-            if (cmbTypicalWorks.SelectedValue == null || cmbTypicalWorks.SelectedIndex == -1) { btSelect.Visible = false;return; }
+            if (cmbTypicalWorks.SelectedValue == null || cmbTypicalWorks.SelectedIndex == -1) { btSelectDZ.Visible = false;return; }
             btSelectDZ.Visible = (bool)(cmbTypicalWorks.DataSource as DataTable).AsEnumerable()
                 .Where(r => r.Field<int>("id") == (int)cmbTypicalWorks.SelectedValue).First()["isBonus"] && new List<string>(new string[] { "РКВ", "КД" }).Contains(UserSettings.User.StatusCode);
 

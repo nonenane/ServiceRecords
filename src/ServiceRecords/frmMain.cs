@@ -530,6 +530,9 @@ namespace ServiceRecords
 
 
                 Config.hCntMain.delServiceRecords(id);
+                //Config.hCntMain.setMemorandums(0, id, 0.00M, true, true, false);
+
+
                 getData();
             }
         }
@@ -1001,6 +1004,7 @@ namespace ServiceRecords
             if (Config.CodeUser.Equals("РКВ") || Config.CodeUser.Equals("ОП"))
             {
                 frmViewPaymentOP frmP = new frmViewPaymentOP(UserSettings.User.Id);
+                frmP.ShowInTaskbar = false;
                 frmP.Text = "Журнал выплат/возвратов";
                 frmP.ShowDialog();
             }
