@@ -1137,5 +1137,17 @@ namespace ServiceRecords
         }
 
         #endregion
+
+
+        public DataTable GetLimitSumRecord(int id_ListServiceRecords)
+        {
+            ap.Clear();
+            ap.Add(id_ListServiceRecords);
+
+            return executeProcedure("[ServiceRecords].[GetLimitSumRecord]",
+                  new string[1] { "@id_ListServiceRecords" },
+                  new DbType[1] { DbType.Int32 }, ap);
+        }
+
     }
 }

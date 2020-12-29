@@ -839,15 +839,20 @@ namespace ServiceRecords
 
             int id_Status = (int)dtMain.DefaultView[dgvMain.CurrentRow.Index]["id_Status"];
             int id_Creator = (int)dtMain.DefaultView[dgvMain.CurrentRow.Index]["id_Creator"];
+            int inType = 0;
+            if (dtMain.DefaultView[dgvMain.CurrentRow.Index]["inType"] != DBNull.Value)
+                inType = (int)dtMain.DefaultView[dgvMain.CurrentRow.Index]["inType"];
 
             btAccept.Enabled = (Config.CodeUser.Equals("РКВ") && (id_Status == 1 || id_Status == 3 || id_Status == 6 || id_Status == 7 || id_Status == 9 || id_Status == 12)) ||
-                (Config.CodeUser.Equals("КНТ") && (id_Status == 2 || id_Status == 8)) ||
+                (Config.CodeUser.Equals("КНТ") && (id_Status == 2 || id_Status == 8) && inType != 3) ||
                 (Config.CodeUser.Equals("КД") && (id_Status == 4 || id_Status == 10))  ||
                 (Config.CodeUser.Equals("ОП") && (id_Status == 1 || id_Status == 6 || id_Status == 12 || id_Status == 7));
 
 
-            btRefuse.Enabled = (Config.CodeUser.Equals("КНТ") && (id_Status == 2 || id_Status == 8)) ||
+            btRefuse.Enabled = (Config.CodeUser.Equals("КНТ") && (id_Status == 2 || id_Status == 8) && inType != 3) ||
                 (Config.CodeUser.Equals("КД") && (id_Status == 4 || id_Status == 10));
+
+            btEditBlock.Enabled = !(Config.CodeUser.Equals("КНТ") && (inType == 3));
 
             //btEditBlock.Enabled = (Config.CodeUser.Equals("РКВ")  && (id_Status == 1 || id_Status == 3 || id_Status == 6) && id_Creator == Nwuram.Framework.Settings.User.UserSettings.User.Id)
             //    ||(Config.CodeUser.Equals("ОП") && (id_Status == 1 || id_Status == 3 || id_Status == 6))

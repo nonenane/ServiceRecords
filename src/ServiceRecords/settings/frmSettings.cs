@@ -94,6 +94,15 @@ namespace ServiceRecords.settings
             Logging.Comment("Срок хранения обработанных СЗ: " + nudTimeSafe.Value.ToString());
             Logging.Comment("Прикрепление файлов «Отчет по ДС к СЗ»: " + (rbNeed.Checked ? rbNeed.Text : rbNotNeed.Text));
 
+            Logging.Comment("Список отделов у которых будет отображаться «Тип работ» на форме создания СЗ");
+            foreach (DataRow row in dtDepsSettings.AsEnumerable().Where(r => r.Field<bool>("isSelect")))
+                Logging.Comment($"Отдел ID:{row["id_Department"]}; Наименование:{row["cName"]}");
+
+            Logging.Comment("Список отделов у которых не будет отображаться «Тип работ» на форме создания СЗ");
+            foreach (DataRow row in dtDepsSettings.AsEnumerable().Where(r => !r.Field<bool>("isSelect")))
+                Logging.Comment($"Отдел ID:{row["id_Department"]}; Наименование:{row["cName"]}");
+
+
             Logging.Comment("Операцию выполнил: ID:" + Nwuram.Framework.Settings.User.UserSettings.User.Id
                 + " ; ФИО:" + Nwuram.Framework.Settings.User.UserSettings.User.FullUsername);
             Logging.StopFirstLevel();

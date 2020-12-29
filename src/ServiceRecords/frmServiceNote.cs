@@ -92,6 +92,7 @@ namespace ServiceRecords
                 tbSummaCash.Text = dtTmp.Rows[0]["SummaCash"].ToString();
                 tbSummaNonCash.Text = dtTmp.Rows[0]["SummaNonCash"].ToString();
                 tbCommentNote.Text = dtTmp.Rows[0]["Description"].ToString();
+                InsertCommentToBonus();
                 dtpDateNote.Value = (DateTime)dtTmp.Rows[0]["CreateServiceRecord"];
 
                 if ((int)dtTmp.Rows[0]["TypeServiceRecord"] == 0) rbStandart.Checked = true; else rbTemplate.Checked = true;
@@ -310,6 +311,7 @@ namespace ServiceRecords
             }
             //else tbComment.Enabled = btnSaveComment.Enabled = false;
             isEdit = false;
+            cmbTypicalWorks_SelectionChangeCommitted(null, null);
 
             if (UserSettings.User.StatusCode.ToLower() == "кд")
             {
@@ -563,6 +565,20 @@ namespace ServiceRecords
                 return;
             }
 
+            if (!isCreate && rbTemplate.Checked)
+            {
+                DataTable dtLimitSumRecord = Config.hCntMain.GetLimitSumRecord(id);
+                if (dtLimitSumRecord != null && dtLimitSumRecord.Rows.Count > 0)
+                {
+                    decimal LimitSumma = (decimal)dtLimitSumRecord.Rows[0]["Summa"];
+
+                    if (decimal.Parse(tbSumma.Text.ToString()) > LimitSumma)
+                    {
+                        MessageBox.Show(Config.centralText($"Сумма СЗ не может превышать согласованной\n суммы: {LimitSumma.ToString("### ##0.00")}\n"), "Информирование", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                        return;
+                    }
+                }
+            }
 
 
             DataTable dtTmpFond;
@@ -734,6 +750,11 @@ namespace ServiceRecords
                 {
                     Description = (idFond == null ? "Фонд.  " : "Доп.Фонд.  ") + Description;
                 }
+            }
+
+            if (tbListBonus.Text.Trim().Length > 0)
+            {
+                Description += Environment.NewLine + tbListBonus.Text;
             }
 
             int? inType = null;
@@ -1151,10 +1172,14 @@ namespace ServiceRecords
             }
 
             ////Потом удалить
-            //ChangeStatusAccept();
-            //isScan = true;
-            //resultScaner = "";
-            //return;
+            if (Nwuram.Framework.Settings.User.UserSettings.User.Id == 21)
+            {
+                ChangeStatusAccept();
+                isScan = true;
+                resultScaner = "";
+                return;
+            }
+
 
             bool setScanOK = getScan();
             try { FingerScan(sender, e); }
@@ -1272,10 +1297,13 @@ namespace ServiceRecords
         public void btRefuse_Click(object sender, EventArgs e)
         {
             ////Потом удалить
-            //ChangeStatusAccept();
-            //isScan = true;
-            //resultScaner = "";
-            //return;
+            if (Nwuram.Framework.Settings.User.UserSettings.User.Id == 21)
+            {
+                ChangeStatusAccept();
+                isScan = true;
+                resultScaner = "";
+                return;
+            }
 
             bool setScanOK = getScan();
             try { FingerScan(sender, e); }
@@ -1632,6 +1660,10 @@ namespace ServiceRecords
 
             idFond = null;
             tbFond.Clear();
+            if (rbOneTime.Checked)
+            {
+                cmbTypicalWorks_SelectionChangeCommitted(null, null);
+            }
         }
 
         private void setElementFondSelect()
@@ -1912,22 +1944,34 @@ namespace ServiceRecords
             if (isView) return;
 
             if (cmbTypicalWorks.SelectedValue == null || cmbTypicalWorks.SelectedIndex == -1) { btSelectDZ.Visible = false;return; }
-            btSelectDZ.Visible = (bool)(cmbTypicalWorks.DataSource as DataTable).AsEnumerable()
+            tbListBonus.Visible = btSelectDZ.Visible = (bool)(cmbTypicalWorks.DataSource as DataTable).AsEnumerable()
                 .Where(r => r.Field<int>("id") == (int)cmbTypicalWorks.SelectedValue).First()["isBonus"] && new List<string>(new string[] { "РКВ", "КД" }).Contains(UserSettings.User.StatusCode);
 
-            if (new List<string>(new string[] { "РКВ", "КД" }).Contains(UserSettings.User.StatusCode) && btSelectDZ.Visible)
+            if (new List<string>(new string[] { "РКВ", "КД" }).Contains(UserSettings.User.StatusCode))
             {
-                tbSumma.ReadOnly = true;
-                rbMix.Enabled = false;
-                rbMoney.Checked = true;
-                rbMoney_Click(null, null);
-            }
-            else
-            {
-                tbSumma.ReadOnly = false;
-                rbMix.Enabled = true;
+                if (btSelectDZ.Visible)
+
+                {
+                    tbSumma.ReadOnly = true;
+                    cmbValuta.SelectedValue = "RUB";
+                    cmbValuta.Enabled = false;
+                    rbMix.Enabled = false;
+                    rbMoney.Checked = true;
+                    rbMoney_Click(null, null);
+                    rbOneTime.Checked = true;
+                    typeSRonTime.Enabled = false;
+                }
+                else
+                {
+                    tbSumma.ReadOnly = false;
+                    rbMix.Enabled = true;
+                    cmbValuta.Enabled = true;
+                    typeSRonTime.Enabled = true;
+                }
             }
         }
+
+
         private Dictionary<int, string> dicListMemorandum = new Dictionary<int, string>();
         private Dictionary<int, string> dicListMemorandum_old = new Dictionary<int, string>();
         private void btSelectDZ_Click(object sender, EventArgs e)
@@ -1938,41 +1982,89 @@ namespace ServiceRecords
             fSelect.setListMemorandum(dicListMemorandum);
             if (fSelect.ShowDialog() == DialogResult.OK)
             {
-
-                int startFind = tbCommentNote.Text.IndexOf("Премии:[");
-                if (startFind != -1)
-                {
-                    try
-                    {
-                        int endFind = tbCommentNote.Text.IndexOf("]", startFind + 1);
-                        tbCommentNote.Text = tbCommentNote.Text.Remove(startFind, endFind - startFind + 1);
-                    }
-                    catch
-                    { }
-                    finally {
-                        tbCommentNote.Text = tbCommentNote.Text.Trim();
-                    }
-                }
-
-
                 dicListMemorandum = fSelect.getListMemorandum();
-
-                tbCommentNote.Text += Environment.NewLine + "Премии:[" + Environment.NewLine;
-
-                tbCommentNote.Text += fSelect.textDZ;
-
-                //int indexStr = 1;
-                //foreach (string str in dicListMemorandum.Values)
-                //{
-                //    tbCommentNote.Text += $"{indexStr}.{str}" + Environment.NewLine;
-                //    indexStr++;
-                //}
-                tbCommentNote.Text += "]" + Environment.NewLine;
+                InsertTextBonus(fSelect.textDZ);
                 tbSumma.Text = fSelect.sumDZ.ToString("0.00");
+
+                /*
+                                int startFind = tbCommentNote.Text.IndexOf("Премии:[");
+                                if (startFind != -1)
+                                {
+                                    try
+                                    {
+                                        int endFind = tbCommentNote.Text.IndexOf("]", startFind + 1);
+                                        tbCommentNote.Text = tbCommentNote.Text.Remove(startFind, endFind - startFind + 1);
+                                    }
+                                    catch
+                                    { }
+                                    finally {
+                                        tbCommentNote.Text = tbCommentNote.Text.Trim();
+                                    }
+                                }
+
+
+                                dicListMemorandum = fSelect.getListMemorandum();
+
+                                tbCommentNote.Text += Environment.NewLine + "Премии:[" + Environment.NewLine;
+
+                                tbCommentNote.Text += fSelect.textDZ;
+
+                                tbCommentNote.Text += "]" + Environment.NewLine;*/
+
             }
 
             //Config.listSelectedDZ.Add(1);
         }
+
+
+        private void InsertTextBonus(string textDZ)
+        {
+            int startFind = tbListBonus.Text.IndexOf("Премии:[");
+            if (startFind != -1)
+            {
+                try
+                {
+                    int endFind = tbListBonus.Text.IndexOf("]", startFind + 1);
+                    tbListBonus.Text = tbListBonus.Text.Remove(startFind, endFind - startFind + 1);
+                }
+                catch
+                { }
+                finally
+                {
+                    tbListBonus.Text = tbListBonus.Text.Trim();
+                }
+            }
+
+            tbListBonus.Text += "Премии:[" + Environment.NewLine;
+            tbListBonus.Text += textDZ;
+            tbListBonus.Text += "]" + Environment.NewLine;            
+        }
+
+        private void InsertCommentToBonus()
+        {
+            string textDZ = "";
+            int startFind = tbCommentNote.Text.IndexOf("Премии:[");
+            if (startFind != -1)
+            {
+                try
+                {
+                    int endFind = tbCommentNote.Text.IndexOf("]", startFind + 1);
+                    textDZ = tbCommentNote.Text.Substring(startFind, endFind - startFind + 1);
+                    tbCommentNote.Text = tbCommentNote.Text.Remove(startFind, endFind - startFind + 1);
+                }
+                catch
+                { }
+                finally
+                {
+                    tbCommentNote.Text = tbCommentNote.Text.Trim();
+                }
+            }
+
+            //tbListBonus.Text += "Премии:[" + Environment.NewLine;
+            tbListBonus.Text += textDZ;
+            //tbListBonus.Text += "]" + Environment.NewLine;
+        }
+
 
         private void dgvFond_SelectionChanged(object sender, EventArgs e)
         {

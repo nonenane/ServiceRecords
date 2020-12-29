@@ -78,6 +78,7 @@
             this.cFSumma = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.cFDescript = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.groupBox3 = new ServiceRecords.elements.CustomGrpBox();
+            this.tbListBonus = new System.Windows.Forms.TextBox();
             this.btSelectDZ = new System.Windows.Forms.Button();
             this.cmbTypicalWorks = new System.Windows.Forms.ComboBox();
             this.lTypicalWorks = new System.Windows.Forms.Label();
@@ -668,6 +669,7 @@
             // 
             // groupBox3
             // 
+            this.groupBox3.Controls.Add(this.tbListBonus);
             this.groupBox3.Controls.Add(this.btSelectDZ);
             this.groupBox3.Controls.Add(this.cmbTypicalWorks);
             this.groupBox3.Controls.Add(this.lTypicalWorks);
@@ -716,9 +718,21 @@
             this.groupBox3.Text = "Служебная записка";
             this.groupBox3.Enter += new System.EventHandler(this.groupBox3_Enter);
             // 
+            // tbListBonus
+            // 
+            this.tbListBonus.Location = new System.Drawing.Point(74, 347);
+            this.tbListBonus.MaxLength = 300;
+            this.tbListBonus.Multiline = true;
+            this.tbListBonus.Name = "tbListBonus";
+            this.tbListBonus.ReadOnly = true;
+            this.tbListBonus.ScrollBars = System.Windows.Forms.ScrollBars.Both;
+            this.tbListBonus.Size = new System.Drawing.Size(367, 48);
+            this.tbListBonus.TabIndex = 56;
+            this.tbListBonus.Visible = false;
+            // 
             // btSelectDZ
             // 
-            this.btSelectDZ.Location = new System.Drawing.Point(449, 327);
+            this.btSelectDZ.Location = new System.Drawing.Point(447, 318);
             this.btSelectDZ.Name = "btSelectDZ";
             this.btSelectDZ.Size = new System.Drawing.Size(87, 23);
             this.btSelectDZ.TabIndex = 55;
@@ -731,7 +745,7 @@
             // 
             this.cmbTypicalWorks.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cmbTypicalWorks.FormattingEnabled = true;
-            this.cmbTypicalWorks.Location = new System.Drawing.Point(76, 329);
+            this.cmbTypicalWorks.Location = new System.Drawing.Point(74, 320);
             this.cmbTypicalWorks.Name = "cmbTypicalWorks";
             this.cmbTypicalWorks.Size = new System.Drawing.Size(367, 21);
             this.cmbTypicalWorks.TabIndex = 54;
@@ -741,7 +755,7 @@
             // lTypicalWorks
             // 
             this.lTypicalWorks.AutoSize = true;
-            this.lTypicalWorks.Location = new System.Drawing.Point(12, 333);
+            this.lTypicalWorks.Location = new System.Drawing.Point(10, 324);
             this.lTypicalWorks.Name = "lTypicalWorks";
             this.lTypicalWorks.Size = new System.Drawing.Size(58, 13);
             this.lTypicalWorks.TabIndex = 53;
@@ -751,7 +765,7 @@
             // 
             this.btDelFond.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.btDelFond.Image = global::ServiceRecords.Properties.Resources.view3;
-            this.btDelFond.Location = new System.Drawing.Point(508, 129);
+            this.btDelFond.Location = new System.Drawing.Point(514, 145);
             this.btDelFond.Name = "btDelFond";
             this.btDelFond.Size = new System.Drawing.Size(28, 28);
             this.btDelFond.TabIndex = 51;
@@ -762,7 +776,7 @@
             // 
             this.btAddFond.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.btAddFond.Image = global::ServiceRecords.Properties.Resources.view2;
-            this.btAddFond.Location = new System.Drawing.Point(474, 129);
+            this.btAddFond.Location = new System.Drawing.Point(480, 145);
             this.btAddFond.Name = "btAddFond";
             this.btAddFond.Size = new System.Drawing.Size(28, 28);
             this.btAddFond.TabIndex = 51;
@@ -771,16 +785,16 @@
             // 
             // tbFond
             // 
-            this.tbFond.Location = new System.Drawing.Point(265, 133);
+            this.tbFond.Location = new System.Drawing.Point(285, 149);
             this.tbFond.Name = "tbFond";
             this.tbFond.ReadOnly = true;
-            this.tbFond.Size = new System.Drawing.Size(203, 20);
+            this.tbFond.Size = new System.Drawing.Size(189, 20);
             this.tbFond.TabIndex = 52;
             // 
             // lFond
             // 
             this.lFond.AutoSize = true;
-            this.lFond.Location = new System.Drawing.Point(223, 137);
+            this.lFond.Location = new System.Drawing.Point(229, 153);
             this.lFond.Name = "lFond";
             this.lFond.Size = new System.Drawing.Size(36, 13);
             this.lFond.TabIndex = 51;
@@ -789,7 +803,7 @@
             // label10
             // 
             this.label10.AutoSize = true;
-            this.label10.Location = new System.Drawing.Point(12, 154);
+            this.label10.Location = new System.Drawing.Point(10, 156);
             this.label10.Name = "label10";
             this.label10.Size = new System.Drawing.Size(83, 13);
             this.label10.TabIndex = 50;
@@ -798,7 +812,7 @@
             // label9
             // 
             this.label9.AutoSize = true;
-            this.label9.Location = new System.Drawing.Point(12, 132);
+            this.label9.Location = new System.Drawing.Point(10, 134);
             this.label9.Name = "label9";
             this.label9.Size = new System.Drawing.Size(65, 13);
             this.label9.TabIndex = 49;
@@ -807,7 +821,7 @@
             // tbSummaNonCash
             // 
             this.tbSummaNonCash.Enabled = false;
-            this.tbSummaNonCash.Location = new System.Drawing.Point(105, 151);
+            this.tbSummaNonCash.Location = new System.Drawing.Point(103, 153);
             this.tbSummaNonCash.MaxLength = 20;
             this.tbSummaNonCash.Name = "tbSummaNonCash";
             this.tbSummaNonCash.Size = new System.Drawing.Size(111, 20);
@@ -820,7 +834,7 @@
             // tbSummaCash
             // 
             this.tbSummaCash.Enabled = false;
-            this.tbSummaCash.Location = new System.Drawing.Point(105, 129);
+            this.tbSummaCash.Location = new System.Drawing.Point(103, 131);
             this.tbSummaCash.MaxLength = 20;
             this.tbSummaCash.Name = "tbSummaCash";
             this.tbSummaCash.Size = new System.Drawing.Size(111, 20);
@@ -842,7 +856,7 @@
             // lblObject
             // 
             this.lblObject.AutoSize = true;
-            this.lblObject.Location = new System.Drawing.Point(240, 179);
+            this.lblObject.Location = new System.Drawing.Point(229, 181);
             this.lblObject.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.lblObject.Name = "lblObject";
             this.lblObject.Size = new System.Drawing.Size(45, 13);
@@ -853,15 +867,15 @@
             // 
             this.cmbObjects.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cmbObjects.FormattingEnabled = true;
-            this.cmbObjects.Location = new System.Drawing.Point(287, 176);
+            this.cmbObjects.Location = new System.Drawing.Point(285, 177);
             this.cmbObjects.Name = "cmbObjects";
-            this.cmbObjects.Size = new System.Drawing.Size(206, 21);
+            this.cmbObjects.Size = new System.Drawing.Size(189, 21);
             this.cmbObjects.TabIndex = 44;
             // 
             // chbSingleNote
             // 
             this.chbSingleNote.AutoSize = true;
-            this.chbSingleNote.Location = new System.Drawing.Point(13, 306);
+            this.chbSingleNote.Location = new System.Drawing.Point(11, 297);
             this.chbSingleNote.Name = "chbSingleNote";
             this.chbSingleNote.Size = new System.Drawing.Size(318, 17);
             this.chbSingleNote.TabIndex = 42;
@@ -953,7 +967,7 @@
             // 
             this.dtpSingleNote.Enabled = false;
             this.dtpSingleNote.Format = System.Windows.Forms.DateTimePickerFormat.Short;
-            this.dtpSingleNote.Location = new System.Drawing.Point(337, 304);
+            this.dtpSingleNote.Location = new System.Drawing.Point(335, 295);
             this.dtpSingleNote.Name = "dtpSingleNote";
             this.dtpSingleNote.Size = new System.Drawing.Size(106, 20);
             this.dtpSingleNote.TabIndex = 40;
@@ -1041,7 +1055,7 @@
             this.tbCommentNote.Multiline = true;
             this.tbCommentNote.Name = "tbCommentNote";
             this.tbCommentNote.ScrollBars = System.Windows.Forms.ScrollBars.Both;
-            this.tbCommentNote.Size = new System.Drawing.Size(315, 78);
+            this.tbCommentNote.Size = new System.Drawing.Size(315, 63);
             this.tbCommentNote.TabIndex = 27;
             // 
             // btAddBlock
@@ -1087,9 +1101,9 @@
             // 
             this.cmbDeps.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cmbDeps.FormattingEnabled = true;
-            this.cmbDeps.Location = new System.Drawing.Point(287, 207);
+            this.cmbDeps.Location = new System.Drawing.Point(285, 209);
             this.cmbDeps.Name = "cmbDeps";
-            this.cmbDeps.Size = new System.Drawing.Size(206, 21);
+            this.cmbDeps.Size = new System.Drawing.Size(189, 21);
             this.cmbDeps.TabIndex = 31;
             this.cmbDeps.SelectionChangeCommitted += new System.EventHandler(this.cmbDeps_SelectionChangeCommitted);
             // 
@@ -1097,7 +1111,7 @@
             // 
             this.dtpDateD.Enabled = false;
             this.dtpDateD.Format = System.Windows.Forms.DateTimePickerFormat.Short;
-            this.dtpDateD.Location = new System.Drawing.Point(278, 240);
+            this.dtpDateD.Location = new System.Drawing.Point(285, 240);
             this.dtpDateD.Name = "dtpDateD";
             this.dtpDateD.Size = new System.Drawing.Size(98, 20);
             this.dtpDateD.TabIndex = 29;
@@ -1106,16 +1120,16 @@
             // 
             this.cmbBlock.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cmbBlock.FormattingEnabled = true;
-            this.cmbBlock.Location = new System.Drawing.Point(48, 209);
+            this.cmbBlock.Location = new System.Drawing.Point(46, 211);
             this.cmbBlock.Name = "cmbBlock";
-            this.cmbBlock.Size = new System.Drawing.Size(189, 21);
+            this.cmbBlock.Size = new System.Drawing.Size(173, 21);
             this.cmbBlock.TabIndex = 31;
             this.cmbBlock.SelectionChangeCommitted += new System.EventHandler(this.cmbBlock_SelectionChangeCommitted);
             // 
             // label6
             // 
             this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(11, 180);
+            this.label6.Location = new System.Drawing.Point(9, 182);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(101, 13);
             this.label6.TabIndex = 28;
@@ -1124,7 +1138,7 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(14, 269);
+            this.label1.Location = new System.Drawing.Point(12, 271);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(224, 13);
             this.label1.TabIndex = 28;
@@ -1144,16 +1158,16 @@
             // 
             // tbNumberNote
             // 
-            this.tbNumberNote.Location = new System.Drawing.Point(49, 241);
+            this.tbNumberNote.Location = new System.Drawing.Point(47, 240);
             this.tbNumberNote.Name = "tbNumberNote";
             this.tbNumberNote.ReadOnly = true;
-            this.tbNumberNote.Size = new System.Drawing.Size(189, 20);
+            this.tbNumberNote.Size = new System.Drawing.Size(173, 20);
             this.tbNumberNote.TabIndex = 30;
             // 
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(13, 247);
+            this.label2.Location = new System.Drawing.Point(11, 244);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(18, 13);
             this.label2.TabIndex = 28;
@@ -1162,7 +1176,7 @@
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(12, 215);
+            this.label4.Location = new System.Drawing.Point(10, 217);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(32, 13);
             this.label4.TabIndex = 28;
@@ -1172,7 +1186,7 @@
             // 
             this.dtpDateNote.Enabled = false;
             this.dtpDateNote.Format = System.Windows.Forms.DateTimePickerFormat.Short;
-            this.dtpDateNote.Location = new System.Drawing.Point(124, 176);
+            this.dtpDateNote.Location = new System.Drawing.Point(122, 178);
             this.dtpDateNote.Name = "dtpDateNote";
             this.dtpDateNote.Size = new System.Drawing.Size(98, 20);
             this.dtpDateNote.TabIndex = 29;
@@ -1182,7 +1196,7 @@
             // 
             this.dtpNextDate.CustomFormat = "MM.yyyy";
             this.dtpNextDate.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
-            this.dtpNextDate.Location = new System.Drawing.Point(278, 267);
+            this.dtpNextDate.Location = new System.Drawing.Point(285, 267);
             this.dtpNextDate.Name = "dtpNextDate";
             this.dtpNextDate.ShowUpDown = true;
             this.dtpNextDate.Size = new System.Drawing.Size(98, 20);
@@ -1192,7 +1206,7 @@
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(244, 244);
+            this.label3.Location = new System.Drawing.Point(242, 244);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(18, 13);
             this.label3.TabIndex = 28;
@@ -1201,7 +1215,7 @@
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(243, 212);
+            this.label5.Location = new System.Drawing.Point(229, 213);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(38, 13);
             this.label5.TabIndex = 28;
@@ -1211,7 +1225,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(962, 694);
+            this.ClientSize = new System.Drawing.Size(958, 690);
             this.ControlBox = false;
             this.Controls.Add(this.gbFond);
             this.Controls.Add(this.typeSRonTime);
@@ -1355,5 +1369,6 @@
         private System.Windows.Forms.ComboBox cmbTypicalWorks;
         private System.Windows.Forms.Label lTypicalWorks;
         private System.Windows.Forms.Button btSelectDZ;
+        private System.Windows.Forms.TextBox tbListBonus;
     }
 }
