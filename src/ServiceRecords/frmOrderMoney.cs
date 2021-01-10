@@ -289,7 +289,39 @@ namespace ServiceRecords
                     //Logging.VariableChange("Сумма", tbMoney.Text, oldSumma);
                     Logging.Comment("Сумма: "+ tbMoney.Text);
                     Logging.Comment("Валюта: " + tbValuta.Text);
-                     
+
+                    Logging.Comment("Тип СЗ по времени: " + ((int)dtTmpData.Rows[0]["TypeServiceRecordOnTime"] == 1 ? "разовая" : ((int)dtTmpData.Rows[0]["TypeServiceRecordOnTime"] == 2 ? "ежемесячная" : "Фонд")));
+
+                    int? idFond = dtTmpData.Rows[0]["id_ServiceRecordsFond"] == DBNull.Value ? null : (int?)dtTmpData.Rows[0]["id_ServiceRecordsFond"];
+
+                    if (idFond != null)
+                    {
+                        DataTable dtTmpFond = Config.hCntMain.getFondInfo(idFond, id_ServiceRecords);
+                        if (dtTmpFond != null && dtTmpFond.Rows.Count > 0)
+                        {
+                            Logging.Comment($"№{dtTmpFond.Rows[0]["Number"].ToString()} на {dtTmpFond.Rows[0]["sumString"].ToString()} от {((DateTime)dtTmpFond.Rows[0]["DateConfirmationD"]).ToShortDateString()}");
+                        }
+                    }
+                    else
+                    {
+                        Logging.Comment((int)dtTmpData.Rows[0]["TypeServiceRecordOnTime"] == 3 ? "Доп.фонд не выбран" : "Фонд не выбран");
+                    }
+
+
+                    if (dtTmpData.Rows[0]["inType"] != DBNull.Value)
+                    {
+                        DataTable dtTypicalWorks = Config.hCntMain.getTypicalWorks(false);
+                        if (dtTypicalWorks != null && dtTypicalWorks.Rows.Count > 0)
+                        {
+                            EnumerableRowCollection<DataRow> rowType = dtTypicalWorks.AsEnumerable().Where(r => r.Field<int>("id") == (int)dtTmpData.Rows[0]["inType"]);
+                            if (rowType.Count() > 0)
+                            {
+                                Logging.Comment($"Тип работ ID:{rowType.First()["id"]}; Наименование:{rowType.First()["cName"]}");
+                            }
+                        }
+                    }
+
+
                     Logging.VariableChange("Получатель ID: ", cmbDirector.SelectedValue, oldIdDirector,typeLog._int);
                     Logging.VariableChange("Получатель ФИО: ", cmbDirector.Text, oldDirector == null ? "" : oldDirector);
                     Logging.Comment("Предполагаемая дата: " + dtpDate.Value.ToShortDateString());
@@ -477,7 +509,37 @@ namespace ServiceRecords
             }
 
             Logging.Comment("Тип СЗ: " + ((int)dtTmpData.Rows[0]["TypeServiceRecord"] == 0 ? "стандарт." : "предварит."));
-            Logging.Comment("Тип СЗ по времени: " + ((int)dtTmpData.Rows[0]["TypeServiceRecordOnTime"] == 1 ? "разовая" : "ежемесячная"));
+            //Logging.Comment("Тип СЗ по времени: " + ((int)dtTmpData.Rows[0]["TypeServiceRecordOnTime"] == 1 ? "разовая" : "ежемесячная"));
+            Logging.Comment("Тип СЗ по времени: " + ((int)dtTmpData.Rows[0]["TypeServiceRecordOnTime"] == 1 ? "разовая" : ((int)dtTmpData.Rows[0]["TypeServiceRecordOnTime"] == 2 ? "ежемесячная" : "Фонд")));
+
+            int? idFond = dtTmpData.Rows[0]["id_ServiceRecordsFond"] == DBNull.Value ? null : (int?)dtTmpData.Rows[0]["id_ServiceRecordsFond"];
+
+            if (idFond != null)
+            {
+                DataTable dtTmpFond = Config.hCntMain.getFondInfo(idFond, id);
+                if (dtTmpFond != null && dtTmpFond.Rows.Count > 0)
+                {
+                    Logging.Comment($"№{dtTmpFond.Rows[0]["Number"].ToString()} на {dtTmpFond.Rows[0]["sumString"].ToString()} от {((DateTime)dtTmpFond.Rows[0]["DateConfirmationD"]).ToShortDateString()}");
+                }
+            }
+            else
+            {
+                Logging.Comment((int)dtTmpData.Rows[0]["TypeServiceRecordOnTime"] == 3 ? "Доп.фонд не выбран" : "Фонд не выбран");
+            }
+
+
+            if (dtTmpData.Rows[0]["inType"] != DBNull.Value)
+            {
+                DataTable dtTypicalWorks = Config.hCntMain.getTypicalWorks(false);
+                if (dtTypicalWorks != null && dtTypicalWorks.Rows.Count > 0)
+                {
+                    EnumerableRowCollection<DataRow> rowType = dtTypicalWorks.AsEnumerable().Where(r => r.Field<int>("id") == (int)dtTmpData.Rows[0]["inType"]);
+                    if (rowType.Count() > 0)
+                    {
+                        Logging.Comment($"Тип работ ID:{rowType.First()["id"]}; Наименование:{rowType.First()["cName"]}");
+                    }
+                }
+            }
 
             Logging.Comment("Сумма:" + decimal.Parse(dtTmpData.Rows[0]["Summa"].ToString()).ToString("0.00"));
             Logging.Comment("Валюта:" + dtTmpData.Rows[0]["Valuta"].ToString());
@@ -519,6 +581,28 @@ namespace ServiceRecords
 
             if (comment.Length != 0)
                 Logging.Comment("Комментрий с формы:" + comment);
+
+            DataTable dtTmpMemo = Config.hCntMain.getMemorandums(DateTime.Now, DateTime.Now, id, false);
+            if (dtTmpMemo != null && dtTmpMemo.Rows.Count > 0)
+            {
+                if (dtTmpMemo != null && dtTmpMemo.Rows.Count > 0)
+                {
+                    Logging.Comment("Произведена смена статуса у следующих ДЗ а ДО:");
+                    foreach (DataRow row in dtTmpMemo.Rows)
+                    {
+                        Logging.Comment($"ID записи:{row["id"]}");
+                        Logging.Comment($"№ ДЗ:{row["no_doc"]}");
+                        Logging.Comment($"Дата:{row["date_create"]}");
+                        Logging.Comment($"Отдел нарушителя:{row["depPenalty"]}");
+                        Logging.Comment($"Заголовок ДЗ:{row["cname"]}");
+                        Logging.Comment($"Тип нарушения:{row["DistrType"]}");
+                        Logging.Comment($"Сумма нарушения:{row["sumPenalty"]}");
+                        Logging.Comment($"Сумма премии:{row["SumBonus"]}");
+                        Logging.Comment($"Сотрудник, обнаружевший нарушение:{row["FIOBonus"]}");
+                    }
+                }
+            }
+
 
             Logging.Comment("Операцию выполнил: ID:" + Nwuram.Framework.Settings.User.UserSettings.User.Id
                + " ; ФИО:" + Nwuram.Framework.Settings.User.UserSettings.User.FullUsername);

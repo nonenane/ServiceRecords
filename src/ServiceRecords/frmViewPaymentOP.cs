@@ -859,6 +859,7 @@ namespace ServiceRecords
             if (DialogResult.Yes == MessageBox.Show(Config.centralText("Вы уверены,\nчто хотите удалить запись\nпо СЗ № " +
                 (int)dtPayment.DefaultView[dgvNote.CurrentRow.Index]["Number"] + "?\n"), "Запрос", MessageBoxButtons.YesNo, MessageBoxIcon.Question))
             {
+                DataTable dtTmpData = Config.hCntMain.getServiceRecordsBody(id_ServiceRecords);
                 DataTable dt = Config.hCntMain.deletePayments(idOrder);
                 if (dt != null? dt.Rows.Count >0 && dt.Columns.Contains("error") ? true : false: false)
                 {
@@ -893,6 +894,37 @@ namespace ServiceRecords
                 //Logging.Comment("Сумма: " + dtPayment.DefaultView[dgvNote.CurrentRow.Index]["Summa"].ToString() + " "+ dgvNote.CurrentRow.Cells[Valuta.Index].Value.ToString());// + dtPayment.DefaultView[dgvNote.CurrentRow.Index]["Valuta"].ToString());
                 Logging.Comment("Сумма: " + dtPayment.DefaultView[dgvNote.CurrentRow.Index]["Summa"].ToString() + " " + dgvNote.CurrentRow.Cells[ValutaVisible.Index].EditedFormattedValue.ToString());// + dtPayment.DefaultView[dgvNote.CurrentRow.Index]["Valuta"].ToString());
 
+                Logging.Comment("Тип СЗ по времени: " + ((int)dtTmpData.Rows[0]["TypeServiceRecordOnTime"] == 1 ? "разовая" : ((int)dtTmpData.Rows[0]["TypeServiceRecordOnTime"] == 2 ? "ежемесячная" : "Фонд")));
+
+                int? idFond = dtTmpData.Rows[0]["id_ServiceRecordsFond"] == DBNull.Value ? null : (int?)dtTmpData.Rows[0]["id_ServiceRecordsFond"];
+
+                if (idFond != null)
+                {
+                    DataTable dtTmpFond = Config.hCntMain.getFondInfo(idFond, id_ServiceRecords);
+                    if (dtTmpFond != null && dtTmpFond.Rows.Count > 0)
+                    {
+                        Logging.Comment($"№{dtTmpFond.Rows[0]["Number"].ToString()} на {dtTmpFond.Rows[0]["sumString"].ToString()} от {((DateTime)dtTmpFond.Rows[0]["DateConfirmationD"]).ToShortDateString()}");
+                    }
+                }
+                else
+                {
+                    Logging.Comment((int)dtTmpData.Rows[0]["TypeServiceRecordOnTime"] == 3 ? "Доп.фонд не выбран" : "Фонд не выбран");
+                }
+
+
+                if (dtTmpData.Rows[0]["inType"] != DBNull.Value)
+                {
+                    DataTable dtTypicalWorks = Config.hCntMain.getTypicalWorks(false);
+                    if (dtTypicalWorks != null && dtTypicalWorks.Rows.Count > 0)
+                    {
+                        EnumerableRowCollection<DataRow> rowType = dtTypicalWorks.AsEnumerable().Where(r => r.Field<int>("id") == (int)dtTmpData.Rows[0]["inType"]);
+                        if (rowType.Count() > 0)
+                        {
+                            Logging.Comment($"Тип работ ID:{rowType.First()["id"]}; Наименование:{rowType.First()["cName"]}");
+                        }
+                    }
+                }
+
                 Logging.Comment("Описание: " + dtPayment.DefaultView[dgvNote.CurrentRow.Index]["Description"]);
                 Logging.Comment("Тип операции: " + dtPayment.DefaultView[dgvNote.CurrentRow.Index]["NameType"]);
                 
@@ -900,6 +932,26 @@ namespace ServiceRecords
                 {
                     Logging.Comment("Статус ДО ID: " + dt.Rows[0]["id_prev"].ToString() + "; Наименование: " + dt.Rows[0]["cName_prev"].ToString());
                     Logging.Comment("Статус После ID: " + dt.Rows[0]["id"].ToString() + "; Наименование: " + dt.Rows[0]["cName"].ToString());
+                }
+                
+                if (dtTmpMemo != null && dtTmpMemo.Rows.Count > 0)
+                {
+                    if (dtTmpMemo != null && dtTmpMemo.Rows.Count > 0)
+                    {
+                        Logging.Comment("Список ДЗ, которые были возвращены в предыдущий статус в ДО:");
+                        foreach (DataRow row in dtTmpMemo.Rows)
+                        {
+                            Logging.Comment($"ID записи:{row["id"]}");
+                            Logging.Comment($"№ ДЗ:{row["no_doc"]}");
+                            Logging.Comment($"Дата:{row["date_create"]}");
+                            Logging.Comment($"Отдел нарушителя:{row["depPenalty"]}");
+                            Logging.Comment($"Заголовок ДЗ:{row["cname"]}");
+                            Logging.Comment($"Тип нарушения:{row["DistrType"]}");
+                            Logging.Comment($"Сумма нарушения:{row["sumPenalty"]}");
+                            Logging.Comment($"Сумма премии:{row["SumBonus"]}");
+                            Logging.Comment($"Сотрудник, обнаружевший нарушение:{row["FIOBonus"]}");
+                        }
+                    }
                 }
 
 

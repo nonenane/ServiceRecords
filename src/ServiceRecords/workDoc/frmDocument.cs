@@ -466,7 +466,36 @@ namespace ServiceRecords.workDoc
             Logging.Comment("Id СЗ: " + id);
             Logging.Comment("Номер СЗ: " + dtTmpData.Rows[0]["Number"].ToString());
             Logging.Comment("Тип СЗ: " + ((int)dtTmpData.Rows[0]["TypeServiceRecord"] == 0 ? "стандарт." : "предварит."));
-            Logging.Comment("Тип СЗ по времени: " + ((int)dtTmpData.Rows[0]["TypeServiceRecordOnTime"] == 1 ? "разовая" : "ежемесячная"));
+            Logging.Comment("Тип СЗ по времени: " + ((int)dtTmpData.Rows[0]["TypeServiceRecordOnTime"] == 1 ? "разовая" : ((int)dtTmpData.Rows[0]["TypeServiceRecordOnTime"] == 2 ? "ежемесячная" : "Фонд")));
+
+            int? idFond = dtTmpData.Rows[0]["id_ServiceRecordsFond"] == DBNull.Value ? null : (int?)dtTmpData.Rows[0]["id_ServiceRecordsFond"];
+
+            if (idFond != null)
+            {
+                DataTable dtTmpFond = Config.hCntMain.getFondInfo(idFond, id);
+                if (dtTmpFond != null && dtTmpFond.Rows.Count > 0)
+                {
+                    Logging.Comment($"№{dtTmpFond.Rows[0]["Number"].ToString()} на {dtTmpFond.Rows[0]["sumString"].ToString()} от {((DateTime)dtTmpFond.Rows[0]["DateConfirmationD"]).ToShortDateString()}");
+                }
+            }           
+            else
+            {
+                Logging.Comment((int)dtTmpData.Rows[0]["TypeServiceRecordOnTime"] == 3 ? "Доп.фонд не выбран" : "Фонд не выбран");
+            }
+
+            
+            if (dtTmpData.Rows[0]["inType"] != DBNull.Value)
+            {
+                DataTable dtTypicalWorks = Config.hCntMain.getTypicalWorks(false);
+                if (dtTypicalWorks != null && dtTypicalWorks.Rows.Count>0)
+                {
+                    EnumerableRowCollection<DataRow> rowType = dtTypicalWorks.AsEnumerable().Where(r => r.Field<int>("id") == (int)dtTmpData.Rows[0]["inType"]);
+                    if (rowType.Count() > 0)
+                    {
+                        Logging.Comment($"Тип работ ID:{rowType.First()["id"]}; Наименование:{rowType.First()["cName"]}");
+                    }
+                }
+            }
 
             Logging.Comment("Сумма:" + decimal.Parse(dtTmpData.Rows[0]["Summa"].ToString()).ToString("0.00"));
             Logging.Comment("Валюта:" + dtTmpData.Rows[0]["Valuta"].ToString());
@@ -492,16 +521,16 @@ namespace ServiceRecords.workDoc
                 Logging.Comment("Дата получения ДС (при единовременном получении ДС): " + ((DateTime)dtTmpData.Rows[0]["DataSumma"]).ToShortDateString());
 
             }
-            if (dtTmpData.Rows[0]["DataSumma"] == DBNull.Value && dtTmpData.Rows[0]["bDataSumma"] != DBNull.Value && (bool)dtTmpData.Rows[0]["bDataSumma"])
-            {
-                DataTable dtMultipleReceivingMone = Config.hCntMain.getMultipleReceivingMone(id);
-                Logging.Comment("Дата получения ДС (при распределенном ДС)");
+            //if (dtTmpData.Rows[0]["DataSumma"] == DBNull.Value && dtTmpData.Rows[0]["bDataSumma"] != DBNull.Value && (bool)dtTmpData.Rows[0]["bDataSumma"])
+            //{
+            //    DataTable dtMultipleReceivingMone = Config.hCntMain.getMultipleReceivingMone(id);
+            //    Logging.Comment("Дата получения ДС (при распределенном ДС)");
 
-                foreach (DataRow r in dtMultipleReceivingMone.Rows)
-                {
-                    Logging.Comment("Подномер:" + r["SubNumber"].ToString() + ";Сумма:" + r["Summa"].ToString() + ";Предполагаемая дата:" + r["DataSumma"].ToString());
-                }
-            }
+            //    foreach (DataRow r in dtMultipleReceivingMone.Rows)
+            //    {
+            //        Logging.Comment("Подномер:" + r["SubNumber"].ToString() + ";Сумма:" + r["Summa"].ToString() + ";Предполагаемая дата:" + r["DataSumma"].ToString());
+            //    }
+            //}
             Logging.Comment("Комментарий:" + dtTmpData.Rows[0]["Comments"].ToString().Replace(@"\r", "\r\n"));
 
             if (comment.Length != 0)
@@ -546,6 +575,8 @@ namespace ServiceRecords.workDoc
                     byte[] img = (byte[])dtFile.Rows[0]["Scan"];
                     string @Extension = (string)dtScan.DefaultView[indexRow]["Extension"];
 
+                    setLogSaveFile(id_ServiceRecords, filename + @Extension);
+
                     try
                     {
                         using (var fs = new FileStream(filename + @Extension, FileMode.Create, FileAccess.Write))
@@ -582,6 +613,80 @@ namespace ServiceRecords.workDoc
                     return;
                 }
             }
+        }
+
+        private void setLogSaveFile(int id,string _path)
+        {
+            DataTable dtTmpData = Config.hCntMain.getServiceRecordsBody(id);
+
+            Logging.StartFirstLevel(821);
+            
+            Logging.Comment("Id СЗ: " + id);
+            Logging.Comment("Номер СЗ: " + dtTmpData.Rows[0]["Number"].ToString());
+            Logging.Comment("Тип СЗ: " + ((int)dtTmpData.Rows[0]["TypeServiceRecord"] == 0 ? "стандарт." : "предварит."));
+            Logging.Comment("Тип СЗ по времени: " + ((int)dtTmpData.Rows[0]["TypeServiceRecordOnTime"] == 1 ? "разовая" : ((int)dtTmpData.Rows[0]["TypeServiceRecordOnTime"] == 2 ? "ежемесячная" : "Фонд")));
+
+            int? idFond = dtTmpData.Rows[0]["id_ServiceRecordsFond"] == DBNull.Value ? null : (int?)dtTmpData.Rows[0]["id_ServiceRecordsFond"];
+
+            if (idFond != null)
+            {
+                DataTable dtTmpFond = Config.hCntMain.getFondInfo(idFond, id);
+                if (dtTmpFond != null && dtTmpFond.Rows.Count > 0)
+                {
+                    Logging.Comment($"№{dtTmpFond.Rows[0]["Number"].ToString()} на {dtTmpFond.Rows[0]["sumString"].ToString()} от {((DateTime)dtTmpFond.Rows[0]["DateConfirmationD"]).ToShortDateString()}");
+                }
+            }
+            else
+            {
+                Logging.Comment((int)dtTmpData.Rows[0]["TypeServiceRecordOnTime"] == 3 ? "Доп.фонд не выбран" : "Фонд не выбран");
+            }
+
+
+            if (dtTmpData.Rows[0]["inType"] != DBNull.Value)
+            {
+                DataTable dtTypicalWorks = Config.hCntMain.getTypicalWorks(false);
+                if (dtTypicalWorks != null && dtTypicalWorks.Rows.Count > 0)
+                {
+                    EnumerableRowCollection<DataRow> rowType = dtTypicalWorks.AsEnumerable().Where(r => r.Field<int>("id") == (int)dtTmpData.Rows[0]["inType"]);
+                    if (rowType.Count() > 0)
+                    {
+                        Logging.Comment($"Тип работ ID:{rowType.First()["id"]}; Наименование:{rowType.First()["cName"]}");
+                    }
+                }
+            }
+
+            Logging.Comment("Сумма:" + decimal.Parse(dtTmpData.Rows[0]["Summa"].ToString()).ToString("0.00"));
+            Logging.Comment("Валюта:" + dtTmpData.Rows[0]["Valuta"].ToString());
+            if ((bool)dtTmpData.Rows[0]["Mix"])
+            {
+                Logging.Comment("Сумма нал:" + dtTmpData.Rows[0]["SummaCash"].ToString());
+                Logging.Comment("Сумма безнал:" + dtTmpData.Rows[0]["SummaNonCash"].ToString());
+            }
+
+            Logging.Comment("Объект ID: " + dtTmpData.Rows[0]["id_Object"].ToString() + "; Наименование:" + "");
+            Logging.Comment("Описание, комментарий: " + dtTmpData.Rows[0]["Description"].ToString());
+            Logging.Comment("Оплата: " + (!(bool)dtTmpData.Rows[0]["bCashNonCash"] ? "Наличные" : "Карта"));
+
+            Logging.Comment("Дата создания СЗ: " + ((DateTime)dtTmpData.Rows[0]["CreateServiceRecord"]).ToShortDateString());
+
+            Logging.Comment("Блок ID: " + dtTmpData.Rows[0]["id_Block"].ToString() + "; Наименование:" + dtTmpData.Rows[0]["nameBlock"].ToString());
+            Logging.Comment("Отдел ID: " + dtTmpData.Rows[0]["id_Department"].ToString() + "; Наименование:" + dtTmpData.Rows[0]["nameDeps"].ToString());
+
+            Logging.Comment("На рассмотрении РП. Прошу включить в Б: " + ((DateTime)dtTmpData.Rows[0]["MonthB"]).ToShortDateString());
+
+            if (dtTmpData.Rows[0]["bDataSumma"] != DBNull.Value && !(bool)dtTmpData.Rows[0]["bDataSumma"] && dtTmpData.Rows[0]["DataSumma"] != DBNull.Value)
+            {
+                Logging.Comment("Дата получения ДС (при единовременном получении ДС): " + ((DateTime)dtTmpData.Rows[0]["DataSumma"]).ToShortDateString());
+
+            }
+            Logging.Comment("Комментарий:" + dtTmpData.Rows[0]["Comments"].ToString().Replace(@"\r", "\r\n"));
+
+
+            Logging.Comment($"Путь выгрузки файла и имя файла с расширением:{_path}");
+
+            Logging.Comment("Операцию выполнил: ID:" + Nwuram.Framework.Settings.User.UserSettings.User.Id
+               + " ; ФИО:" + Nwuram.Framework.Settings.User.UserSettings.User.FullUsername);
+            Logging.StopFirstLevel();
         }
 
     }

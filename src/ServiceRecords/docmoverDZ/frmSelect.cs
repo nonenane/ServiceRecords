@@ -14,12 +14,17 @@ namespace ServiceRecords.docmoverDZ
     {
         public int id_ListServiceRecords { set; private get; }
         private Dictionary<int, string> dicListMemorandum = new Dictionary<int, string>();
-
+        private EnumerableRowCollection<DataRow> rowCollectToSend;
         public decimal sumDZ { get; private set; }
         public string textDZ { get; private set; }
         public Dictionary<int, string> getListMemorandum()
         {
             return dicListMemorandum;
+        }
+
+        public EnumerableRowCollection<DataRow> getRowCollect()
+        {
+            return rowCollectToSend;
         }
 
         public void setListMemorandum(Dictionary<int, string> dirLM)
@@ -181,6 +186,7 @@ namespace ServiceRecords.docmoverDZ
             if (dtData == null || dtData.Rows.Count == 0) { MessageBox.Show("Выберите ДЗ", "Информирование", MessageBoxButtons.OK, MessageBoxIcon.Information); return; }
 
             EnumerableRowCollection<DataRow> rowCollect = dtData.AsEnumerable().Where(r => r.Field<bool>("isSelect"));
+            rowCollectToSend = rowCollect;
             if (rowCollect.Count() == 0) { MessageBox.Show("Выберите ДЗ", "Информирование", MessageBoxButtons.OK, MessageBoxIcon.Information); return; }
 
             var groupBonus = rowCollect.GroupBy(r => new { FIOBonus = r.Field<string>("FIOBonus") })

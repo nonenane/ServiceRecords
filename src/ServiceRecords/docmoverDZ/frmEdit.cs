@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Nwuram.Framework.Logging;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -80,6 +81,20 @@ namespace ServiceRecords.docmoverDZ
             //{
             //    MessageBox.Show("Начальное и конечно значение сумму премии должно различатся!","Информирование",MessageBoxButtons.OK,MessageBoxIcon.Information);
             //    return; }
+
+            Logging.StartFirstLevel(3497);
+
+            Logging.Comment($"ID записи:{row["id"]}");
+            Logging.Comment($"№ ДЗ:{row["no_doc"]}");
+            Logging.Comment($"Дата:{row["date_create"]}");
+            Logging.Comment($"Отдел нарушителя:{row["depPenalty"]}");
+            Logging.Comment($"Заголовок ДЗ:{row["cname"]}");
+            Logging.Comment($"Тип нарушения:{row["DistrType"]}");
+            Logging.Comment($"Сумма нарушения:{row["sumPenalty"]}");
+            Logging.VariableChange($"Сумма премии:",tmpValue, row["SumBonus"],typeLog._decimal);
+            Logging.Comment($"Сотрудник, обнаружевший нарушение:{row["FIOBonus"]}");
+
+            Logging.StopFirstLevel();
 
             Config.hCntMain.setMemorandums(id, id_ListServiceRecords, tmpValue, true, false, true);
 

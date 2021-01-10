@@ -137,7 +137,8 @@ namespace ServiceRecords
                 btnPrintReport.Enabled = dtReport.DefaultView.Count != 0;
                 dgvReport_SelectionChanged(null, null);
             }
-            catch (Exception ex) {
+            catch //(Exception ex)
+            {
                 btViewHardwareList.Enabled = false;
                 btnPrintReport.Enabled = false;
             }
@@ -261,6 +262,16 @@ namespace ServiceRecords
                 MessageBox.Show("Нет данных для выгрузки отчёта!","Выгрузка отчёта",MessageBoxButtons.OK,MessageBoxIcon.Information);
                 return;
             }
+
+
+            Logging.StartFirstLevel(79);
+
+            Logging.Comment("Произведена выгрузка отчета по проверке отчетов, со следующими параметрами");
+            Logging.Comment($"Период с {dateTimeStart.Value.ToShortDateString()} по {dateTimeEnd.Value.ToShortDateString()}");
+            Logging.Comment($"Статус:{cmbStatusReport.Text}");
+            Logging.Comment($"Наличие долга:{cmbDebt.Text}");
+
+            Logging.StopFirstLevel();
 
             Nwuram.Framework.ToExcelNew.ExcelUnLoad report = new Nwuram.Framework.ToExcelNew.ExcelUnLoad();
 

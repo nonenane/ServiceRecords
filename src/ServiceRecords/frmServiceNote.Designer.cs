@@ -367,7 +367,7 @@
             // btAccept
             // 
             this.btAccept.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.btAccept.Location = new System.Drawing.Point(645, 654);
+            this.btAccept.Location = new System.Drawing.Point(642, 656);
             this.btAccept.Name = "btAccept";
             this.btAccept.Size = new System.Drawing.Size(110, 32);
             this.btAccept.TabIndex = 46;
@@ -379,7 +379,7 @@
             // btRefuse
             // 
             this.btRefuse.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.btRefuse.Location = new System.Drawing.Point(528, 654);
+            this.btRefuse.Location = new System.Drawing.Point(525, 656);
             this.btRefuse.Name = "btRefuse";
             this.btRefuse.Size = new System.Drawing.Size(110, 32);
             this.btRefuse.TabIndex = 47;
@@ -401,7 +401,7 @@
             // 
             this.btAddFile.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.btAddFile.Image = global::ServiceRecords.Properties.Resources.folder_htm_5356;
-            this.btAddFile.Location = new System.Drawing.Point(61, 654);
+            this.btAddFile.Location = new System.Drawing.Point(58, 656);
             this.btAddFile.Name = "btAddFile";
             this.btAddFile.Size = new System.Drawing.Size(32, 32);
             this.btAddFile.TabIndex = 24;
@@ -412,7 +412,7 @@
             // 
             this.btView.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.btView.Image = global::ServiceRecords.Properties.Resources.find_9299;
-            this.btView.Location = new System.Drawing.Point(19, 654);
+            this.btView.Location = new System.Drawing.Point(16, 656);
             this.btView.Name = "btView";
             this.btView.Size = new System.Drawing.Size(32, 32);
             this.btView.TabIndex = 25;
@@ -424,7 +424,7 @@
             // 
             this.btSelect.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.btSelect.Image = global::ServiceRecords.Properties.Resources.save_edit;
-            this.btSelect.Location = new System.Drawing.Point(884, 654);
+            this.btSelect.Location = new System.Drawing.Point(872, 656);
             this.btSelect.Name = "btSelect";
             this.btSelect.Size = new System.Drawing.Size(32, 32);
             this.btSelect.TabIndex = 22;
@@ -435,7 +435,7 @@
             // 
             this.btClose.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.btClose.Image = global::ServiceRecords.Properties.Resources.exit_8633;
-            this.btClose.Location = new System.Drawing.Point(922, 654);
+            this.btClose.Location = new System.Drawing.Point(910, 656);
             this.btClose.Name = "btClose";
             this.btClose.Size = new System.Drawing.Size(32, 32);
             this.btClose.TabIndex = 23;
@@ -447,7 +447,7 @@
             this.btnSaveComment.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.btnSaveComment.Enabled = false;
             this.btnSaveComment.Image = global::ServiceRecords.Properties.Resources.view2;
-            this.btnSaveComment.Location = new System.Drawing.Point(922, 613);
+            this.btnSaveComment.Location = new System.Drawing.Point(910, 615);
             this.btnSaveComment.Name = "btnSaveComment";
             this.btnSaveComment.Size = new System.Drawing.Size(32, 32);
             this.btnSaveComment.TabIndex = 49;
@@ -1225,7 +1225,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(958, 690);
+            this.ClientSize = new System.Drawing.Size(954, 700);
             this.ControlBox = false;
             this.Controls.Add(this.gbFond);
             this.Controls.Add(this.typeSRonTime);

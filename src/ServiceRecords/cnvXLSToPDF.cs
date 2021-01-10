@@ -56,7 +56,7 @@ namespace ServiceRecords
 
 
             }
-            catch (Exception ex)
+            catch //(Exception ex)
             {
                 // MessageBox.Show(ex.Message.ToString());
                 // Respond to the error.

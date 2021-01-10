@@ -36,6 +36,9 @@ namespace ServiceRecords
         private readonly string NameFileResult = @"C:\AppAuth\ServiceRecords\result.txt";
         private readonly string NameProgramm = @"C:\AppAuth\ServiceRecords\Demo.exe";
         private DataTable dtListDeps;
+        private string oldFond;
+        private int? oldInType;
+        private string oldStringType;
 
         public void setIsView()
         {
@@ -145,6 +148,7 @@ namespace ServiceRecords
                     if (dtTmpFond != null && dtTmpFond.Rows.Count > 0)
                     {
                         tbFond.Text = $"№{dtTmpFond.Rows[0]["Number"].ToString()} на {dtTmpFond.Rows[0]["sumString"].ToString()} от {((DateTime)dtTmpFond.Rows[0]["DateConfirmationD"]).ToShortDateString()}";
+                        oldFond = tbFond.Text;
                     }
 
                     cmbValuta.SelectedValue = "RUB";
@@ -290,6 +294,16 @@ namespace ServiceRecords
                 cmbTypicalWorks.SelectedValue = dtTmp.Rows[0]["inType"];
                 cmbTypicalWorks_SelectionChangeCommitted(null, null);
 
+                
+                try {
+                   oldInType = (int?)dtTmp.Rows[0]["inType"];
+                   oldStringType = cmbTypicalWorks.Text;
+                }
+                catch {
+                    oldInType = null;
+                    oldStringType = "";
+                }
+
                 cmbTypicalWorks.Enabled = 
                     (new List<string>(new string[] { "ОП", "РКВ" }).Contains(Config.CodeUser) && new List<int>(new int[] { 1 }).Contains((int)dtTmp.Rows[0]["id_Status"])) ||
                     (new List<string>(new string[] { "КНТ" }).Contains(Config.CodeUser) && new List<int>(new int[] { 2, 8 }).Contains((int)dtTmp.Rows[0]["id_Status"]));
@@ -297,6 +311,7 @@ namespace ServiceRecords
                 DataTable dtTmpMemo = Config.hCntMain.getMemorandums(DateTime.Now, DateTime.Now, id, false);
                 if (dtTmpMemo != null && dtTmpMemo.Rows.Count > 0)
                 {
+                    rowCollectSend = dtTmpMemo.AsEnumerable();
                     foreach (DataRow row in dtTmpMemo.Rows)
                     {
                         string str = $"{row["FIOBonus"]} - {row["SumBonus"]}";
@@ -851,7 +866,7 @@ namespace ServiceRecords
                 Logging.Comment("Id СЗ: " + id_ServiceRecords);
                 Logging.Comment("Номер СЗ: " + tbNumberNote.Text);
                 Logging.Comment("Тип СЗ: " + (rbStandart.Checked ? rbStandart.Text : rbTemplate.Text));
-                Logging.Comment("Тип СЗ по времени: " + (rbOneTime.Checked ? rbOneTime.Text : rbMonthly.Text));
+                Logging.Comment("Тип СЗ по времени: " + (rbOneTime.Checked ? rbOneTime.Text : (rbMonthly.Checked ? rbMonthly.Text : rbFond.Text)));
                 Logging.Comment("Сумма:" + tbSumma.Text);
                 Logging.Comment("Валюта:" + cmbValuta.Text);
                 if (rbMix.Checked)
@@ -859,7 +874,24 @@ namespace ServiceRecords
                     Logging.Comment("Сумма нал:" + tbSummaCash.Text);
                     Logging.Comment("Сумма безнал:" + tbSummaNonCash.Text);
                 }
-                Logging.Comment("Описание, комментарий: " + tbCommentNote.Text);
+
+                if (idFond != null)                               
+                {
+                    Logging.Comment(tbFond.Text);
+                }
+                else
+                {
+                    Logging.Comment(rbFond.Checked ? "Доп.фонд не выбран" : "Фонд не выбран");
+                }
+
+                if (cmbTypicalWorks.SelectedValue != null)
+                {
+                    Logging.Comment($"Тип работ ID:{cmbTypicalWorks.SelectedValue}; Наименование:{cmbTypicalWorks.Text}");
+                }
+
+                //Logging.Comment("Описание, комментарий: " + tbCommentNote.Text);
+                Logging.Comment("Описание, комментарий: " + Description);
+                
                 Logging.Comment("Оплата:" + (rbMix.Checked ? rbMix.Text : (rbMoney.Checked ? rbMoney.Text : rbCard.Text)));
                 Logging.Comment("Объект ID: " + cmbObjects.SelectedValue.ToString() + "; Наименование:" + cmbObjects.Text);
                 Logging.Comment("Дата создания СЗ: " + dtpDateNote.Value.ToShortDateString());
@@ -870,15 +902,15 @@ namespace ServiceRecords
                 {
                     Logging.Comment(chbSingleNote.Text + ": " + dtpSingleNote.Value.ToShortDateString());
                 }
-                if (chbMoreNote.Checked)
-                {
-                    Logging.Comment(chbMoreNote.Text);
+                //if (chbMoreNote.Checked)
+                //{
+                //    Logging.Comment(chbMoreNote.Text);
 
-                    foreach (DataRow r in dtMultipleReceivingMone.Rows)
-                    {
-                        Logging.Comment("Подномер:" + r["SubNumber"].ToString() + ";Сумма:" + r["Summa"].ToString() + ";Предполагаемая дата:" + r["DataSumma"].ToString());
-                    }
-                }
+                //    foreach (DataRow r in dtMultipleReceivingMone.Rows)
+                //    {
+                //        Logging.Comment("Подномер:" + r["SubNumber"].ToString() + ";Сумма:" + r["Summa"].ToString() + ";Предполагаемая дата:" + r["DataSumma"].ToString());
+                //    }
+                //}
 
                 Logging.Comment("Комментарий:" + tbCommentGlobal.Text);
 
@@ -890,6 +922,24 @@ namespace ServiceRecords
                         Logging.Comment("Добавленный файл: Тип:" + (TypeScan == 1 ? "к описанию СЗ" : (TypeScan == 2 ? "при оплате безналом " : "отчет по тратам ДС по СЗ")) + ";Наименование: " + fileName);
                     }
 
+                Logging.Comment("Статус СЗ на ДС ID:1; Наименование:'Черновик'");
+
+                if (rowCollectSend != null && rowCollectSend.Count() > 0)
+                {
+                    Logging.Comment("Произведено сохранение списка ДЗ на премии со следующими параметрами:");
+                    foreach (DataRow row in rowCollectSend)
+                    {
+                        Logging.Comment($"ID записи:{row["id"]}");
+                        Logging.Comment($"№ ДЗ:{row["no_doc"]}");
+                        Logging.Comment($"Дата:{row["date_create"]}");
+                        Logging.Comment($"Отдел нарушителя:{row["depPenalty"]}");
+                        Logging.Comment($"Заголовок ДЗ:{row["cname"]}");
+                        Logging.Comment($"Тип нарушения:{row["DistrType"]}");
+                        Logging.Comment($"Сумма нарушения:{row["sumPenalty"]}");
+                        Logging.Comment($"Сумма премии:{row["SumBonus"]}");
+                        Logging.Comment($"Сотрудник, обнаружевший нарушение:{row["FIOBonus"]}");
+                    }
+                }
 
                 Logging.Comment("Операцию выполнил: ID:" + Nwuram.Framework.Settings.User.UserSettings.User.Id
                     + " ; ФИО:" + Nwuram.Framework.Settings.User.UserSettings.User.FullUsername);
@@ -905,7 +955,9 @@ namespace ServiceRecords
                        (rbStandart.Checked ? rbStandart.Text : rbTemplate.Text)
                     , ((int)dtTmpData.Rows[0]["TypeServiceRecord"] == 0 ? rbStandart.Text : rbTemplate.Text), typeLog._string);
 
-                Logging.VariableChange("Тип СЗ по времени: ", (rbOneTime.Checked ? rbOneTime.Text : rbMonthly.Text), ((int)dtTmpData.Rows[0]["TypeServiceRecordOnTime"] == 1 ? rbOneTime.Text : rbMonthly.Text));
+                Logging.VariableChange("Тип СЗ по времени: ",
+                    (rbOneTime.Checked ? rbOneTime.Text : (rbMonthly.Checked ? rbMonthly.Text : rbFond.Text)),
+                    ((int)dtTmpData.Rows[0]["TypeServiceRecordOnTime"] == 1 ? rbOneTime.Text : ((int)dtTmpData.Rows[0]["TypeServiceRecordOnTime"] == 2 ? rbMonthly.Text : rbFond.Text)));
 
                 Logging.VariableChange("Сумма:", tbSumma.Text, decimal.Parse(dtTmpData.Rows[0]["Summa"].ToString()).ToString("0.00"), typeLog._string);
                 Logging.VariableChange("Валюта:", cmbValuta.Text, dtTmpData.Rows[0]["Valuta"].ToString());
@@ -915,8 +967,14 @@ namespace ServiceRecords
                     Logging.VariableChange("Сумма безнал:", tbSummaNonCash.Text, dtTmpData.Rows[0]["SummaNonCash"].ToString());
                 }
 
+                Logging.VariableChange("Фонд", tbFond.Text, oldFond, typeLog._string);
+                Logging.VariableChange($"Тип работ ID", cmbTypicalWorks.SelectedValue, oldInType,typeLog._int);
+                Logging.VariableChange($"Тип работ Наименование", cmbTypicalWorks.Text, oldStringType,typeLog._string);
 
-                Logging.VariableChange("Описание, комментарий: ", tbCommentNote.Text, dtTmpData.Rows[0]["Description"].ToString());
+
+                //Logging.VariableChange("Описание, комментарий: ", tbCommentNote.Text, dtTmpData.Rows[0]["Description"].ToString());
+                Logging.VariableChange("Описание, комментарий: ", Description, dtTmpData.Rows[0]["Description"].ToString());
+                
                 Logging.VariableChange("Оплата:"
                     , (rbMix.Checked ? rbMix.Text : (rbMoney.Checked ? rbMoney.Text : rbCard.Text))
                     , ((bool)dtTmpData.Rows[0]["Mix"] ? rbMix.Text : (!(bool)dtTmpData.Rows[0]["bCashNonCash"] ? rbMoney.Text : rbCard.Text)));
@@ -947,20 +1005,20 @@ namespace ServiceRecords
                     Logging.VariableChange(chbSingleNote.Text + ": ", dtpSingleNote.Value.ToShortDateString(), (dtTmpData.Rows[0]["DataSumma"] == DBNull.Value ? "" : ((DateTime)dtTmpData.Rows[0]["DataSumma"]).ToShortDateString()));
                 }
 
-                if (dtTmpData.Rows[0]["DataSumma"] == DBNull.Value && dtTmpData.Rows[0]["bDataSumma"] != DBNull.Value && (bool)dtTmpData.Rows[0]["bDataSumma"] && !chbMoreNote.Checked)
-                {
-                    Logging.Comment(chbMoreNote.Text + ": Отключен");
-                }
+                //if (dtTmpData.Rows[0]["DataSumma"] == DBNull.Value && dtTmpData.Rows[0]["bDataSumma"] != DBNull.Value && (bool)dtTmpData.Rows[0]["bDataSumma"] && !chbMoreNote.Checked)
+                //{
+                //    Logging.Comment(chbMoreNote.Text + ": Отключен");
+                //}
 
-                if (chbMoreNote.Checked)
-                {
-                    Logging.Comment(chbMoreNote.Text + ": Включен");
+                //if (chbMoreNote.Checked)
+                //{
+                //    Logging.Comment(chbMoreNote.Text + ": Включен");
 
-                    foreach (DataRow r in dtMultipleReceivingMone.Rows)
-                    {
-                        Logging.Comment("Подномер:" + r["SubNumber"].ToString() + ";Сумма:" + r["Summa"].ToString() + ";Предполагаемая дата:" + r["DataSumma"].ToString());
-                    }
-                }
+                //    foreach (DataRow r in dtMultipleReceivingMone.Rows)
+                //    {
+                //        Logging.Comment("Подномер:" + r["SubNumber"].ToString() + ";Сумма:" + r["Summa"].ToString() + ";Предполагаемая дата:" + r["DataSumma"].ToString());
+                //    }
+                //}
 
                 Logging.VariableChange("Комментарий:", tbCommentGlobal.Text, dtTmpData.Rows[0]["Comments"].ToString().Replace(@"\r", "\r\n"));
 
@@ -1245,7 +1303,38 @@ namespace ServiceRecords
             Logging.Comment("Id СЗ: " + id);
             Logging.Comment("Номер СЗ: " + dtTmpData.Rows[0]["Number"].ToString());
             Logging.Comment("Тип СЗ: " + ((int)dtTmpData.Rows[0]["TypeServiceRecord"] == 0 ? "стандарт." : "предварит."));
-            Logging.Comment("Тип СЗ по времени: " + ((int)dtTmpData.Rows[0]["TypeServiceRecordOnTime"] == 1 ? "разовая" : "ежемесячная"));
+            //Logging.Comment("Тип СЗ по времени: " + ((int)dtTmpData.Rows[0]["TypeServiceRecordOnTime"] == 1 ? "разовая" : "ежемесячная"));
+            Logging.Comment("Тип СЗ по времени: " + ((int)dtTmpData.Rows[0]["TypeServiceRecordOnTime"] == 1 ? "разовая" : ((int)dtTmpData.Rows[0]["TypeServiceRecordOnTime"] == 2 ? "ежемесячная" : "Фонд")));
+
+            int? idFond = dtTmpData.Rows[0]["id_ServiceRecordsFond"] == DBNull.Value ? null : (int?)dtTmpData.Rows[0]["id_ServiceRecordsFond"];
+
+            if (idFond != null)
+            {
+                DataTable dtTmpFond = Config.hCntMain.getFondInfo(idFond, id);
+                if (dtTmpFond != null && dtTmpFond.Rows.Count > 0)
+                {
+                    Logging.Comment($"№{dtTmpFond.Rows[0]["Number"].ToString()} на {dtTmpFond.Rows[0]["sumString"].ToString()} от {((DateTime)dtTmpFond.Rows[0]["DateConfirmationD"]).ToShortDateString()}");
+                }
+            }
+            else
+            {
+                Logging.Comment((int)dtTmpData.Rows[0]["TypeServiceRecordOnTime"] == 3 ? "Доп.фонд не выбран" : "Фонд не выбран");
+            }
+
+
+            if (dtTmpData.Rows[0]["inType"] != DBNull.Value)
+            {
+                DataTable dtTypicalWorks = Config.hCntMain.getTypicalWorks(false);
+                if (dtTypicalWorks != null && dtTypicalWorks.Rows.Count > 0)
+                {
+                    EnumerableRowCollection<DataRow> rowType = dtTypicalWorks.AsEnumerable().Where(r => r.Field<int>("id") == (int)dtTmpData.Rows[0]["inType"]);
+                    if (rowType.Count() > 0)
+                    {
+                        Logging.Comment($"Тип работ ID:{rowType.First()["id"]}; Наименование:{rowType.First()["cName"]}");
+                    }
+                }
+            }
+
 
 
             Logging.Comment("Сумма:" + decimal.Parse(dtTmpData.Rows[0]["Summa"].ToString()).ToString("0.00"));
@@ -1273,16 +1362,16 @@ namespace ServiceRecords
                 Logging.Comment("Дата получения ДС (при единовременном получении ДС): " + ((DateTime)dtTmpData.Rows[0]["DataSumma"]).ToShortDateString());
 
             }
-            if (dtTmpData.Rows[0]["DataSumma"] == DBNull.Value && dtTmpData.Rows[0]["bDataSumma"] != DBNull.Value && (bool)dtTmpData.Rows[0]["bDataSumma"])
-            {
-                DataTable dtMultipleReceivingMone = Config.hCntMain.getMultipleReceivingMone(id);
-                Logging.Comment("Дата получения ДС (при распределенном ДС)");
+            //if (dtTmpData.Rows[0]["DataSumma"] == DBNull.Value && dtTmpData.Rows[0]["bDataSumma"] != DBNull.Value && (bool)dtTmpData.Rows[0]["bDataSumma"])
+            //{
+            //    DataTable dtMultipleReceivingMone = Config.hCntMain.getMultipleReceivingMone(id);
+            //    Logging.Comment("Дата получения ДС (при распределенном ДС)");
 
-                foreach (DataRow r in dtMultipleReceivingMone.Rows)
-                {
-                    Logging.Comment("Подномер:" + r["SubNumber"].ToString() + ";Сумма:" + r["Summa"].ToString() + ";Предполагаемая дата:" + r["DataSumma"].ToString());
-                }
-            }
+            //    foreach (DataRow r in dtMultipleReceivingMone.Rows)
+            //    {
+            //        Logging.Comment("Подномер:" + r["SubNumber"].ToString() + ";Сумма:" + r["Summa"].ToString() + ";Предполагаемая дата:" + r["DataSumma"].ToString());
+            //    }
+            //}
             Logging.Comment("Комментарий:" + dtTmpData.Rows[0]["Comments"].ToString().Replace(@"\r", "\r\n"));
 
             if (comment.Length != 0)
@@ -1974,6 +2063,7 @@ namespace ServiceRecords
 
         private Dictionary<int, string> dicListMemorandum = new Dictionary<int, string>();
         private Dictionary<int, string> dicListMemorandum_old = new Dictionary<int, string>();
+        private EnumerableRowCollection<DataRow> rowCollectSend = null;
         private void btSelectDZ_Click(object sender, EventArgs e)
         {
             //Config.listSelectedDZ.Clear();
@@ -1983,6 +2073,7 @@ namespace ServiceRecords
             if (fSelect.ShowDialog() == DialogResult.OK)
             {
                 dicListMemorandum = fSelect.getListMemorandum();
+                rowCollectSend =   fSelect.getRowCollect();
                 InsertTextBonus(fSelect.textDZ);
                 tbSumma.Text = fSelect.sumDZ.ToString("0.00");
 

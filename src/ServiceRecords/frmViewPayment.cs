@@ -530,7 +530,37 @@ namespace ServiceRecords
             Logging.Comment("Id СЗ: " + id);
             Logging.Comment("Номер СЗ: " + dtTmpData.Rows[0]["Number"].ToString());
             Logging.Comment("Тип СЗ: " + ((int)dtTmpData.Rows[0]["TypeServiceRecord"] == 0 ? "стандарт." : "предварит."));
-            Logging.Comment("Тип СЗ по времени: " + ((int)dtTmpData.Rows[0]["TypeServiceRecordOnTime"] == 1 ? "разовая" : "ежемесячная"));
+            //Logging.Comment("Тип СЗ по времени: " + ((int)dtTmpData.Rows[0]["TypeServiceRecordOnTime"] == 1 ? "разовая" : "ежемесячная"));
+            Logging.Comment("Тип СЗ по времени: " + ((int)dtTmpData.Rows[0]["TypeServiceRecordOnTime"] == 1 ? "разовая" : ((int)dtTmpData.Rows[0]["TypeServiceRecordOnTime"] == 2 ? "ежемесячная" : "Фонд")));
+
+            int? idFond = dtTmpData.Rows[0]["id_ServiceRecordsFond"] == DBNull.Value ? null : (int?)dtTmpData.Rows[0]["id_ServiceRecordsFond"];
+
+            if (idFond != null)
+            {
+                DataTable dtTmpFond = Config.hCntMain.getFondInfo(idFond, id);
+                if (dtTmpFond != null && dtTmpFond.Rows.Count > 0)
+                {
+                    Logging.Comment($"№{dtTmpFond.Rows[0]["Number"].ToString()} на {dtTmpFond.Rows[0]["sumString"].ToString()} от {((DateTime)dtTmpFond.Rows[0]["DateConfirmationD"]).ToShortDateString()}");
+                }
+            }
+            else
+            {
+                Logging.Comment((int)dtTmpData.Rows[0]["TypeServiceRecordOnTime"] == 3 ? "Доп.фонд не выбран" : "Фонд не выбран");
+            }
+
+
+            if (dtTmpData.Rows[0]["inType"] != DBNull.Value)
+            {
+                DataTable dtTypicalWorks = Config.hCntMain.getTypicalWorks(false);
+                if (dtTypicalWorks != null && dtTypicalWorks.Rows.Count > 0)
+                {
+                    EnumerableRowCollection<DataRow> rowType = dtTypicalWorks.AsEnumerable().Where(r => r.Field<int>("id") == (int)dtTmpData.Rows[0]["inType"]);
+                    if (rowType.Count() > 0)
+                    {
+                        Logging.Comment($"Тип работ ID:{rowType.First()["id"]}; Наименование:{rowType.First()["cName"]}");
+                    }
+                }
+            }
 
             Logging.Comment("Сумма: " + Summa.ToString());
             Logging.Comment("ФИО: " + FIO);
