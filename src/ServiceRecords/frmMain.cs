@@ -1977,6 +1977,9 @@ namespace ServiceRecords
             if (dtDatReport == null || dtDatReport.Rows.Count == 0) { MessageBox.Show("Нет Данных для отчёта", "Выгрузка отчёта", MessageBoxButtons.OK, MessageBoxIcon.Information); return; }
 
 
+            Logging.StartFirstLevel(79);
+            Logging.Comment("Произведена выгрузка отчета по фонду, со следующими параметрами:");
+
             Nwuram.Framework.ToExcelNew.ExcelUnLoad report = new Nwuram.Framework.ToExcelNew.ExcelUnLoad();
             int indexRow = 1;
             int maxColumn = 6;
@@ -2021,6 +2024,19 @@ namespace ServiceRecords
             report.AddSingleValue($"Описание: {rowCollect.First()["Description"]}", indexRow, 1);
             indexRow++;
             indexRow++;
+
+            Logging.Comment($"Информация по фонду");
+            Logging.Comment($"№ СЗ фонда:{rowCollect.First()["Number"]}");
+            Logging.Comment($"Дата подтверждения фонда:{rowCollect.First()["DateConfirmationD"]}");
+            Logging.Comment($"Описание фонда:{rowCollect.First()["Description"]}");
+            Logging.Comment($"Сумма фонда:{rowCollect.First()["summaWithValute"]}");
+            
+            //Logging.Comment($"");
+            //Logging.Comment($"");
+            //Logging.Comment($"");
+            //Logging.Comment($"");
+            //Logging.Comment($"");
+
             #endregion
 
             #region "body"
@@ -2038,6 +2054,9 @@ namespace ServiceRecords
             report.SetFontBold(indexRow, 1, indexRow, maxColumn);
             indexRow++;
 
+            if(rowCollect.Count()>0)
+                Logging.Comment($"Информация СЗ созданным, на основе фонда");
+
             foreach (DataRow row in rowCollect)
             {
                 report.AddSingleValue($"{row["Number"]} {((int)row["id_Status"] == 21 ? "(Аннул.)" : "")}", indexRow, 1);
@@ -2049,6 +2068,14 @@ namespace ServiceRecords
                 report.SetBorders(indexRow, 1, indexRow, maxColumn);
                 report.SetCellAlignmentToCenter(indexRow, 1, indexRow, maxColumn);
                 indexRow++;
+                
+                Logging.Comment($"№ :{row["Number"]}");
+                Logging.Comment($"Дата создания:{row["CreateServiceRecord"]}");                               
+                Logging.Comment($"Сумма:{row["summaWithValute"]}");
+                Logging.Comment($"Автор:{row["FIO"]}");
+                Logging.Comment($"Дата подтверждения:{row["DateConfirmationD"]}");
+                Logging.Comment($"Описание СЗ:{row["Description"]}");
+
             }
             indexRow++;
             indexRow++;
@@ -2060,6 +2087,7 @@ namespace ServiceRecords
 
             if (rowCollect.Count() > 0)
             {
+                Logging.Comment($"Информация по дополнительным фондам");
                 int nppDopFond = 1;
                 foreach (DataRow row in rowCollect)
                 {
@@ -2091,10 +2119,20 @@ namespace ServiceRecords
                     indexRow++;
                     indexRow++;
                     nppDopFond++;
+
+                  
+                    Logging.Comment($"№ СЗ доп. фонда:{row["Number"]}");
+                    Logging.Comment($"Дата подтверждения доп. фонда:{row["DateConfirmationD"]}");
+                    Logging.Comment($"Описание доп. фонда:{row["Description"]}");
+                    Logging.Comment($"Сумма доп. фонда:{row["summaWithValute"]}");
+
                 }
             }
             indexRow++;
             #endregion
+
+
+            Logging.StopFirstLevel();
 
             //Result
             object tmpSum;
