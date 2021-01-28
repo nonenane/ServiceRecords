@@ -57,7 +57,11 @@ namespace ServiceRecords
                     if (Config.CodeUser.Equals("АДМ"))
                         Application.Run(new settings.frmSettings());
                     else
-                        Application.Run(new frmMain());
+                    {
+                        if (Config.CodeUser.Equals("ОП"))
+                            new frmCheckReport() { isFartForward = true,ShowInTaskbar=true }.ShowDialog();
+                            Application.Run(new frmMain());
+                    }
 
                     Logging.StartFirstLevel(2);
                     Logging.Comment("Выход из программы");

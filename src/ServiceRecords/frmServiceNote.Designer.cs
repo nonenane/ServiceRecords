@@ -28,8 +28,8 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
             this.TypeSR = new System.Windows.Forms.GroupBox();
             this.rbTemplate = new System.Windows.Forms.RadioButton();
             this.rbStandart = new System.Windows.Forms.RadioButton();
@@ -59,6 +59,7 @@
             this.btClose = new System.Windows.Forms.Button();
             this.btnSaveComment = new System.Windows.Forms.Button();
             this.typeSRonTime = new System.Windows.Forms.GroupBox();
+            this.rbKvartal = new System.Windows.Forms.RadioButton();
             this.rbFond = new System.Windows.Forms.RadioButton();
             this.gbFond = new System.Windows.Forms.GroupBox();
             this.label17 = new System.Windows.Forms.Label();
@@ -144,7 +145,7 @@
             this.TypeSR.Controls.Add(this.rbStandart);
             this.TypeSR.Location = new System.Drawing.Point(580, 5);
             this.TypeSR.Name = "TypeSR";
-            this.TypeSR.Size = new System.Drawing.Size(187, 77);
+            this.TypeSR.Size = new System.Drawing.Size(110, 77);
             this.TypeSR.TabIndex = 26;
             this.TypeSR.TabStop = false;
             this.TypeSR.Text = "Тип СЗ";
@@ -152,7 +153,7 @@
             // rbTemplate
             // 
             this.rbTemplate.AutoSize = true;
-            this.rbTemplate.Location = new System.Drawing.Point(91, 40);
+            this.rbTemplate.Location = new System.Drawing.Point(11, 42);
             this.rbTemplate.Name = "rbTemplate";
             this.rbTemplate.Size = new System.Drawing.Size(81, 17);
             this.rbTemplate.TabIndex = 35;
@@ -164,7 +165,7 @@
             // 
             this.rbStandart.AutoSize = true;
             this.rbStandart.Checked = true;
-            this.rbStandart.Location = new System.Drawing.Point(15, 40);
+            this.rbStandart.Location = new System.Drawing.Point(11, 19);
             this.rbStandart.Name = "rbStandart";
             this.rbStandart.Size = new System.Drawing.Size(74, 17);
             this.rbStandart.TabIndex = 35;
@@ -176,11 +177,11 @@
             // rbMonthly
             // 
             this.rbMonthly.AutoSize = true;
-            this.rbMonthly.Location = new System.Drawing.Point(6, 34);
+            this.rbMonthly.Location = new System.Drawing.Point(11, 34);
             this.rbMonthly.Name = "rbMonthly";
-            this.rbMonthly.Size = new System.Drawing.Size(94, 17);
+            this.rbMonthly.Size = new System.Drawing.Size(95, 17);
             this.rbMonthly.TabIndex = 37;
-            this.rbMonthly.Text = "ежемесячная";
+            this.rbMonthly.Text = "Ежемесячная";
             this.rbMonthly.UseVisualStyleBackColor = true;
             this.rbMonthly.CheckedChanged += new System.EventHandler(this.rbMonthly_CheckedChanged);
             // 
@@ -188,12 +189,12 @@
             // 
             this.rbOneTime.AutoSize = true;
             this.rbOneTime.Checked = true;
-            this.rbOneTime.Location = new System.Drawing.Point(6, 16);
+            this.rbOneTime.Location = new System.Drawing.Point(11, 16);
             this.rbOneTime.Name = "rbOneTime";
-            this.rbOneTime.Size = new System.Drawing.Size(67, 17);
+            this.rbOneTime.Size = new System.Drawing.Size(68, 17);
             this.rbOneTime.TabIndex = 36;
             this.rbOneTime.TabStop = true;
-            this.rbOneTime.Text = "разовая";
+            this.rbOneTime.Text = "Разовая";
             this.rbOneTime.UseVisualStyleBackColor = true;
             this.rbOneTime.CheckedChanged += new System.EventHandler(this.rbOneTime_CheckedChanged);
             // 
@@ -367,7 +368,7 @@
             // btAccept
             // 
             this.btAccept.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.btAccept.Location = new System.Drawing.Point(642, 656);
+            this.btAccept.Location = new System.Drawing.Point(658, 659);
             this.btAccept.Name = "btAccept";
             this.btAccept.Size = new System.Drawing.Size(110, 32);
             this.btAccept.TabIndex = 46;
@@ -379,7 +380,7 @@
             // btRefuse
             // 
             this.btRefuse.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.btRefuse.Location = new System.Drawing.Point(525, 656);
+            this.btRefuse.Location = new System.Drawing.Point(541, 659);
             this.btRefuse.Name = "btRefuse";
             this.btRefuse.Size = new System.Drawing.Size(110, 32);
             this.btRefuse.TabIndex = 47;
@@ -399,9 +400,9 @@
             // 
             // btAddFile
             // 
-            this.btAddFile.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.btAddFile.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.btAddFile.Image = global::ServiceRecords.Properties.Resources.folder_htm_5356;
-            this.btAddFile.Location = new System.Drawing.Point(58, 656);
+            this.btAddFile.Location = new System.Drawing.Point(59, 659);
             this.btAddFile.Name = "btAddFile";
             this.btAddFile.Size = new System.Drawing.Size(32, 32);
             this.btAddFile.TabIndex = 24;
@@ -412,7 +413,7 @@
             // 
             this.btView.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.btView.Image = global::ServiceRecords.Properties.Resources.find_9299;
-            this.btView.Location = new System.Drawing.Point(16, 656);
+            this.btView.Location = new System.Drawing.Point(14, 659);
             this.btView.Name = "btView";
             this.btView.Size = new System.Drawing.Size(32, 32);
             this.btView.TabIndex = 25;
@@ -424,7 +425,7 @@
             // 
             this.btSelect.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.btSelect.Image = global::ServiceRecords.Properties.Resources.save_edit;
-            this.btSelect.Location = new System.Drawing.Point(872, 656);
+            this.btSelect.Location = new System.Drawing.Point(878, 659);
             this.btSelect.Name = "btSelect";
             this.btSelect.Size = new System.Drawing.Size(32, 32);
             this.btSelect.TabIndex = 22;
@@ -435,7 +436,7 @@
             // 
             this.btClose.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.btClose.Image = global::ServiceRecords.Properties.Resources.exit_8633;
-            this.btClose.Location = new System.Drawing.Point(910, 656);
+            this.btClose.Location = new System.Drawing.Point(916, 659);
             this.btClose.Name = "btClose";
             this.btClose.Size = new System.Drawing.Size(32, 32);
             this.btClose.TabIndex = 23;
@@ -447,7 +448,7 @@
             this.btnSaveComment.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.btnSaveComment.Enabled = false;
             this.btnSaveComment.Image = global::ServiceRecords.Properties.Resources.view2;
-            this.btnSaveComment.Location = new System.Drawing.Point(910, 615);
+            this.btnSaveComment.Location = new System.Drawing.Point(916, 618);
             this.btnSaveComment.Name = "btnSaveComment";
             this.btnSaveComment.Size = new System.Drawing.Size(32, 32);
             this.btnSaveComment.TabIndex = 49;
@@ -456,20 +457,33 @@
             // 
             // typeSRonTime
             // 
+            this.typeSRonTime.Controls.Add(this.rbKvartal);
             this.typeSRonTime.Controls.Add(this.rbFond);
             this.typeSRonTime.Controls.Add(this.rbMonthly);
             this.typeSRonTime.Controls.Add(this.rbOneTime);
-            this.typeSRonTime.Location = new System.Drawing.Point(771, 5);
+            this.typeSRonTime.Location = new System.Drawing.Point(696, 5);
             this.typeSRonTime.Name = "typeSRonTime";
-            this.typeSRonTime.Size = new System.Drawing.Size(163, 77);
+            this.typeSRonTime.Size = new System.Drawing.Size(238, 77);
             this.typeSRonTime.TabIndex = 50;
             this.typeSRonTime.TabStop = false;
             this.typeSRonTime.Text = "Тип СЗ по времени";
             // 
+            // rbKvartal
+            // 
+            this.rbKvartal.AutoSize = true;
+            this.rbKvartal.Location = new System.Drawing.Point(111, 34);
+            this.rbKvartal.Name = "rbKvartal";
+            this.rbKvartal.Size = new System.Drawing.Size(117, 17);
+            this.rbKvartal.TabIndex = 39;
+            this.rbKvartal.Text = "Ежекваритальная";
+            this.rbKvartal.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.rbKvartal.UseVisualStyleBackColor = true;
+            this.rbKvartal.CheckedChanged += new System.EventHandler(this.rbKvartal_CheckedChanged);
+            // 
             // rbFond
             // 
             this.rbFond.AutoSize = true;
-            this.rbFond.Location = new System.Drawing.Point(6, 53);
+            this.rbFond.Location = new System.Drawing.Point(11, 52);
             this.rbFond.Name = "rbFond";
             this.rbFond.Size = new System.Drawing.Size(54, 17);
             this.rbFond.TabIndex = 38;
@@ -617,14 +631,14 @@
             this.dgvFond.AllowUserToDeleteRows = false;
             this.dgvFond.AllowUserToResizeRows = false;
             this.dgvFond.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
-            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.dgvFond.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
+            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle3.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle3.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            dataGridViewCellStyle3.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle3.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle3.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dgvFond.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle3;
             this.dgvFond.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgvFond.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.cFNumber,
@@ -901,14 +915,14 @@
             this.dgvNote.AllowUserToDeleteRows = false;
             this.dgvNote.AllowUserToResizeRows = false;
             this.dgvNote.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
-            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle2.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            dataGridViewCellStyle2.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.dgvNote.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle2;
+            dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle4.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle4.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            dataGridViewCellStyle4.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle4.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle4.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle4.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dgvNote.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle4;
             this.dgvNote.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgvNote.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.cNumber,
@@ -1225,7 +1239,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(954, 700);
+            this.ClientSize = new System.Drawing.Size(960, 703);
             this.ControlBox = false;
             this.Controls.Add(this.gbFond);
             this.Controls.Add(this.typeSRonTime);
@@ -1370,5 +1384,6 @@
         private System.Windows.Forms.Label lTypicalWorks;
         private System.Windows.Forms.Button btSelectDZ;
         private System.Windows.Forms.TextBox tbListBonus;
+        private System.Windows.Forms.RadioButton rbKvartal;
     }
 }

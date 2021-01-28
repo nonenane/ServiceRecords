@@ -769,7 +769,7 @@ namespace ServiceRecords
                  new DbType[] { DbType.Int32, DbType.Int32, DbType.Int32 }, ap);
         }
 
-        public DataTable getReportForCheck(DateTime dateTimeStart, DateTime dateTimeEnd)
+        public DataTable getReportForCheck(DateTime dateTimeStart, DateTime dateTimeEnd,bool isFartForward = false)
         {
             ap.Clear();
 
@@ -780,9 +780,11 @@ namespace ServiceRecords
             else
                 ap.Add(0);
 
+            ap.Add(isFartForward);
+
             return executeProcedure("[ServiceRecords].[getReportForCheck]",
-                 new string[] { "@dateTimeStart", "@dateTimeEnd","@id_Block" },
-                 new DbType[] { DbType.DateTime, DbType.DateTime,DbType.Int32 }, ap);
+                 new string[] { "@dateTimeStart", "@dateTimeEnd","@id_Block","@isFartForward" },
+                 new DbType[] { DbType.DateTime, DbType.DateTime,DbType.Int32 ,DbType.Boolean}, ap);
 
         }
 

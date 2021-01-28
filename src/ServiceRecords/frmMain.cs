@@ -775,7 +775,7 @@ namespace ServiceRecords
                 string strComment = "";
                 if (Config.CodeUser.Equals("КНТ") || Config.CodeUser.Equals("КД") || Config.CodeUser.Equals("РКВ"))
                 {                  
-                    globalForm.frmComment frmCom = new globalForm.frmComment();
+                    globalForm.frmComment frmCom = new globalForm.frmComment() { isCommentAdd =false};
                     if (DialogResult.OK == frmCom.ShowDialog())
                     {
                         strComment = frmCom.getComment;
@@ -835,7 +835,7 @@ namespace ServiceRecords
             if (DialogResult.Yes == MessageBox.Show(Config.centralText("Вы хотите отклонить СЗ\nи вернуть её назад по маршруту?\n"), "Отклонене СЗ", MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button2))
             {
                 string strComment = "";
-                globalForm.frmComment frmCom = new globalForm.frmComment();
+                globalForm.frmComment frmCom = new globalForm.frmComment() { isCommentAdd = true };
                 if (DialogResult.OK == frmCom.ShowDialog())
                 {
                     strComment = frmCom.getComment;
@@ -896,10 +896,13 @@ namespace ServiceRecords
             if (dtMain.DefaultView[dgvMain.CurrentRow.Index]["inType"] != DBNull.Value)
                 inType = (int)dtMain.DefaultView[dgvMain.CurrentRow.Index]["inType"];
 
+            bool SuperUser = true;
+
             btAccept.Enabled = (Config.CodeUser.Equals("РКВ") && (id_Status == 1 || id_Status == 3 || id_Status == 6 || id_Status == 7 || id_Status == 9 || id_Status == 12)) ||
                 (Config.CodeUser.Equals("КНТ") && (id_Status == 2 || id_Status == 8) && inType != 3) ||
                 (Config.CodeUser.Equals("КД") && (id_Status == 4 || id_Status == 10))  ||
-                (Config.CodeUser.Equals("ОП") && (id_Status == 1 || id_Status == 6 || id_Status == 12 || id_Status == 7));
+                (Config.CodeUser.Equals("ОП") && (id_Status == 1 || id_Status == 6 || id_Status == 12 || id_Status == 7))
+                || SuperUser;
 
 
             btRefuse.Enabled = (Config.CodeUser.Equals("КНТ") && (id_Status == 2 || id_Status == 8) && inType != 3) ||
@@ -1543,6 +1546,10 @@ namespace ServiceRecords
             int monthDateCreateReport = DateTime.Parse(dtHistory.Rows[0]["DateCreateReport"].ToString()).Month;
             int yearDateCreateReport = DateTime.Parse(dtHistory.Rows[0]["DateCreateReport"].ToString()).Year;
             bool isTodayMonthCreateReport = DateTime.Now.Month.Equals(monthDateCreateReport) && DateTime.Now.Year.Equals(yearDateCreateReport);
+            
+            bool isNowYear = DateTime.Now.Year.Equals(((DateTime)dtHistory.Rows[0]["isValidateReportDate"]).Year);
+
+
             int _inType = (int)dtMain.DefaultView[dgvMain.CurrentRow.Index]["inType"];
 
 
@@ -1563,17 +1570,20 @@ namespace ServiceRecords
                 return;
             }
 
-            cmsiTakeMoney.Visible = ((typeSZonTime == 2 && (isTodayMonthCreateReport || (!isTodayMonthCreateReport && sumGet == 0 && (id_Status == 20 || id_Status == 5 || id_Status == 7))) 
+            //MessageBox.Show($"{typeSZonTime}\n{isTodayMonthCreateReport}\n{isTodayMonthCreateReport}\n{sumGet}\n{id_Status}\n{balanceGet}\n{isNowYear}\n{UserSettings.User.Id}\n");
+
+            cmsiTakeMoney.Visible = ((new List<int>(new int[] { 2, 4 }).Contains(typeSZonTime) && (isTodayMonthCreateReport || (!isTodayMonthCreateReport && sumGet != maxSumma /*== 0*/ && (id_Status == 20 || id_Status == 5 || id_Status == 7)))
                                         && ((balanceGet > 0 && valuta == "RUB")
-                                            || (valuta != "RUB"))) ||
+                                            || (valuta != "RUB"))
+                                        && isNowYear) ||
                                     (typeSZonTime == 1 && ((balanceGet > 0 && valuta == "RUB") || (valuta != "RUB"))))
                                         && takeMoneylist.Contains(id_Status)
                                         && (Config.CodeUser.Equals("РКВ") || Config.CodeUser.Equals("ОП"))
-                                        && id_Creator == Nwuram.Framework.Settings.User.UserSettings.User.Id;
+                                        && id_Creator == UserSettings.User.Id;
 
 
             cmsiDropeMoney.Visible = (Config.CodeUser.Equals("РКВ") || Config.CodeUser.Equals("ОП"))
-                                    && id_Creator == Nwuram.Framework.Settings.User.UserSettings.User.Id
+                                    && id_Creator == UserSettings.User.Id
                                     && (debtReport > 0 || balanceReturn > 0) && dropeMoneylist.Contains(id_Status)
                                     && _inType != 3;
 
@@ -1597,7 +1607,7 @@ namespace ServiceRecords
                 tsmiSetReport.Visible = cmsiDropeMoney.Visible = true;
             }
 
-            if (typeSZonTime == 2 && ((valuta == "RUB" && (sumGet - sumReturn) == maxSumma) || (valuta != "RUB" && (sumGetInValuta - sumReturn) == maxSumma)) && debtReport == 0 && isTodayMonthCreateReport && (Config.CodeUser.Equals("РКВ") || Config.CodeUser.Equals("ОП")) && id_Creator == Nwuram.Framework.Settings.User.UserSettings.User.Id)
+            if (new List<int>(new int[] { 2, 4 }).Contains(typeSZonTime) && ((valuta == "RUB" && (sumGet - sumReturn) == maxSumma) || (valuta != "RUB" && (sumGetInValuta - sumReturn) == maxSumma)) && debtReport == 0 && isTodayMonthCreateReport && (Config.CodeUser.Equals("РКВ") || Config.CodeUser.Equals("ОП")) && id_Creator == Nwuram.Framework.Settings.User.UserSettings.User.Id)
             {
                 MessageBox.Show(Config.centralText("Вы сможете заказать ДС только в следующем месяце.\n"), "Предупреждение", MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
@@ -2209,6 +2219,15 @@ namespace ServiceRecords
                 showMsg = false;
                     
             }
+        }
+
+        private void dgvMain_CellClick(object sender, DataGridViewCellEventArgs e)
+        {
+            //DataGridViewTextBoxCell tb = dgvMain.Rows[e.RowIndex].Cells[e.ColumnIndex] as DataGridViewTextBoxCell;
+            //if (tb == null) return;
+            //TextBox tbTb =  tb as TextBox;
+
+
         }
 
         private void timUpdate_Tick(object sender, EventArgs e)

@@ -13,6 +13,7 @@ namespace ServiceRecords.globalForm
     {
         private bool isEdit = false;
         public string getComment { private set; get; }
+        public bool isCommentAdd { set; private get; }
         public frmComment()
         {
             InitializeComponent();
@@ -28,11 +29,12 @@ namespace ServiceRecords.globalForm
 
         private void btSelect_Click(object sender, EventArgs e)
         {
-            if (tbComments.Text.Trim().Length == 0)
-            {
-                MessageBox.Show("Необходимо ввести комментарий!", "Информирование", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                return;
-            }
+            if (isCommentAdd)
+                if (tbComments.Text.Trim().Length == 0)
+                {
+                    MessageBox.Show("Необходимо ввести комментарий!", "Информирование", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    return;
+                }
 
             isEdit = false;
             getComment = tbComments.Text.Trim();

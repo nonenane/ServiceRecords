@@ -11,21 +11,28 @@ using Nwuram.Framework.Settings.User;
 using Nwuram.Framework.ToExcel;
 
 namespace ServiceRecords
-{
+{    
     public partial class frmCheckReport : Form
     {
+        public bool isFartForward { set; private get; }
         DataTable dtReport = new DataTable();
         int countcolV = 0;
         public frmCheckReport()
         {
-            InitializeComponent();
-            ToolTip tp = new ToolTip();
-            tp.SetToolTip(btViewHardwareList, "Просмотр компьютерного оборудования");
+            InitializeComponent();                       
         }
 
         private void frmCheckReport_Load(object sender, EventArgs e)
         {
             colV.Visible = btnAccept.Visible = btnRefuse.Visible = !new List<string>(new string[] { "РКВ", "КНТ" }).Contains(Config.CodeUser);
+
+            btViewHardwareList.Visible = label5.Visible = label6.Visible = dateTimeEnd.Visible = dateTimeStart.Visible = lbStatusReport.Visible = cmbStatusReport.Visible = btnUpdate.Visible = !isFartForward;
+
+            if (isFartForward)
+            {
+                lbHasDebt.Location = label5.Location;
+                cmbDebt.Location = new Point(lbHasDebt.Location.X + 88, lbHasDebt.Location.Y-4);
+            }
 
             setDopElements();
             createCmbStatusReport();
@@ -41,6 +48,7 @@ namespace ServiceRecords
             tt.SetToolTip(btnRefuse, "Отклонить");
             tt.SetToolTip(btnUpdate, "Обновить");
             tt.SetToolTip(btClose, "Выход");
+            tt.SetToolTip(btViewHardwareList, "Просмотр компьютерного оборудования");
 
         }
         private void createCmbStatusReport()
@@ -98,9 +106,10 @@ namespace ServiceRecords
 
         private void getData()
         {
-            dtReport = Config.hCntMain.getReportForCheck(DateTime.Parse(dateTimeStart.Value.ToShortDateString()), DateTime.Parse(dateTimeEnd.Value.ToShortDateString()));
-            dgvReport.DataSource = dtReport;
+            dtReport = Config.hCntMain.getReportForCheck(DateTime.Parse(dateTimeStart.Value.ToShortDateString()), DateTime.Parse(dateTimeEnd.Value.ToShortDateString()), isFartForward);
+            if (isFartForward && (dtReport == null || dtReport.Rows.Count == 0)) Close();
             Filter();
+            dgvReport.DataSource = dtReport;
         }
 
         private void Filter()
@@ -499,13 +508,19 @@ namespace ServiceRecords
                 btViewHardwareList.Enabled = false;
                 return;
             }
-
-            if (dtReport.DefaultView[dgvReport.CurrentRow.Index]["inType"] == DBNull.Value)
+            try
             {
-                btViewHardwareList.Enabled = false; return;
-            }
+                if (dtReport.DefaultView[dgvReport.CurrentRow.Index]["inType"] == DBNull.Value)
+                {
+                    btViewHardwareList.Enabled = false; return;
+                }
 
-            btViewHardwareList.Enabled = (int)dtReport.DefaultView[dgvReport.CurrentRow.Index]["inType"] == 1;
+                btViewHardwareList.Enabled = (int)dtReport.DefaultView[dgvReport.CurrentRow.Index]["inType"] == 1;
+            }
+            catch
+            {
+                btViewHardwareList.Enabled = false;
+            }
         }
 
         private void btViewHardwareList_Click(object sender, EventArgs e)

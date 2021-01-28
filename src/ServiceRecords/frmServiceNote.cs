@@ -36,7 +36,7 @@ namespace ServiceRecords
         private readonly string NameFileResult = @"C:\AppAuth\ServiceRecords\result.txt";
         private readonly string NameProgramm = @"C:\AppAuth\ServiceRecords\Demo.exe";
         private DataTable dtListDeps;
-        private string oldFond;
+        private string oldFond = "";
         private int? oldInType;
         private string oldStringType;
 
@@ -139,6 +139,7 @@ namespace ServiceRecords
                 rbOneTime.Checked = TypeServiceRecordOnTime == 1 ? true : false;
                 rbMonthly.Checked = TypeServiceRecordOnTime == 2 ? true : false;
                 rbFond.Checked = TypeServiceRecordOnTime == 3 ? true : false;
+                rbKvartal.Checked = TypeServiceRecordOnTime == 4 ? true : false;
 
                 idFond = dtTmp.Rows[0]["id_ServiceRecordsFond"] == DBNull.Value ? null : (int?)dtTmp.Rows[0]["id_ServiceRecordsFond"];
 
@@ -321,6 +322,7 @@ namespace ServiceRecords
                     }
                 }
 
+                fondEnableelement();
                 isCreate = false;
                 if (isView) initIsView();
             }
@@ -342,7 +344,7 @@ namespace ServiceRecords
             tbCommentGlobal.ReadOnly = true;
             //btAddFile.Visible = false;
             btSelect.Visible = false;
-            rbMonthly.Enabled = rbOneTime.Enabled = TypeSR.Enabled = rbFond.Enabled = false;
+            rbKvartal.Enabled = rbMonthly.Enabled = rbOneTime.Enabled = TypeSR.Enabled = rbFond.Enabled = false;
             cmbValuta.Enabled = false;
         }
         DataTable dtBlock, dtDeps, dtObjects, userDepartmentName, idDepartament, idBlock, userStatus;
@@ -747,7 +749,31 @@ namespace ServiceRecords
                 return;
             }
 
-            if (!(Description.Contains("Разовая") || Description.Contains("Ежемесячная") || Description.Contains("Фонд") || Description.Contains("Доп.Фонд")))
+            //Удаление приписки
+
+            if (Description.Contains("Разовая.") ||
+            Description.Contains("Разовая из фонда.") ||
+            Description.Contains("Ежемесячная из фонда.") ||
+            Description.Contains("Ежемесячная.") ||
+            Description.Contains("Фонд.") ||
+            Description.Contains("Доп. Фонд.") ||
+            Description.Contains("Ежеквартальная.") ||
+            Description.Contains("Ежеквартальная из фонда."))
+            {
+                Description = Description.Replace("Разовая из фонда.", "");
+                Description = Description.Replace("Ежемесячная из фонда.", "");
+                Description = Description.Replace("Ежеквартальная из фонда.", "");
+                Description = Description.Replace("Доп. Фонд.", "");
+
+                Description = Description.Replace("Разовая.", "");
+                Description = Description.Replace("Ежемесячная.", "");
+                Description = Description.Replace("Фонд.", "");
+                Description = Description.Replace("Ежеквартальная.", "");
+                Description = Description.Trim();
+            }
+
+
+            if (!(Description.Contains("Разовая") || Description.Contains("Ежемесячная") || Description.Contains("Фонд") || Description.Contains("Доп.Фонд") || Description.Contains("Ежеквартальная")))
             {
                 //Description = (rbOneTime.Checked ? "Разовая. " : (rbMonthly.Checked ? "Ежемесячная. " : "Фонд. ")) + Description;
 
@@ -756,14 +782,18 @@ namespace ServiceRecords
                     Description = (idFond == null ? "Разовая.  " : "Разовая из фонда.  ") + Description;
                 }
                 else
-            if (rbMonthly.Checked)
+                if (rbMonthly.Checked)
                 {
                     Description = (idFond == null ? "Ежемесячная. " : "Ежемесячная из фонда.  ") + Description;
                 }
                 else
                     if (rbFond.Checked)
                 {
-                    Description = (idFond == null ? "Фонд.  " : "Доп.Фонд.  ") + Description;
+                    Description = (idFond == null ? "Фонд.  " : "Доп. Фонд.  ") + Description;
+                }
+                else if (rbKvartal.Checked)
+                {
+                    Description = (idFond == null ? "Ежеквартальная. " : "Ежеквартальная из фонда.  ") + Description;
                 }
             }
 
@@ -862,11 +892,13 @@ namespace ServiceRecords
 
             if (isCreate)
             {
+                string logTime = (rbOneTime.Checked ? rbOneTime.Text : (rbMonthly.Checked ? rbMonthly.Text : (rbFond.Checked ? rbFond.Text : rbKvartal.Text)));
+
                 Logging.StartFirstLevel(1262);//1250
                 Logging.Comment("Id СЗ: " + id_ServiceRecords);
                 Logging.Comment("Номер СЗ: " + tbNumberNote.Text);
                 Logging.Comment("Тип СЗ: " + (rbStandart.Checked ? rbStandart.Text : rbTemplate.Text));
-                Logging.Comment("Тип СЗ по времени: " + (rbOneTime.Checked ? rbOneTime.Text : (rbMonthly.Checked ? rbMonthly.Text : rbFond.Text)));
+                Logging.Comment("Тип СЗ по времени: " + logTime);
                 Logging.Comment("Сумма:" + tbSumma.Text);
                 Logging.Comment("Валюта:" + cmbValuta.Text);
                 if (rbMix.Checked)
@@ -947,7 +979,7 @@ namespace ServiceRecords
             }
             else
             {
-
+               
                 Logging.StartFirstLevel(1251);
                 Logging.Comment("Id СЗ: " + id);
                 Logging.Comment("Номер СЗ: " + dtTmpData.Rows[0]["Number"].ToString());
@@ -955,9 +987,16 @@ namespace ServiceRecords
                        (rbStandart.Checked ? rbStandart.Text : rbTemplate.Text)
                     , ((int)dtTmpData.Rows[0]["TypeServiceRecord"] == 0 ? rbStandart.Text : rbTemplate.Text), typeLog._string);
 
-                Logging.VariableChange("Тип СЗ по времени: ",
-                    (rbOneTime.Checked ? rbOneTime.Text : (rbMonthly.Checked ? rbMonthly.Text : rbFond.Text)),
-                    ((int)dtTmpData.Rows[0]["TypeServiceRecordOnTime"] == 1 ? rbOneTime.Text : ((int)dtTmpData.Rows[0]["TypeServiceRecordOnTime"] == 2 ? rbMonthly.Text : rbFond.Text)));
+                //Logging.VariableChange("Тип СЗ по времени: ",
+                //    (rbOneTime.Checked ? rbOneTime.Text : (rbMonthly.Checked ? rbMonthly.Text : rbFond.Text)),
+                //    ((int)dtTmpData.Rows[0]["TypeServiceRecordOnTime"] == 1 ? rbOneTime.Text : ((int)dtTmpData.Rows[0]["TypeServiceRecordOnTime"] == 2 ? rbMonthly.Text : rbFond.Text)));
+
+                string logTime = (rbOneTime.Checked ? rbOneTime.Text : (rbMonthly.Checked ? rbMonthly.Text : (rbFond.Checked ? rbFond.Text : rbKvartal.Text)));
+                int _TypeServiceRecordOnTime = (int)dtTmpData.Rows[0]["TypeServiceRecordOnTime"];
+                string logTimeOld = (_TypeServiceRecordOnTime == 1 ? rbOneTime.Text : (_TypeServiceRecordOnTime == 2 ? rbMonthly.Text : (_TypeServiceRecordOnTime == 3 ? rbFond.Text : rbKvartal.Text)));
+
+                Logging.VariableChange("Тип СЗ по времени: ",logTime,logTimeOld);
+
 
                 Logging.VariableChange("Сумма:", tbSumma.Text, decimal.Parse(dtTmpData.Rows[0]["Summa"].ToString()).ToString("0.00"), typeLog._string);
                 Logging.VariableChange("Валюта:", cmbValuta.Text, dtTmpData.Rows[0]["Valuta"].ToString());
@@ -1285,7 +1324,6 @@ namespace ServiceRecords
             resultScaner = "";
         }
 
-
         private DataTable dtStatus;
         private void setLog(int id, string comment, int id_status, bool isSend)
         {
@@ -1382,7 +1420,6 @@ namespace ServiceRecords
             Logging.StopFirstLevel();
         }
 
-
         public void btRefuse_Click(object sender, EventArgs e)
         {
             ////Потом удалить
@@ -1472,7 +1509,6 @@ namespace ServiceRecords
             this.DialogResult = DialogResult.OK;
         }
 
-
         private void frmServiceNote_FormClosing(object sender, FormClosingEventArgs e)
         {
             e.Cancel = isEdit && DialogResult.No == MessageBox.Show(Config.centralText("На форме есть несохраненные данные.\nЗакрыть форму без сохранения?\n"), "Выход из программы", MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button2);
@@ -1494,12 +1530,16 @@ namespace ServiceRecords
             isEdit = true;
             if (cmbDeps.SelectedIndex==-1 || cmbDeps.SelectedValue == null || dtListDeps==null || dtListDeps.Rows.Count==0)
             {
-                lTypicalWorks.Visible = cmbTypicalWorks.Visible = false;
+                btSelectDZ.Visible = lTypicalWorks.Visible = cmbTypicalWorks.Visible = false;
                 return;
             }
             int _id_deps = (int)cmbDeps.SelectedValue;
             EnumerableRowCollection<DataRow> rowCollect = dtListDeps.AsEnumerable().Where(r => r.Field<string>("value").Equals(_id_deps.ToString()));
-            lTypicalWorks.Visible = cmbTypicalWorks.Visible = rowCollect.Count() > 0;
+            btSelectDZ.Visible = lTypicalWorks.Visible = cmbTypicalWorks.Visible = rowCollect.Count() > 0;
+            if (cmbTypicalWorks.Visible && cmbTypicalWorks.SelectedValue==null)
+            {
+                cmbTypicalWorks.SelectedValue = 2;
+            }
         }
 
         private void dtpNextDate_ValueChanged(object sender, EventArgs e)
@@ -1511,6 +1551,7 @@ namespace ServiceRecords
         {
             isEdit = true;
         }
+   
         #region Сканер пальца
         private bool getScan()
         {
@@ -1745,7 +1786,7 @@ namespace ServiceRecords
             cmbValuta.Enabled =
             TypeSR.Enabled = !rbFond.Checked;
 
-            lFond.Visible = btAddFond.Visible = btDelFond.Visible = tbFond.Visible = !rbMonthly.Checked;
+            lFond.Visible = btAddFond.Visible = btDelFond.Visible = tbFond.Visible = !rbMonthly.Checked && !rbKvartal.Checked;
 
             idFond = null;
             tbFond.Clear();
@@ -2156,6 +2197,17 @@ namespace ServiceRecords
             //tbListBonus.Text += "]" + Environment.NewLine;
         }
 
+        private void rbKvartal_CheckedChanged(object sender, EventArgs e)
+        {
+            if (rbKvartal.Checked)
+            {
+                rbOneTime.Checked = false;
+                TypeServiceRecordOnTime = 4;
+                isEdit = true;
+                gbFond.Visible = false;
+                fondEnableelement();
+            }
+        }
 
         private void dgvFond_SelectionChanged(object sender, EventArgs e)
         {
