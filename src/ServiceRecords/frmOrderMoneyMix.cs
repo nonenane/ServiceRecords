@@ -18,7 +18,7 @@ namespace ServiceRecords
         public int status { private get; set; }
         public decimal maxSumma { private get; set; }
         public string valuta { private get; set; }
-        public bool isEdit { private get;  set; }
+        public bool isEdit { private get; set; }
 
         bool checkSumInRub = false;
         public int idOrder = 0;
@@ -47,14 +47,14 @@ namespace ServiceRecords
             if (typeCashNonCash == 1)
             {
                 tbSummaNonCash.Text = Summa;
-                tbSummaNonCash.Enabled = tbSummaCash.ReadOnly  =  true;
+                tbSummaNonCash.Enabled = tbSummaCash.ReadOnly = true;
             }
             else
             {
                 tbSummaCash.Text = Summa;
                 tbSummaCash.Enabled = tbSummaNonCash.ReadOnly = true;
             }
-                
+
             cmbDirector.Text = oldDirector;
             if (cmbDirector.SelectedValue != null)
                 oldIdDirector = int.Parse(cmbDirector.SelectedValue.ToString());
@@ -64,7 +64,7 @@ namespace ServiceRecords
             if (typeCashNonCash == 0)
                 this.oldSummaCash = decimal.Parse(Summa);
             else
-            this.oldSummaNonCash = decimal.Parse(Summa);
+                this.oldSummaNonCash = decimal.Parse(Summa);
 
             if (SummaInValuta == 0)
                 Valuta = "RUB";
@@ -124,7 +124,7 @@ namespace ServiceRecords
 
         private void checkValuta()
         {
-            if (!valuta.Equals("RUB") && type!=2)
+            if (!valuta.Equals("RUB") && type != 2)
             {
                 tbRUB.Visible = tbSumInRubCash.Visible = checkSumInRub =
                     lbSumInRub.Visible = tbCourse.Visible = label4.Visible = tbSumInRubNonCash.Visible =
@@ -137,7 +137,7 @@ namespace ServiceRecords
                 this.Width = 400;
                 this.Height = 272;
             }
-            
+
             tbValuta.Text = valuta;
 
             if (type == 2)
@@ -199,7 +199,7 @@ namespace ServiceRecords
             return Math.Round(SumInRubCash, MidpointRounding.AwayFromZero);
         }
 
-    public void setDirector()
+        public void setDirector()
         {
             dtDir = Config.hCntMain.getDirectors();
             userName = Config.hCntMain.getUserName();
@@ -306,7 +306,7 @@ namespace ServiceRecords
                 return;
             }
 
-            if (summa > 0  && decimal.Parse(tbSummaCash.Text) == 0 && decimal.Parse(tbSummaNonCash.Text) == 0)
+            if (summa > 0 && decimal.Parse(tbSummaCash.Text) == 0 && decimal.Parse(tbSummaNonCash.Text) == 0)
             {
                 MessageBox.Show("Заполните сумму в нал. или безнал.!", "Информирование", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 return;
@@ -331,7 +331,7 @@ namespace ServiceRecords
                 balanceGetNonCash += oldSummaNonCash;
                 balanceReturnNonCash += oldSummaNonCash;
             }
-            
+
             decimal summaInValutaCash = 0, summaInValutaNonCash = 0;
 
             if (tbSumInRubCash.Text.Length > 0 ? decimal.Parse(tbSumInRubCash.Text) > 0 ? true : false : false)
@@ -344,7 +344,7 @@ namespace ServiceRecords
 
             if (tbSumInRubNonCash.Text.Length > 0 ? decimal.Parse(tbSumInRubNonCash.Text) > 0 ? true : false : false)
             {
-               //summaNonCash = decimal.Parse(tbSummaNonCash.Text.Trim());
+                //summaNonCash = decimal.Parse(tbSummaNonCash.Text.Trim());
                 summaInValutaNonCash = summaNonCash;
                 if (valuta != "RUB")
                     summaNonCash = decimal.Parse(tbSumInRubNonCash.Text.Trim());
@@ -385,7 +385,7 @@ namespace ServiceRecords
                 MessageBox.Show("Вы можете вернуть нал. не больше " + balanceReturnCash, "Информирование", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 return;
             }
-            else if (type == 2 &&  summaNonCash > balanceReturnNonCash && valuta != "RUB")
+            else if (type == 2 && summaNonCash > balanceReturnNonCash && valuta != "RUB")
             {
                 MessageBox.Show("Вы можете вернуть безнал. не больше " + balanceReturnNonCash, "Информирование", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 return;
@@ -414,7 +414,7 @@ namespace ServiceRecords
                     //Logging.Comment("ID: " + idOrder);
                     Logging.Comment("Id СЗ: " + id_ServiceRecords);
                     Logging.Comment("Номер СЗ: " + dtTmpData.Rows[0]["Number"].ToString());
-//                    Logging.Comment("Номер СЗ: " + dtTmpData.Rows[0]["Number"].ToString());
+                    //                    Logging.Comment("Номер СЗ: " + dtTmpData.Rows[0]["Number"].ToString());
                     Logging.Comment("Подномер: " + tbNumberSub.Text);
                     //Logging.VariableChange("Сумма", tbMoney.Text, oldSummaNonCash);
                     Logging.Comment("Сумма: " + tbMoney.Text);
@@ -434,7 +434,7 @@ namespace ServiceRecords
                         Logging.Comment("Сумма в рублях безнал: " + tbSumInRubNonCash.Text);
                     }
                 }
-             
+
 
 
                 int idMoneyRecipient;
@@ -489,7 +489,7 @@ namespace ServiceRecords
                                                                   status,
                                                                   summaInValutaNonCash,
                                                                   valuta,
-                                                                 // oldDebtNonCash,
+                                                                  // oldDebtNonCash,
                                                                   1); //безнал
                 else if (idOrder != 0 && summaNonCash > 0)
                     dtTMPUpdate = Config.hCntMain.updatePayments(idOrder,
@@ -569,7 +569,7 @@ namespace ServiceRecords
 
 
             Logging.Comment("Предполагаемая дата: " + dtpDate.Value.ToShortDateString());
-             
+
             Logging.Comment(chbChangeDirector.Text + ": " + (chbChangeDirector.Checked ? "Включен" : "Отключен"));
             if (chbChangeDirector.Checked)
                 Logging.Comment("Получатель отличается от заказчика");
@@ -661,7 +661,7 @@ namespace ServiceRecords
 
         private void tbSummaCash_Leave(object sender, EventArgs e)
         {
-             decimal value = 0;
+            decimal value = 0;
             if (!decimal.TryParse(tbSummaCash.Text, out value))
                 tbSummaCash.Text = "0,00";
 
@@ -690,7 +690,7 @@ namespace ServiceRecords
             decimal.TryParse(tbSummaNonCash.Text, out SummaNonCash);
             tbMoney.Text = (decimal.Parse(tbMoney.Text) + SummaNonCash).ToString("######0.00");
             if (tbCourse.Text.Length == 0) return;
-            tbCourse_TextChanged(sender,e);
+            tbCourse_TextChanged(sender, e);
         }
     }
 }

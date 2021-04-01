@@ -21,6 +21,7 @@ namespace ServiceRecords
         public decimal maxSumma { private get; set; }
         public string valuta { private get; set; }
         public bool isEdit { private get;  set; }        
+        public int TypeServiceRecordOnTime { private get; set; }
 
         bool checkSumInRub = false;
         public int idOrder = 0;
@@ -28,16 +29,19 @@ namespace ServiceRecords
         public string oldDirector;
         public int idDirector;
         private int oldIdDirector = 0;
+        private DateTime nowTime;
+        public DateTime? DataSumma { set; private get; }
 
         public frmOrderMoney()
         {
             InitializeComponent();
-
+            nowTime = Config.hCntMain.GetDate();
         }
 
         public frmOrderMoney(string Summa, string Valuta, int idOrder, string oldDirector, decimal SummaInValuta)
         {
             InitializeComponent();
+            nowTime = Config.hCntMain.GetDate();
             this.valuta = Valuta;
             cmbDirector.Text = oldDirector;
             if (cmbDirector.SelectedValue != null)
@@ -57,6 +61,7 @@ namespace ServiceRecords
                 tbCourse.Text = (decimal.Parse(Summa) /SummaInValuta ).ToString("######0.00");
             }
         }
+     
         private void checkValuta()
         {
             if (!valuta.Equals("RUB") && type!=2)
@@ -101,6 +106,7 @@ namespace ServiceRecords
             else
                 tbMoney.Text = decimal.Parse(tbMoney.Text.ToString()).ToString("######0.00");
         }
+     
         private void tbSumInRub_Leave(object sender, EventArgs e)
         {
             if (tbSumInRub.Text.ToString().Length == 0)
@@ -109,30 +115,67 @@ namespace ServiceRecords
                 tbSumInRub.Text = decimal.Parse(tbSumInRub.Text.ToString()).ToString("######0.00");
 
         }
+      
         private void frmOrderMoney_Load(object sender, EventArgs e)
         {
             if (type == 1)
             {
                 string valueSettings = Config.hCntMain.GetSettings("овпд");
-                DateTime dtMoney = DateTime.Now.Date.AddHours(15).AddMinutes(00);
+                DateTime dtMoney = nowTime.Date.AddHours(15).AddMinutes(00);
                 if (valueSettings.Length > 0)
                     dtMoney = DateTime.Parse(valueSettings);
 
-                if (DateTime.Now.TimeOfDay < dtMoney.TimeOfDay)
+                if (nowTime.TimeOfDay < dtMoney.TimeOfDay)
                 {
-                    dtpDate.MinDate = DateTime.Now.Date;
+                    dtpDate.MinDate = nowTime.Date;
                 }
                 else
                 {
-                    dtpDate.MinDate = DateTime.Now.Date.AddDays(1);
+                    dtpDate.MinDate = nowTime.Date.AddDays(1);
                 }
                 if (idOrder == 0 )
                     this.Text = "Получение денег ";
                 else this.Text = "Редактирование получения денег ";
+
+                if (TypeServiceRecordOnTime == 2)
+                {
+                    if (nowTime.Year != dtpDate.MinDate.Year || nowTime.Month != dtpDate.MinDate.Month)
+                    {
+                        MessageBox.Show("Заказ денег не возможен!", "Информарование", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        Close();
+                        return;
+                    }
+
+                    dtpDate.MaxDate = new DateTime(nowTime.Year, nowTime.Month, 1).AddMonths(1).AddDays(-1);
+                }
+                else if (TypeServiceRecordOnTime == 4)
+                { 
+                Dictionary<int,List<int>> dicMonthSercher = new Dictionary<int, List<int>>();
+                    dicMonthSercher.Add(1, new List<int>() { 1, 2, 3 });
+                    dicMonthSercher.Add(2, new List<int>() { 4, 5, 6 });
+                    dicMonthSercher.Add(3, new List<int>() { 7, 8, 9 });
+                    dicMonthSercher.Add(4, new List<int>() { 10, 11, 12 });
+
+
+                    //List<int> Values = dicMonthSercher.AsEnumerable().Where(r => r.Value.Contains(nowTime.Month)).First().Value;
+
+
+                    List<int> Values = dicMonthSercher.First(r => r.Value.Contains(nowTime.Month)).Value;
+
+                    if (nowTime.Year != dtpDate.MinDate.Year || !Values.Contains(dtpDate.MinDate.Month))
+                    {
+                        MessageBox.Show("Заказ денег не возможен!", "Информарование", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        Close();
+                        return;
+                    }
+
+                    dtpDate.MaxDate = new DateTime(nowTime.Year, Values.AsEnumerable().Max(), 1).AddMonths(1).AddDays(-1);
+
+                }
             }
             else
             {
-                dtpDate.MinDate = DateTime.Now.Date;
+                dtpDate.MinDate = nowTime.Date;
                 tbValuta.Text = valuta;
                 if (idOrder == 0)
                     this.Text = "Возврат денег ";
@@ -171,7 +214,7 @@ namespace ServiceRecords
             decimal sumOrderGetInValuta = decimal.Parse(dtHistory.Rows[0]["sumOrderGetInValuta"].ToString());
             int monthDateCreateReport = DateTime.Parse(dtHistory.Rows[0]["DateCreateReport"].ToString()).Month;
             int yearDateCreateReport = DateTime.Parse(dtHistory.Rows[0]["DateCreateReport"].ToString()).Year;
-            bool isTodayMonthAbdYear = DateTime.Now.Month.Equals(monthDateCreateReport) && DateTime.Now.Year.Equals(yearDateCreateReport);
+            bool isTodayMonthAbdYear = nowTime.Month.Equals(monthDateCreateReport) && nowTime.Year.Equals(yearDateCreateReport);
             //int typeSROnTime = (int)dtHistory.Rows[0]["typeSROnTime"];
 
             if (idOrder != 0)
@@ -268,7 +311,10 @@ namespace ServiceRecords
                 else if (dtTMPUpdate != null ? dtTMPUpdate.Rows.Count > 0 ? true: false: false)
                 {
                     if (dtTMPUpdate.Rows[0][0].ToString().Equals("ошибка"))
+                    {
                         MessageBox.Show("Ошибка редактирования.", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        return;
+                    }
                     this.DialogResult = DialogResult.OK;
                 }
 
@@ -353,7 +399,7 @@ namespace ServiceRecords
 
                 //тут запись в ДО ДЗ
 
-                DataTable dtTmpMemo = Config.hCntMain.getMemorandums(DateTime.Now, DateTime.Now, id_ServiceRecords, false);
+                DataTable dtTmpMemo = Config.hCntMain.getMemorandums(nowTime, nowTime, id_ServiceRecords, false);
                 if (dtTmpMemo != null && dtTmpMemo.Rows.Count > 0)
                 {
                     foreach (DataRow row in dtTmpMemo.Rows)
@@ -397,6 +443,7 @@ namespace ServiceRecords
                 cmbDirector.SelectedValue = idDirector;
             }
         }
+        
         public void getDirectors()
         {
             dtDir = Config.hCntMain.getDirectors();
@@ -407,6 +454,7 @@ namespace ServiceRecords
             cmbDirector.ValueMember = "id_users";
 
         }
+        
         private void chbChangeDirector_CheckedChanged(object sender, EventArgs e)
         {
             if (chbChangeDirector.Checked == true)
@@ -426,7 +474,6 @@ namespace ServiceRecords
 
         }
 
- 
         private void dtpDate_ValueChanged(object sender, EventArgs e)
         {
 
@@ -582,7 +629,7 @@ namespace ServiceRecords
             if (comment.Length != 0)
                 Logging.Comment("Комментрий с формы:" + comment);
 
-            DataTable dtTmpMemo = Config.hCntMain.getMemorandums(DateTime.Now, DateTime.Now, id, false);
+            DataTable dtTmpMemo = Config.hCntMain.getMemorandums(nowTime, nowTime, id, false);
             if (dtTmpMemo != null && dtTmpMemo.Rows.Count > 0)
             {
                 if (dtTmpMemo != null && dtTmpMemo.Rows.Count > 0)

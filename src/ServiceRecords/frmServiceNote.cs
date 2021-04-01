@@ -1531,15 +1531,32 @@ namespace ServiceRecords
             if (cmbDeps.SelectedIndex==-1 || cmbDeps.SelectedValue == null || dtListDeps==null || dtListDeps.Rows.Count==0)
             {
                 btSelectDZ.Visible = lTypicalWorks.Visible = cmbTypicalWorks.Visible = false;
+                cmbTypicalWorks_SelectionChangeCommitted(null, null);
                 return;
             }
+            visibleDZ();
+            cmbTypicalWorks_SelectionChangeCommitted(null, null);
+        }
+
+        private void visibleDZ()
+        {
             int _id_deps = (int)cmbDeps.SelectedValue;
             EnumerableRowCollection<DataRow> rowCollect = dtListDeps.AsEnumerable().Where(r => r.Field<string>("value").Equals(_id_deps.ToString()));
-            btSelectDZ.Visible = lTypicalWorks.Visible = cmbTypicalWorks.Visible = rowCollect.Count() > 0;
-            if (cmbTypicalWorks.Visible && cmbTypicalWorks.SelectedValue==null)
+          lTypicalWorks.Visible = cmbTypicalWorks.Visible = rowCollect.Count() > 0;
+            if (cmbTypicalWorks.Visible && cmbTypicalWorks.SelectedValue == null)
             {
                 cmbTypicalWorks.SelectedValue = 2;
             }
+
+            if (cmbTypicalWorks.SelectedValue == null || cmbTypicalWorks.SelectedIndex == -1)
+            {
+                tbListBonus.Visible = btSelectDZ.Visible = btSelectDZ.Visible = false;
+                return;
+            }
+
+            btSelectDZ.Visible = tbListBonus.Visible = (bool)(cmbTypicalWorks.DataSource as DataTable).AsEnumerable()
+                  .Where(r => r.Field<int>("id") == (int)cmbTypicalWorks.SelectedValue).First()["isBonus"] && new List<string>(new string[] { "РКВ", "КД" }).Contains(UserSettings.User.StatusCode) && rowCollect.Count() > 0;
+
         }
 
         private void dtpNextDate_ValueChanged(object sender, EventArgs e)
@@ -2072,11 +2089,11 @@ namespace ServiceRecords
         private void cmbTypicalWorks_SelectionChangeCommitted(object sender, EventArgs e)
         {
             if (isView) return;
+            //Console.WriteLine("IN");
 
-            if (cmbTypicalWorks.SelectedValue == null || cmbTypicalWorks.SelectedIndex == -1) { btSelectDZ.Visible = false;return; }
-            tbListBonus.Visible = btSelectDZ.Visible = (bool)(cmbTypicalWorks.DataSource as DataTable).AsEnumerable()
-                .Where(r => r.Field<int>("id") == (int)cmbTypicalWorks.SelectedValue).First()["isBonus"] && new List<string>(new string[] { "РКВ", "КД" }).Contains(UserSettings.User.StatusCode);
+            visibleDZ();
 
+           
             if (new List<string>(new string[] { "РКВ", "КД" }).Contains(UserSettings.User.StatusCode))
             {
                 if (btSelectDZ.Visible)

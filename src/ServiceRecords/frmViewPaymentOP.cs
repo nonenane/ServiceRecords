@@ -65,15 +65,15 @@ namespace ServiceRecords
 
             getData();
 
-            if (dtPayment.Rows.Count > 0 )
-                if ( (int)dtPayment.DefaultView[dgvNote.CurrentRow.Index]["id_Creator"] == Nwuram.Framework.Settings.User.UserSettings.User.Id)
-                btnEdit.Enabled = btnDelete.Enabled = true;
+            if (dtPayment.Rows.Count > 0)
+                if ((int)dtPayment.DefaultView[dgvNote.CurrentRow.Index]["id_Creator"] == Nwuram.Framework.Settings.User.UserSettings.User.Id)
+                    btnEdit.Enabled = btnDelete.Enabled = true;
         }
 
         private void getData()
         {
             if (Config.CodeUser.Equals("РКВ"))
-            dtPayment = Config.hCntMain.getPaymentOP(id_User);
+                dtPayment = Config.hCntMain.getPaymentOP(id_User);
             else if (Config.CodeUser.Equals("ОП")) dtPayment = Config.hCntMain.getPaymentOP(-1);
 
             if (!dtPayment.Columns.Equals("isControl"))
@@ -88,7 +88,7 @@ namespace ServiceRecords
             dgvNote.DataSource = dtPayment;
 
             for (int i = 0; i < dgvNote.Rows.Count; i++)
-            dgvNote.Rows[i].Cells["ValutaVisible"].Value = "RUB";
+                dgvNote.Rows[i].Cells["ValutaVisible"].Value = "RUB";
 
             FilterDtPayment();
             if (dtPayment != null && dgvNote.CurrentRow != null)
@@ -123,7 +123,7 @@ namespace ServiceRecords
             else if (sum != DBNull.Value)
                 sum = decimal.Parse(sum.ToString());
             else if (sum2 != DBNull.Value)
-                sum = - decimal.Parse(sum2.ToString());
+                sum = -decimal.Parse(sum2.ToString());
 
             if (sum != DBNull.Value)
                 tbItogo.Text = decimal.Parse(sum.ToString()).ToString("### ### ##0.00").Trim();
@@ -139,7 +139,7 @@ namespace ServiceRecords
         {
             if (Config.CodeUser.Equals("РКВ")) return;
 
-            var senderGrid = (DataGridView)sender; 
+            var senderGrid = (DataGridView)sender;
 
             if (e.RowIndex != -1 && senderGrid.Columns[e.ColumnIndex].Name == cControl.Name)
             {
@@ -216,9 +216,9 @@ namespace ServiceRecords
                         if (dtPayment.Select($"Number = {Number}").ToList().Count() == 1)
                             Config.hCntMain.updateStatus(id_ServiceRecords, 14);
                         if (type == 1)
-                            Config.hCntMain.addReport(id_ServiceRecords, Summa, typeCashNonCash, type, 0);
+                            Config.hCntMain.addReport(id_ServiceRecords, Summa, typeCashNonCash, type, 0, id);
                         else
-                            Config.hCntMain.addReport(id_ServiceRecords, 0 , typeCashNonCash, type, Summa);
+                            Config.hCntMain.addReport(id_ServiceRecords, 0, typeCashNonCash, type, Summa, id);
                         // Config.hCntMain.updateStatus(id_ServiceRecords, 22);
                         getData();
                     }
@@ -316,7 +316,7 @@ namespace ServiceRecords
 
         }
 
-        
+
         private void createReportWithPicter(bool isCart)
         {
             Logging.StartFirstLevel(79);
@@ -447,14 +447,14 @@ namespace ServiceRecords
 
         private void dgvNote_RowPrePaint(object sender, DataGridViewRowPrePaintEventArgs e)
         {
-                try
-                {
-                    int Creator = (int)dtPayment.DefaultView[e.RowIndex]["id_Creator"];
-                    int MoneyRecipient = (int)dtPayment.DefaultView[e.RowIndex]["id_MoneyRecipient"];
-                    if (Creator != MoneyRecipient)
-                        dgvNote.Rows[e.RowIndex].DefaultCellStyle.BackColor = pictureBox1.BackColor; //ColorTranslator.FromHtml("#ffff99");
-                }
-                catch { }
+            try
+            {
+                int Creator = (int)dtPayment.DefaultView[e.RowIndex]["id_Creator"];
+                int MoneyRecipient = (int)dtPayment.DefaultView[e.RowIndex]["id_MoneyRecipient"];
+                if (Creator != MoneyRecipient)
+                    dgvNote.Rows[e.RowIndex].DefaultCellStyle.BackColor = pictureBox1.BackColor; //ColorTranslator.FromHtml("#ffff99");
+            }
+            catch { }
 
         }
         ~frmViewPaymentOP() { }
@@ -485,7 +485,7 @@ namespace ServiceRecords
 
             Logging.Comment("Сумма: " + Summa.ToString());
             Logging.Comment("ФИО: " + FIO);
-            Logging.Comment("Тип: " + nameType);            
+            Logging.Comment("Тип: " + nameType);
 
             Logging.Comment("Сумма:" + decimal.Parse(dtTmpData.Rows[0]["Summa"].ToString()).ToString("0.00"));
             Logging.Comment("Валюта:" + dtTmpData.Rows[0]["Valuta"].ToString());
@@ -532,7 +532,7 @@ namespace ServiceRecords
 
         private void btTakeMoney_Click(object sender, EventArgs e)
         {
-            DataTable dt= dtPayment;
+            DataTable dt = dtPayment;
             int id_MoneyRecipient = selectedMoneyRecipient;
             globalForm.frmPassword frmPass = new globalForm.frmPassword();
             frmPass.idUser = (int)dtPayment.DefaultView[dgvNote.CurrentRow.Index]["id_MoneyRecipient"];
@@ -555,15 +555,15 @@ namespace ServiceRecords
                         int typeCashNonCash = r["nameType"].ToString().Contains("Нал.") ? 0 : 1;
 
                         //if (type == 2 || bCashNonCash) id_MoneyRecipient = UserSettings.User.Id;
-                        
+
                         Config.hCntMain.updatePayment(id, id_MoneyRecipient);
-                        if (dtPayment.Select($"Number = {Number} and isControl = 1").ToList().Count()== 2 
+                        if (dtPayment.Select($"Number = {Number} and isControl = 1").ToList().Count() == 2
                             || dtPayment.Select($"Number = {Number}").ToList().Count() == 1)
-                                Config.hCntMain.updateStatus(id_ServiceRecords, 14);
+                            Config.hCntMain.updateStatus(id_ServiceRecords, 14);
                         if (type == 1)
-                        Config.hCntMain.addReport(id_ServiceRecords, Summa, typeCashNonCash, type, 0);
+                            Config.hCntMain.addReport(id_ServiceRecords, Summa, typeCashNonCash, type, 0, id);
                         else
-                            Config.hCntMain.addReport(id_ServiceRecords, 0 , typeCashNonCash, type, Summa);
+                            Config.hCntMain.addReport(id_ServiceRecords, 0, typeCashNonCash, type, Summa, id);
                         //    Config.hCntMain.updateStatus(id_ServiceRecords, 22);
                         //getData();
                         setLog(id_ServiceRecords, nameType, Summa, Number, FIO);
@@ -580,7 +580,7 @@ namespace ServiceRecords
             Logging.StartFirstLevel(79);
             Logging.Comment("Отчет \"Запрос на выдачу Нал.\"");
             Logging.Comment("Выгружен в Excel отчет по СЗ со следующими параметрами");
-            Logging.Comment("Дата выгрузки: " + DateTime.Now.ToString());            
+            Logging.Comment("Дата выгрузки: " + DateTime.Now.ToString());
             Logging.Comment("Операцию выполнил: ID:" + Nwuram.Framework.Settings.User.UserSettings.User.Id
                 + " ; ФИО:" + Nwuram.Framework.Settings.User.UserSettings.User.FullUsername);
             Logging.StopFirstLevel();
@@ -642,7 +642,7 @@ namespace ServiceRecords
             dateTimeStart.Value = dateTimeEnd.Value.AddDays(-7);
             createComboBox();
             UpdateJournal(dateTimeStart.Value, dateTimeEnd.Value);
-            
+
 
         }
         private void createComboBox()
@@ -693,7 +693,7 @@ namespace ServiceRecords
         private void btnUpdate_Click(object sender, EventArgs e)
         {
             UpdateJournal(DateTime.Parse(dateTimeStart.Value.ToShortDateString()), DateTime.Parse(dateTimeEnd.Value.ToShortDateString()));
-         }
+        }
 
         private void FilterJournal()
         {
@@ -738,7 +738,7 @@ namespace ServiceRecords
             dt.Columns.Remove("typeOperation");
             dt.Columns.Remove("TypeServiceRecordOnTime");
             //dt.Columns.Remove("Type");
-            string header = "Отчет по " + ((int)cbTypeOperation.SelectedValue != 0 
+            string header = "Отчет по " + ((int)cbTypeOperation.SelectedValue != 0
                                          ? (int)cbTypeOperation.SelectedValue == 1 ?
                                                                                 "выданным" :
                                                                                 "возвращенным" :
@@ -781,13 +781,13 @@ namespace ServiceRecords
 
         private void dgvNote_CellContentDoubleClick(object sender, DataGridViewCellEventArgs e)
         {
- 
+
         }
 
         private void btnEdit_Click(object sender, EventArgs e)
         {
             if (!Config.CodeUser.Equals("РКВ") && !Config.CodeUser.Equals("ОП")) return;
-           if ((int)dtPayment.DefaultView[dgvNote.CurrentRow.Index]["id_Creator"] != Nwuram.Framework.Settings.User.UserSettings.User.Id) return;
+            if ((int)dtPayment.DefaultView[dgvNote.CurrentRow.Index]["id_Creator"] != Nwuram.Framework.Settings.User.UserSettings.User.Id) return;
 
 
             int idOrder = (int)dtPayment.DefaultView[dgvNote.CurrentRow.Index]["id"];
@@ -798,7 +798,9 @@ namespace ServiceRecords
             decimal SummaInValuta = (decimal)dtPayment.DefaultView[dgvNote.CurrentRow.Index]["SummaInValuta"];
             //int Number = (int)dtPayment.DefaultView[dgvNote.CurrentRow.Index]["Number"];            
             int Number = dtPayment.DefaultView[dgvNote.CurrentRow.Index]["Number"] == DBNull.Value ? 0 : (int)dtPayment.DefaultView[dgvNote.CurrentRow.Index]["Number"];
-            
+            int TypeServiceRecordOnTime = (int)dtPayment.DefaultView[dgvNote.CurrentRow.Index]["TypeServiceRecordOnTime"];
+            DateTime DataSumma = (DateTime)dtPayment.DefaultView[dgvNote.CurrentRow.Index]["DataSumma"];
+
             string FIO = (string)dtPayment.DefaultView[dgvNote.CurrentRow.Index]["FIO"];
             string Valuta = (string)dtPayment.DefaultView[dgvNote.CurrentRow.Index]["Valuta"];
             int type = (int)dtPayment.DefaultView[dgvNote.CurrentRow.Index]["type"];
@@ -815,7 +817,9 @@ namespace ServiceRecords
                 valuta = Valuta,
                 idDirector = (int)dtPayment.DefaultView[dgvNote.CurrentRow.Index]["id_MoneyRecipient"],
                 isEdit = true,
-                inType = _inType
+                inType = _inType,
+                TypeServiceRecordOnTime = TypeServiceRecordOnTime,
+                DataSumma = DataSumma
             };
 
             frmOrderMoneyMix frmO2 = new frmOrderMoneyMix(Summa.ToString(),
@@ -830,7 +834,7 @@ namespace ServiceRecords
                 valuta = Valuta,
                 idDirector = (int)dtPayment.DefaultView[dgvNote.CurrentRow.Index]["id_MoneyRecipient"],
                 isEdit = true
-    };
+            };
 
             if ((bool)dtPayment.DefaultView[dgvNote.CurrentRow.Index]["Mix"])
             {
@@ -861,7 +865,7 @@ namespace ServiceRecords
             {
                 DataTable dtTmpData = Config.hCntMain.getServiceRecordsBody(id_ServiceRecords);
                 DataTable dt = Config.hCntMain.deletePayments(idOrder);
-                if (dt != null? dt.Rows.Count >0 && dt.Columns.Contains("error") ? true : false: false)
+                if (dt != null ? dt.Rows.Count > 0 && dt.Columns.Contains("error") ? true : false : false)
                 {
                     MessageBox.Show("Ошибка удаления!", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     getData();
@@ -927,13 +931,13 @@ namespace ServiceRecords
 
                 Logging.Comment("Описание: " + dtPayment.DefaultView[dgvNote.CurrentRow.Index]["Description"]);
                 Logging.Comment("Тип операции: " + dtPayment.DefaultView[dgvNote.CurrentRow.Index]["NameType"]);
-                
+
                 if (dt != null && dt.Rows.Count > 0 && !dt.Columns.Contains("error"))
                 {
                     Logging.Comment("Статус ДО ID: " + dt.Rows[0]["id_prev"].ToString() + "; Наименование: " + dt.Rows[0]["cName_prev"].ToString());
                     Logging.Comment("Статус После ID: " + dt.Rows[0]["id"].ToString() + "; Наименование: " + dt.Rows[0]["cName"].ToString());
                 }
-                
+
                 if (dtTmpMemo != null && dtTmpMemo.Rows.Count > 0)
                 {
                     if (dtTmpMemo != null && dtTmpMemo.Rows.Count > 0)

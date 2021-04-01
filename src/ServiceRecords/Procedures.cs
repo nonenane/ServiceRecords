@@ -18,6 +18,20 @@ namespace ServiceRecords
         }
         ArrayList ap = new ArrayList();
 
+        public DateTime GetDate()
+        {
+            ap.Clear();
+            
+            DataTable dt = executeProcedure("[ServiceRecords].[GetDate]",
+                new string[] {  },
+                new DbType[] { }, ap);
+
+            if (dt == null || dt.Rows.Count == 0)
+                return DateTime.Now;
+            else
+                return (DateTime)dt.Rows[0][0];
+        }
+
         public DataTable getDeps()
         {
             ap.Clear();
@@ -895,7 +909,7 @@ namespace ServiceRecords
          }
 
 
-        public void addReport(int id_ServiceRecords, decimal debt, int CashNonCach, int operation, decimal summa_return)
+        public void addReport(int id_ServiceRecords, decimal debt, int CashNonCach, int operation, decimal summa_return,int id_payment)
         {
             ap.Clear();
 
@@ -905,10 +919,12 @@ namespace ServiceRecords
             ap.Add(UserSettings.User.Id);
             ap.Add(operation);
             ap.Add(summa_return);
+            ap.Add(id_payment);
+
 
             executeProcedure("[ServiceRecords].[addReport]",
-                 new string[] { "@id_ServiceRecords", "@debt", "@CashNonCach", "@id_creator", "@operation", "@summa_return" },
-                 new DbType[] { DbType.Int32, DbType.Decimal, DbType.Int32, DbType.Int32, DbType.Int32, DbType.Decimal }, ap);
+                 new string[] { "@id_ServiceRecords", "@debt", "@CashNonCach", "@id_creator", "@operation", "@summa_return", "@id_payment" },
+                 new DbType[] { DbType.Int32, DbType.Decimal, DbType.Int32, DbType.Int32, DbType.Int32, DbType.Decimal,DbType.Int32 }, ap);
 
         }
 

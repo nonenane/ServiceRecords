@@ -896,7 +896,7 @@ namespace ServiceRecords
             if (dtMain.DefaultView[dgvMain.CurrentRow.Index]["inType"] != DBNull.Value)
                 inType = (int)dtMain.DefaultView[dgvMain.CurrentRow.Index]["inType"];
 
-            bool SuperUser = true;
+            bool SuperUser = false;
 
             btAccept.Enabled = (Config.CodeUser.Equals("РКВ") && (id_Status == 1 || id_Status == 3 || id_Status == 6 || id_Status == 7 || id_Status == 9 || id_Status == 12)) ||
                 (Config.CodeUser.Equals("КНТ") && (id_Status == 2 || id_Status == 8) && inType != 3) ||
@@ -932,7 +932,9 @@ namespace ServiceRecords
             int id_ServiceRecords = (int)dtMain.DefaultView[dgvMain.CurrentRow.Index]["id"];
             decimal maxSumma = (decimal)dtMain.DefaultView[dgvMain.CurrentRow.Index]["Summa"];
             string valuta = dtMain.DefaultView[dgvMain.CurrentRow.Index]["Valuta"].ToString();
-            int _inType = (int)dtMain.DefaultView[dgvMain.CurrentRow.Index]["inType"]; 
+            int _inType = dtMain.DefaultView[dgvMain.CurrentRow.Index]["inType"] == DBNull.Value ? 0 : (int)dtMain.DefaultView[dgvMain.CurrentRow.Index]["inType"];
+            int TypeServiceRecordOnTime = (int)dtMain.DefaultView[dgvMain.CurrentRow.Index]["TypeServiceRecordOnTime"];
+
             //int? id_doc = null;
             //if (dtMain.DefaultView[dgvMain.CurrentRow.Index]["id_doc"] != DBNull.Value)
             //id_doc = (int)dtMain.DefaultView[dgvMain.CurrentRow.Index]["id_doc"];
@@ -942,7 +944,8 @@ namespace ServiceRecords
                 maxSumma = maxSumma,
                 valuta = valuta,
                 isEdit = false,
-                inType = _inType
+                inType = _inType,
+                TypeServiceRecordOnTime = TypeServiceRecordOnTime
             };
 
             frmOrderMoneyMix frmO2 = new frmOrderMoneyMix() {
@@ -960,7 +963,7 @@ namespace ServiceRecords
                 frmO2.setDirector();
                 if (frmO2.ShowDialog() == DialogResult.OK)
                 {
-                    Config.hCntMain.updateStatus(id_ServiceRecords, 16);
+                    //Config.hCntMain.updateStatus(id_ServiceRecords, 16);
                     getData();
                 }
             }
@@ -970,7 +973,7 @@ namespace ServiceRecords
                 frmO.setDirector();
                 if (frmO.ShowDialog() == DialogResult.OK)
                 {
-                    Config.hCntMain.updateStatus(id_ServiceRecords, 16);
+                    //Config.hCntMain.updateStatus(id_ServiceRecords, 16);
                     getData();
                 }
             }
@@ -1010,7 +1013,7 @@ namespace ServiceRecords
                 frmO2.setDirector();
                 if (frmO2.ShowDialog() == DialogResult.OK)
                 {
-                    Config.hCntMain.updateStatus(id_ServiceRecords, 17);
+                    //Config.hCntMain.updateStatus(id_ServiceRecords, 17);
                     getData();
                 }
             }
@@ -1020,7 +1023,7 @@ namespace ServiceRecords
                 frmO.setDirector();
                 if (frmO.ShowDialog() == DialogResult.OK)
                 {
-                    Config.hCntMain.updateStatus(id_ServiceRecords, 17);
+                    //Config.hCntMain.updateStatus(id_ServiceRecords, 17);
                     getData();
                 }
             }
@@ -1530,7 +1533,6 @@ namespace ServiceRecords
         }
         private void cmsWorking_Opening(object sender, CancelEventArgs e)
         {
-
             int typeSZonTime = (int)dtMain.DefaultView[dgvMain.CurrentRow.Index]["TypeServiceRecordOnTime"];
             DataTable dtHistory = Config.hCntMain.getHistoryOrderAndReturn((int)dtMain.DefaultView[dgvMain.CurrentRow.Index]["id"]);
             double maxSumma = double.Parse(dtHistory.Rows[0]["maxSumma"].ToString());
@@ -1550,7 +1552,7 @@ namespace ServiceRecords
             bool isNowYear = DateTime.Now.Year.Equals(((DateTime)dtHistory.Rows[0]["isValidateReportDate"]).Year);
 
 
-            int _inType = (int)dtMain.DefaultView[dgvMain.CurrentRow.Index]["inType"];
+            int _inType = dtMain.DefaultView[dgvMain.CurrentRow.Index]["inType"] == DBNull.Value ? 0 : (int)dtMain.DefaultView[dgvMain.CurrentRow.Index]["inType"];
 
 
             //string valueSettings = Config.hCntMain.GetSettings("овпд");
@@ -1610,6 +1612,7 @@ namespace ServiceRecords
             if (new List<int>(new int[] { 2, 4 }).Contains(typeSZonTime) && ((valuta == "RUB" && (sumGet - sumReturn) == maxSumma) || (valuta != "RUB" && (sumGetInValuta - sumReturn) == maxSumma)) && debtReport == 0 && isTodayMonthCreateReport && (Config.CodeUser.Equals("РКВ") || Config.CodeUser.Equals("ОП")) && id_Creator == Nwuram.Framework.Settings.User.UserSettings.User.Id)
             {
                 MessageBox.Show(Config.centralText("Вы сможете заказать ДС только в следующем месяце.\n"), "Предупреждение", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                cmsiDropeMoney.Enabled = false;
             }
 
 
