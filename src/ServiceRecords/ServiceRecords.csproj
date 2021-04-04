@@ -42,21 +42,21 @@
   <ItemGroup>
     <Reference Include="EPPlus, Version=4.0.4.0, Culture=neutral, PublicKeyToken=ea159fdaa78159a1, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>bin\Debug\EPPlus.dll</HintPath>
+      <HintPath>..\..\..\DLL\EPPlus.dll</HintPath>
     </Reference>
     <Reference Include="Framework, Version=2.1.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>bin\Debug\Framework.dll</HintPath>
+      <HintPath>..\..\..\DLL\Framework.dll</HintPath>
     </Reference>
     <Reference Include="Interop.Excel, Version=1.5.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <EmbedInteropTypes>True</EmbedInteropTypes>
-      <HintPath>..\..\..\GroupAssortment\GroupAssortment\bin\Debug\Interop.Excel.dll</HintPath>
+      <HintPath>..\..\..\DLL\Interop.Excel.dll</HintPath>
     </Reference>
     <Reference Include="Interop.Microsoft.Office.Core, Version=2.3.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <EmbedInteropTypes>True</EmbedInteropTypes>
-      <HintPath>bin\Debug\Interop.Microsoft.Office.Core.dll</HintPath>
+      <HintPath>..\..\..\DLL\Interop.Microsoft.Office.Core.dll</HintPath>
     </Reference>
     <Reference Include="IPAddressControlLib">
       <HintPath>..\..\..\DLL\IPAddressControlLib.dll</HintPath>

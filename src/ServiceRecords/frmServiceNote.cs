@@ -39,6 +39,11 @@ namespace ServiceRecords
         private string oldFond = "";
         private int? oldInType;
         private string oldStringType;
+        private bool isLoad = false;
+        private bool isStartEdit = false;
+        private DataTable dtTrialTable, dtDataToSave;
+        private List<normDay> listNormDay = new List<normDay>();
+        private List<workData> listWorkData = new List<workData>();
 
         public void setIsView()
         {
@@ -292,6 +297,12 @@ namespace ServiceRecords
 
                 getMultipleReceivingMone();
 
+                if ((int)dtTmp.Rows[0]["inType"] != 4)
+                {
+                    EnumerableRowCollection<DataRow> rowCollect = (cmbTypicalWorks.DataSource as DataTable).AsEnumerable().Where(r => r.Field<int>("id") == 4);
+                    if (rowCollect.Count() > 0) rowCollect.First().Delete();
+                }
+
                 cmbTypicalWorks.SelectedValue = dtTmp.Rows[0]["inType"];
                 cmbTypicalWorks_SelectionChangeCommitted(null, null);
 
@@ -325,6 +336,128 @@ namespace ServiceRecords
                 fondEnableelement();
                 isCreate = false;
                 if (isView) initIsView();
+
+                if ((int)dtTmp.Rows[0]["inType"] == 4 )
+                {
+                    isLoad = true;
+                    listNormDay.Clear();
+                    listWorkData.Clear();
+
+                    dtTrialTable =  Config.hCntMain.getTrialTablePayICServiceRecordLink(id);
+                    dtDataToSave = dtTrialTable.Copy();
+                    DataTable dtTmpIC = dtTrialTable.Clone();
+                    removeColumn(dtTmpIC, "id");
+
+                    var groupKadrMonth = dtTrialTable.AsEnumerable()
+                      .GroupBy(g => new { id_Kadr = g.Field<int>("id_Kadr"), year = g.Field<DateTime>("TimeIn").Year, month = g.Field<DateTime>("TimeIn").Month })
+                      .Select(s => new normDay
+                      {
+                          id_Kadr = s.Key.id_Kadr,
+                          month = s.Key.month,
+                          year = s.Key.year,
+                          normaDays = s.Max(r => r.Field<decimal>("normaDays"))
+                      });
+                    listNormDay.AddRange(groupKadrMonth.ToList<normDay>());
+
+                    foreach (var gKM in groupKadrMonth)
+                    {
+                        var fgfg = dtTrialTable.AsEnumerable()
+                           .Where(r => r.Field<int>("id_Kadr") == gKM.id_Kadr && r.Field<DateTime>("TimeIn").Year == gKM.year && r.Field<DateTime>("TimeIn").Month == gKM.month)
+                            .GroupBy(g => new { id_Kadr = g.Field<int>("id_Kadr") })
+                           .Select(s => new workData
+                           {
+                               id_Kadr = s.Key.id_Kadr,
+                               minuteWork = s.Sum(r => r.Field<decimal>("WorkedHours"))*60,
+                               hourWorkOnDay = (s.Sum(r => r.Field<decimal>("WorkedHours")) / s.Max(r => r.Field<decimal>("hourWorkOnDay"))) ,
+                               money = (s.Max(r => r.Field<decimal>("nowSalary")) / (s.Max(r => r.Field<decimal>("normaDays")) * s.Max(r => r.Field<decimal>("hourWorkOnDay")))) * (s.Sum(r => r.Field<decimal>("WorkedHours"))),
+                               toNextResult = ((decimal)1 / (s.Max(r => r.Field<decimal>("normaDays")) * s.Max(r => r.Field<decimal>("hourWorkOnDay")))) * (s.Sum(r => r.Field<decimal>("WorkedHours"))),
+                               year = gKM.year,
+                               month = gKM.month
+                           });
+
+                        listWorkData.AddRange(fgfg.ToList<workData>());
+                    }
+
+                    var groupKadr = dtTrialTable.AsEnumerable().GroupBy(g => new { id_Kadr = g.Field<int>("id_Kadr") }).Select(s => new { s.Key.id_Kadr });
+
+
+                    foreach (var gKadr in groupKadr)
+                    {
+                        EnumerableRowCollection<DataRow> rowCollect = dtTrialTable.AsEnumerable().Where(r => r.Field<int>("id_Kadr") == gKadr.id_Kadr).OrderBy(r => r.Field<DateTime>("TimeIn"));
+
+                        string periodPay = "";
+                        DateTime tmpDate = (DateTime)rowCollect.First()["TimeIn"];
+                        bool isNextTrue = false;
+                        //foreach (DataRow row in rowCollect)
+                        for (int i = 0; i < rowCollect.Count(); i++)
+                        {
+                            DataRow row = rowCollect.ElementAt(i);
+                            TimeSpan span = ((DateTime)row["TimeIn"]).Date - tmpDate.Date;
+                            if (span.Days == 0)
+                            {
+                                periodPay += (periodPay.Length == 0 ? "" : ",") + $"{tmpDate.ToShortDateString()}";
+                            }
+                            else
+                            if (span.Days == 1)
+                            {
+                                isNextTrue = true;
+
+                                if (i == rowCollect.Count() - 1)
+                                    periodPay += $"-{((DateTime)row["TimeIn"]).ToShortDateString()}";
+                            }
+                            else
+                            {
+
+                                if (isNextTrue)
+                                {
+                                    periodPay += $"-{tmpDate.ToShortDateString()},{((DateTime)row["TimeIn"]).ToShortDateString()}";
+                                }
+                                else
+                                {
+                                    periodPay += $",{((DateTime)row["TimeIn"]).ToShortDateString()}";
+                                }
+
+                                isNextTrue = false;
+                            }
+                            tmpDate = (DateTime)row["TimeIn"];
+                        }
+
+
+                        DataRow newRow = dtTmpIC.NewRow();
+                        newRow["FIO"] = rowCollect.First()["FIO"];
+                        newRow["namePost"] = rowCollect.First()["namePost"];
+                        newRow["OldSalary"] = rowCollect.First()["OldSalary"];
+                        newRow["MinSalary"] = rowCollect.First()["MinSalary"];
+                        newRow["MaxSalary"] = rowCollect.First()["MaxSalary"];
+                        newRow["nowSalary"] = rowCollect.First()["nowSalary"];
+                        newRow["id_Kadr"] = rowCollect.First()["id_Kadr"];
+                        newRow["periodPay"] = periodPay;
+                        newRow["minuteWork"] = listWorkData.AsEnumerable().Where(r => r.id_Kadr == gKadr.id_Kadr).Sum(r => r.minuteWork) / 60;
+                        newRow["hourWorkOnDay"] = listWorkData.AsEnumerable().Where(r => r.id_Kadr == gKadr.id_Kadr).Sum(r => r.hourWorkOnDay);
+                        newRow["payment"] = listWorkData.AsEnumerable().Where(r => r.id_Kadr == gKadr.id_Kadr).Sum(r => r.money);
+                        dtTmpIC.Rows.Add(newRow);
+
+                    }
+
+                    dtTrialTable = dtTmpIC.Copy();
+
+                    btDelPayIC.Enabled = dtTrialTable.Rows.Count > 1;
+                    dgvData.AutoGenerateColumns = false;
+                    dgvData.DataSource = dtTrialTable;
+
+                    isLoad = false;
+                    if (!isView)
+                    {
+                        initIsView();
+                        groupBox3.Enabled = true;
+                        foreach (Control cnt in groupBox3.Controls) cnt.Enabled = false;
+                        gbPayIC.Enabled = true;
+                        btSelect.Visible = true;
+                        btnPrintPayIC.Visible = new List<string>(new string[] { "РКВ" }).Contains(Config.CodeUser);
+                        btDelPayIC.Visible = new List<string>(new string[] { "КНТ", "КД" }).Contains(Config.CodeUser);
+                        cZasp.ReadOnly = !new List<string>(new string[] { "КНТ", "КД" }).Contains(Config.CodeUser) && new List<int>(new int[] { 2, 6, 4 }).Contains((int)dtTmp.Rows[0]["id_Status"]);
+                    }
+                }
             }
             //else tbComment.Enabled = btnSaveComment.Enabled = false;
             isEdit = false;
@@ -334,6 +467,11 @@ namespace ServiceRecords
             {
                 btAddFond.Enabled = btDelFond.Enabled = false;
             }
+        }
+
+        private void removeColumn(DataTable dtTmp, string nameColumn)
+        {
+            if (dtTmp.Columns.Contains(nameColumn)) dtTmp.Columns.Remove(nameColumn);
         }
 
         private void initIsView()
@@ -347,6 +485,8 @@ namespace ServiceRecords
             rbKvartal.Enabled = rbMonthly.Enabled = rbOneTime.Enabled = TypeSR.Enabled = rbFond.Enabled = false;
             cmbValuta.Enabled = false;
         }
+
+
         DataTable dtBlock, dtDeps, dtObjects, userDepartmentName, idDepartament, idBlock, userStatus;
         public void createValuta()
         {
@@ -372,6 +512,7 @@ namespace ServiceRecords
             dtObjects.DefaultView.RowFilter = filter;
 
         }
+      
         private void createBlock()
         {
             dtBlock = Config.hCntMain.getBlock(-1);
@@ -380,6 +521,7 @@ namespace ServiceRecords
             cmbBlock.ValueMember = "id_Block";
 
         }
+       
         private void createDeps()
         {
             if (cmbBlock.SelectedValue == null)
@@ -481,6 +623,11 @@ namespace ServiceRecords
         private void getTypicalWorks()
         {
             DataTable dtTypicalWorks = Config.hCntMain.getTypicalWorks(false);
+            if (id == -1)
+            {
+                EnumerableRowCollection<DataRow> rowCollect = dtTypicalWorks.AsEnumerable().Where(r => r.Field<int>("id") == 4);
+                if (rowCollect.Count() > 0) rowCollect.First().Delete();
+            }
             cmbTypicalWorks.DataSource = dtTypicalWorks;
             cmbTypicalWorks.DisplayMember = "cName";
             cmbTypicalWorks.ValueMember = "id";
@@ -871,6 +1018,18 @@ namespace ServiceRecords
                                                     rbMix.Checked,
                                                     idFond,
                                                     inType);
+
+                if (inType == 4)
+                {
+                    foreach (DataRow row in dtDataToSave.Rows)
+                    {
+                        int idTrialTabel = (int)row["id"];
+                        int id_kadr = (int)row["id_Kadr"];
+                        decimal Salary = (decimal)dtTrialTable.AsEnumerable().Where(r => r.Field<int>("id_Kadr") == id_kadr).First()["nowSalary"];
+                        decimal Payment = (Salary / ((decimal)row["normaDays"] * (decimal)row["hourWorkOnDay"])) * ((decimal)row["WorkedHours"]);
+                        Config.hCntMain.setTrialTablePayICServiceRecordLink(id, idTrialTabel, Payment, Salary, id_kadr, false);
+                    }
+                }
             }
 
 
@@ -2088,10 +2247,14 @@ namespace ServiceRecords
 
         private void cmbTypicalWorks_SelectionChangeCommitted(object sender, EventArgs e)
         {
+            if (cmbTypicalWorks.SelectedValue != null)
+                gbPayIC.Visible = (int)cmbTypicalWorks.SelectedValue == 4;
+
             if (isView) return;
             //Console.WriteLine("IN");
 
             visibleDZ();
+
 
            
             if (new List<string>(new string[] { "РКВ", "КД" }).Contains(UserSettings.User.StatusCode))
@@ -2226,6 +2389,74 @@ namespace ServiceRecords
             }
         }
 
+        private void dgvData_CellBeginEdit(object sender, DataGridViewCellCancelEventArgs e)
+        {
+            isStartEdit = true;
+        }
+
+        private void dgvData_CellEndEdit(object sender, DataGridViewCellEventArgs e)
+        {
+            if (isLoad) return;
+
+            isStartEdit = false;
+        }
+
+        private void dgvData_RowPostPaint(object sender, DataGridViewRowPostPaintEventArgs e)
+        {
+            DataGridView dgv = sender as DataGridView;
+            //Рисуем рамку для выделеной строки
+            if (dgv.Rows[e.RowIndex].Selected)
+            {
+                int width = dgv.Width;
+                Rectangle r = dgv.GetRowDisplayRectangle(e.RowIndex, false);
+                Rectangle rect = new Rectangle(r.X, r.Y, width - 1, r.Height - 1);
+
+                ControlPaint.DrawBorder(e.Graphics, rect,
+                    SystemColors.Highlight, 2, ButtonBorderStyle.Solid,
+                    SystemColors.Highlight, 2, ButtonBorderStyle.Solid,
+                    SystemColors.Highlight, 2, ButtonBorderStyle.Solid,
+                    SystemColors.Highlight, 2, ButtonBorderStyle.Solid);
+            }
+        }
+
+        private void dgvData_RowPrePaint(object sender, DataGridViewRowPrePaintEventArgs e)
+        {
+            if (e.RowIndex != -1 && dtTrialTable != null && dtTrialTable.DefaultView.Count != 0)
+            {
+                Color rColor = Color.White;
+                if (dtTrialTable.DefaultView[e.RowIndex]["OldSalary"] != DBNull.Value && (decimal)dtTrialTable.DefaultView[e.RowIndex]["nowSalary"] < (decimal)dtTrialTable.DefaultView[e.RowIndex]["MinSalary"])
+                    rColor = panel1.BackColor;
+
+                dgvData.Rows[e.RowIndex].DefaultCellStyle.BackColor = rColor;
+                dgvData.Rows[e.RowIndex].DefaultCellStyle.SelectionBackColor = rColor;
+                dgvData.Rows[e.RowIndex].DefaultCellStyle.SelectionForeColor = Color.Black;
+
+            }
+        }
+
+        private void dgvData_CellValidating(object sender, DataGridViewCellValidatingEventArgs e)
+        {
+            if (isLoad) return;
+            if (e.ColumnIndex != cZasp.Index) return;
+            if (!isStartEdit) return;
+
+            decimal tmpValue;
+            if (!decimal.TryParse(e.FormattedValue.ToString(), out tmpValue)) { MessageBox.Show("Не корректное значение!", "Редактирование оклада", MessageBoxButtons.OK, MessageBoxIcon.Warning); e.Cancel = true; }
+
+            decimal MinSalary = (decimal)dtTrialTable.DefaultView[e.RowIndex]["MinSalary"];
+            decimal MaxSalary = (decimal)dtTrialTable.DefaultView[e.RowIndex]["MaxSalary"];
+            int id_Kadr = (int)dtTrialTable.DefaultView[e.RowIndex]["id_Kadr"];
+
+            if (MinSalary > tmpValue || tmpValue > MaxSalary) { MessageBox.Show(Config.centralText($"Введенная величина оклада\nвыходит за допустимый\nдиапазон: {MinSalary.ToString("0.00")} - {MaxSalary.ToString("0.00")}\n"), "Редактирование оклада", MessageBoxButtons.OK, MessageBoxIcon.Warning); e.Cancel = true; }
+
+            decimal newMoney = listWorkData.AsEnumerable().Where(r => r.id_Kadr == id_Kadr).Sum(s => s.toNextResult * tmpValue);
+            dtTrialTable.DefaultView[e.RowIndex]["payment"] = newMoney;
+            dtTrialTable.DefaultView[e.RowIndex]["nowSalary"] = tmpValue;
+            tbSumma.Text = dtTrialTable.DefaultView.ToTable().AsEnumerable().Sum(r => r.Field<decimal>("payment")).ToString("0.00");
+            //dtData.AcceptChanges();
+
+        }
+
         private void dgvFond_SelectionChanged(object sender, EventArgs e)
         {
             if (dgvFond.DataSource == null) { btFondViewSZ.Enabled = false; btFondPrintSZ.Enabled = false; return; }
@@ -2324,7 +2555,24 @@ namespace ServiceRecords
         #endregion
 
 
+        class normDay
+        {
+            public int id_Kadr;
+            public int month;
+            public int year;
+            public decimal normaDays;
+        }
 
+        class workData
+        {
+            public int id_Kadr;
+            public decimal minuteWork;
+            public decimal hourWorkOnDay;
+            public decimal money;
+            public decimal toNextResult;
+            public int year;
+            public int month;
+        }
     }
 
 

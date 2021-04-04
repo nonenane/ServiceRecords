@@ -908,11 +908,11 @@ namespace ServiceRecords
             btRefuse.Enabled = (Config.CodeUser.Equals("КНТ") && (id_Status == 2 || id_Status == 8) && inType != 3) ||
                 (Config.CodeUser.Equals("КД") && (id_Status == 4 || id_Status == 10));
 
-            btEditBlock.Enabled = !(Config.CodeUser.Equals("КНТ") && (inType == 3));
+            //btEditBlock.Enabled = !(Config.CodeUser.Equals("КНТ") && (inType == 3));
 
-            //btEditBlock.Enabled = (Config.CodeUser.Equals("РКВ")  && (id_Status == 1 || id_Status == 3 || id_Status == 6) && id_Creator == Nwuram.Framework.Settings.User.UserSettings.User.Id)
-            //    ||(Config.CodeUser.Equals("ОП") && (id_Status == 1 || id_Status == 3 || id_Status == 6))
-            //    || (Config.CodeUser.Equals("КНТ") && (id_Status != 5 || id_Status != 11));
+            btEditBlock.Enabled = (Config.CodeUser.Equals("РКВ")  && (id_Status == 1 || id_Status == 3 || id_Status == 6) && id_Creator == Nwuram.Framework.Settings.User.UserSettings.User.Id)
+                ||(Config.CodeUser.Equals("ОП") && (id_Status == 1 || id_Status == 3 || id_Status == 6))
+                || (Config.CodeUser.Equals("КНТ") && (id_Status != 5 || id_Status != 11));
 
             btDelBlock.Enabled = (Config.CodeUser.Equals("РКВ") && (id_Status == 1 || id_Status == 3 || id_Status == 6) && id_Creator == Nwuram.Framework.Settings.User.UserSettings.User.Id)
                 || (Config.CodeUser.Equals("ОП") && (id_Status == 1 || id_Status == 6));
@@ -1807,13 +1807,14 @@ namespace ServiceRecords
             dgvMain.Rows[e.RowIndex].DefaultCellStyle.SelectionForeColor = Color.Black;
 
 
-            if ((int)dtMain.DefaultView[e.RowIndex]["TypeServiceRecordOnTime"] == 2)
-                dgvMain.Rows[e.RowIndex].Cells["cDateCreate"].Style.BackColor =
-                     dgvMain.Rows[e.RowIndex].Cells["cDateCreate"].Style.SelectionBackColor = panel2.BackColor;
-            else if ((int)dtMain.DefaultView[e.RowIndex]["TypeServiceRecordOnTime"] == 1) dgvMain.Rows[e.RowIndex].Cells["cDateCreate"].Style.BackColor =
-                    dgvMain.Rows[e.RowIndex].Cells["cDateCreate"].Style.SelectionBackColor = panel1.BackColor;
-            else if ((int)dtMain.DefaultView[e.RowIndex]["TypeServiceRecordOnTime"] == 3) dgvMain.Rows[e.RowIndex].Cells["cDescription"].Style.BackColor =
-                    dgvMain.Rows[e.RowIndex].Cells["cDescription"].Style.SelectionBackColor = panel6.BackColor;
+            if ((int)dtMain.DefaultView[e.RowIndex]["TypeServiceRecordOnTime"] == 1)
+                dgvMain.Rows[e.RowIndex].Cells["cDateCreate"].Style.BackColor = dgvMain.Rows[e.RowIndex].Cells["cDateCreate"].Style.SelectionBackColor = panel1.BackColor;
+            else if ((int)dtMain.DefaultView[e.RowIndex]["TypeServiceRecordOnTime"] == 2)
+                dgvMain.Rows[e.RowIndex].Cells["cDateCreate"].Style.BackColor = dgvMain.Rows[e.RowIndex].Cells["cDateCreate"].Style.SelectionBackColor = panel2.BackColor;
+            else if ((int)dtMain.DefaultView[e.RowIndex]["TypeServiceRecordOnTime"] == 3)
+                dgvMain.Rows[e.RowIndex].Cells["cDescription"].Style.BackColor = dgvMain.Rows[e.RowIndex].Cells["cDescription"].Style.SelectionBackColor = panel6.BackColor;
+            else if ((int)dtMain.DefaultView[e.RowIndex]["TypeServiceRecordOnTime"] == 4)
+                dgvMain.Rows[e.RowIndex].Cells["cDateCreate"].Style.BackColor = dgvMain.Rows[e.RowIndex].Cells["cDateCreate"].Style.SelectionBackColor = pKvartal.BackColor;
 
             if (dtMain.Columns.Contains("id_ServiceRecords"))
             {
@@ -1821,7 +1822,11 @@ namespace ServiceRecords
                          dgvMain.Rows[e.RowIndex].Cells["cDescription"].Style.SelectionBackColor = panel6.BackColor;
             }
 
-            
+            if (dtMain.Columns.Contains("inType"))
+                if (dtMain.DefaultView[e.RowIndex]["inType"] != DBNull.Value && (int)dtMain.DefaultView[e.RowIndex]["inType"] == 4)
+                    dgvMain.Rows[e.RowIndex].Cells["cSumma"].Style.BackColor =
+                         dgvMain.Rows[e.RowIndex].Cells["cSumma"].Style.SelectionBackColor = pPayIC.BackColor;
+
         }
 
         private void btnCheckReport_Click(object sender, EventArgs e)

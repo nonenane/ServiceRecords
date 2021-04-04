@@ -111,12 +111,20 @@
             this.label10 = new System.Windows.Forms.Label();
             this.btnPrintFond = new System.Windows.Forms.Button();
             this.chbReportPreMonth = new System.Windows.Forms.CheckBox();
+            this.pKvartal = new System.Windows.Forms.Panel();
+            this.panel9 = new System.Windows.Forms.Panel();
+            this.label11 = new System.Windows.Forms.Label();
+            this.pPayIC = new System.Windows.Forms.Panel();
+            this.panel11 = new System.Windows.Forms.Panel();
+            this.label12 = new System.Windows.Forms.Label();
             this.groupBox1.SuspendLayout();
             this.cmsWorking.SuspendLayout();
             this.menuStrip1.SuspendLayout();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvMain)).BeginInit();
             this.panel6.SuspendLayout();
+            this.pKvartal.SuspendLayout();
+            this.pPayIC.SuspendLayout();
             this.SuspendLayout();
             // 
             // cmbDeps
@@ -279,41 +287,41 @@
             this.tsmiSetReport,
             this.tsmiAnylSZ});
             this.cmsWorking.Name = "cmsWorking";
-            this.cmsWorking.Size = new System.Drawing.Size(181, 136);
+            this.cmsWorking.Size = new System.Drawing.Size(184, 136);
             this.cmsWorking.Opening += new System.ComponentModel.CancelEventHandler(this.cmsWorking_Opening);
             // 
             // cmsiTakeMoney
             // 
             this.cmsiTakeMoney.Name = "cmsiTakeMoney";
-            this.cmsiTakeMoney.Size = new System.Drawing.Size(180, 22);
+            this.cmsiTakeMoney.Size = new System.Drawing.Size(183, 22);
             this.cmsiTakeMoney.Text = "Заказать Деньги";
             this.cmsiTakeMoney.Click += new System.EventHandler(this.cmsiTakeMoney_Click);
             // 
             // cmsiDropeMoney
             // 
             this.cmsiDropeMoney.Name = "cmsiDropeMoney";
-            this.cmsiDropeMoney.Size = new System.Drawing.Size(180, 22);
+            this.cmsiDropeMoney.Size = new System.Drawing.Size(183, 22);
             this.cmsiDropeMoney.Text = "Вернуть Деньги";
             this.cmsiDropeMoney.Click += new System.EventHandler(this.cmsiDropeMoney_Click);
             // 
             // tsmiAddDoc
             // 
             this.tsmiAddDoc.Name = "tsmiAddDoc";
-            this.tsmiAddDoc.Size = new System.Drawing.Size(180, 22);
+            this.tsmiAddDoc.Size = new System.Drawing.Size(183, 22);
             this.tsmiAddDoc.Text = "Добавить документ";
             this.tsmiAddDoc.Click += new System.EventHandler(this.tsmiAddDoc_Click);
             // 
             // tsmiClose
             // 
             this.tsmiClose.Name = "tsmiClose";
-            this.tsmiClose.Size = new System.Drawing.Size(180, 22);
+            this.tsmiClose.Size = new System.Drawing.Size(183, 22);
             this.tsmiClose.Text = "Закрыть служебку";
             this.tsmiClose.Click += new System.EventHandler(this.tsmiClose_Click);
             // 
             // tsmiSetReport
             // 
             this.tsmiSetReport.Name = "tsmiSetReport";
-            this.tsmiSetReport.Size = new System.Drawing.Size(180, 22);
+            this.tsmiSetReport.Size = new System.Drawing.Size(183, 22);
             this.tsmiSetReport.Text = "Предоставить отчет";
             this.tsmiSetReport.Visible = false;
             this.tsmiSetReport.Click += new System.EventHandler(this.tsmiSetReport_Click);
@@ -321,7 +329,7 @@
             // tsmiAnylSZ
             // 
             this.tsmiAnylSZ.Name = "tsmiAnylSZ";
-            this.tsmiAnylSZ.Size = new System.Drawing.Size(180, 22);
+            this.tsmiAnylSZ.Size = new System.Drawing.Size(183, 22);
             this.tsmiAnylSZ.Text = "Анулировать СЗ";
             this.tsmiAnylSZ.Visible = false;
             this.tsmiAnylSZ.Click += new System.EventHandler(this.анулироватьСЗToolStripMenuItem_Click);
@@ -342,7 +350,7 @@
             // 
             this.помощьToolStripMenuItem.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
             this.помощьToolStripMenuItem.Name = "помощьToolStripMenuItem";
-            this.помощьToolStripMenuItem.Size = new System.Drawing.Size(59, 20);
+            this.помощьToolStripMenuItem.Size = new System.Drawing.Size(68, 20);
             this.помощьToolStripMenuItem.Text = "Помощь";
             this.помощьToolStripMenuItem.Click += new System.EventHandler(this.помощьToolStripMenuItem_Click);
             // 
@@ -414,7 +422,7 @@
             this.panel1.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
             this.panel1.Controls.Add(this.panel2);
             this.panel1.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(224)))), ((int)(((byte)(192)))));
-            this.panel1.Location = new System.Drawing.Point(12, 528);
+            this.panel1.Location = new System.Drawing.Point(12, 526);
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(20, 20);
             this.panel1.TabIndex = 55;
@@ -432,7 +440,7 @@
             // 
             this.label6.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(42, 532);
+            this.label6.Location = new System.Drawing.Point(42, 530);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(73, 13);
             this.label6.TabIndex = 56;
@@ -463,7 +471,7 @@
             this.panel4.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.panel4.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(128)))), ((int)(((byte)(128)))));
             this.panel4.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.panel4.Location = new System.Drawing.Point(166, 528);
+            this.panel4.Location = new System.Drawing.Point(166, 526);
             this.panel4.Name = "panel4";
             this.panel4.Size = new System.Drawing.Size(20, 20);
             this.panel4.TabIndex = 59;
@@ -472,7 +480,7 @@
             // 
             this.label8.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.label8.AutoSize = true;
-            this.label8.Location = new System.Drawing.Point(192, 532);
+            this.label8.Location = new System.Drawing.Point(192, 530);
             this.label8.Name = "label8";
             this.label8.Size = new System.Drawing.Size(57, 13);
             this.label8.TabIndex = 60;
@@ -664,7 +672,7 @@
             this.panel5.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.panel5.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(192)))), ((int)(((byte)(128)))));
             this.panel5.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.panel5.Location = new System.Drawing.Point(166, 555);
+            this.panel5.Location = new System.Drawing.Point(443, 526);
             this.panel5.Name = "panel5";
             this.panel5.Size = new System.Drawing.Size(20, 20);
             this.panel5.TabIndex = 60;
@@ -673,7 +681,7 @@
             // 
             this.label9.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.label9.AutoSize = true;
-            this.label9.Location = new System.Drawing.Point(194, 559);
+            this.label9.Location = new System.Drawing.Point(471, 530);
             this.label9.Name = "label9";
             this.label9.Size = new System.Drawing.Size(121, 13);
             this.label9.TabIndex = 63;
@@ -879,8 +887,8 @@
             this.panel6.BackColor = System.Drawing.Color.Yellow;
             this.panel6.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
             this.panel6.Controls.Add(this.panel7);
-            this.panel6.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(224)))), ((int)(((byte)(192)))));
-            this.panel6.Location = new System.Drawing.Point(331, 528);
+            this.panel6.ForeColor = System.Drawing.SystemColors.ControlText;
+            this.panel6.Location = new System.Drawing.Point(277, 526);
             this.panel6.Name = "panel6";
             this.panel6.Size = new System.Drawing.Size(20, 20);
             this.panel6.TabIndex = 55;
@@ -898,7 +906,7 @@
             // 
             this.label10.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.label10.AutoSize = true;
-            this.label10.Location = new System.Drawing.Point(361, 532);
+            this.label10.Location = new System.Drawing.Point(307, 530);
             this.label10.Name = "label10";
             this.label10.Size = new System.Drawing.Size(42, 13);
             this.label10.TabIndex = 56;
@@ -921,13 +929,75 @@
             this.chbReportPreMonth.AutoSize = true;
             this.chbReportPreMonth.Checked = true;
             this.chbReportPreMonth.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.chbReportPreMonth.Location = new System.Drawing.Point(415, 530);
+            this.chbReportPreMonth.Location = new System.Drawing.Point(786, 526);
             this.chbReportPreMonth.Name = "chbReportPreMonth";
             this.chbReportPreMonth.Size = new System.Drawing.Size(225, 17);
             this.chbReportPreMonth.TabIndex = 66;
             this.chbReportPreMonth.Text = "предоставить отчет за прошлый месяц";
             this.chbReportPreMonth.UseVisualStyleBackColor = true;
             this.chbReportPreMonth.Click += new System.EventHandler(this.chbReportPreMonth_Click);
+            // 
+            // pKvartal
+            // 
+            this.pKvartal.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.pKvartal.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(183)))), ((int)(((byte)(248)))));
+            this.pKvartal.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.pKvartal.Controls.Add(this.panel9);
+            this.pKvartal.ForeColor = System.Drawing.SystemColors.ControlText;
+            this.pKvartal.Location = new System.Drawing.Point(277, 555);
+            this.pKvartal.Name = "pKvartal";
+            this.pKvartal.Size = new System.Drawing.Size(20, 20);
+            this.pKvartal.TabIndex = 55;
+            // 
+            // panel9
+            // 
+            this.panel9.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
+            this.panel9.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(224)))), ((int)(((byte)(192)))));
+            this.panel9.Location = new System.Drawing.Point(1, 25);
+            this.panel9.Name = "panel9";
+            this.panel9.Size = new System.Drawing.Size(20, 20);
+            this.panel9.TabIndex = 56;
+            // 
+            // label11
+            // 
+            this.label11.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.label11.AutoSize = true;
+            this.label11.Location = new System.Drawing.Point(307, 559);
+            this.label11.Name = "label11";
+            this.label11.Size = new System.Drawing.Size(116, 13);
+            this.label11.TabIndex = 56;
+            this.label11.Text = "- Ежеквартальная СЗ";
+            // 
+            // pPayIC
+            // 
+            this.pPayIC.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.pPayIC.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
+            this.pPayIC.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.pPayIC.Controls.Add(this.panel11);
+            this.pPayIC.ForeColor = System.Drawing.SystemColors.ControlText;
+            this.pPayIC.Location = new System.Drawing.Point(166, 555);
+            this.pPayIC.Name = "pPayIC";
+            this.pPayIC.Size = new System.Drawing.Size(20, 20);
+            this.pPayIC.TabIndex = 55;
+            // 
+            // panel11
+            // 
+            this.panel11.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
+            this.panel11.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(224)))), ((int)(((byte)(192)))));
+            this.panel11.Location = new System.Drawing.Point(1, 25);
+            this.panel11.Name = "panel11";
+            this.panel11.Size = new System.Drawing.Size(20, 20);
+            this.panel11.TabIndex = 56;
+            // 
+            // label12
+            // 
+            this.label12.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.label12.AutoSize = true;
+            this.label12.Location = new System.Drawing.Point(196, 559);
+            this.label12.Name = "label12";
+            this.label12.Size = new System.Drawing.Size(68, 13);
+            this.label12.TabIndex = 56;
+            this.label12.Text = "- Оплата ИС";
             // 
             // frmMain
             // 
@@ -945,7 +1015,11 @@
             this.Controls.Add(this.panel4);
             this.Controls.Add(this.label7);
             this.Controls.Add(this.panel3);
+            this.Controls.Add(this.label12);
+            this.Controls.Add(this.label11);
             this.Controls.Add(this.label10);
+            this.Controls.Add(this.pPayIC);
+            this.Controls.Add(this.pKvartal);
             this.Controls.Add(this.panel6);
             this.Controls.Add(this.label6);
             this.Controls.Add(this.panel1);
@@ -997,6 +1071,8 @@
             this.panel1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dgvMain)).EndInit();
             this.panel6.ResumeLayout(false);
+            this.pKvartal.ResumeLayout(false);
+            this.pPayIC.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -1080,6 +1156,12 @@
         private System.Windows.Forms.Label label10;
         private System.Windows.Forms.Button btnPrintFond;
         private System.Windows.Forms.CheckBox chbReportPreMonth;
+        private System.Windows.Forms.Panel pKvartal;
+        private System.Windows.Forms.Panel panel9;
+        private System.Windows.Forms.Label label11;
+        private System.Windows.Forms.Panel pPayIC;
+        private System.Windows.Forms.Panel panel11;
+        private System.Windows.Forms.Label label12;
     }
 }
 

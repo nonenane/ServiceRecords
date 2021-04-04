@@ -1167,5 +1167,30 @@ namespace ServiceRecords
                   new DbType[1] { DbType.Int32 }, ap);
         }
 
+        public DataTable getTrialTablePayICServiceRecordLink(int id_serviceRecord)
+        {
+            ap.Clear();
+            ap.Add(id_serviceRecord);
+
+            return executeProcedure("[ServiceRecords].[getTrialTablePayICServiceRecordLink]",
+                  new string[1] { "@id_serviceRecord" },
+                  new DbType[1] { DbType.Int32 }, ap);
+        }
+
+        public DataTable setTrialTablePayICServiceRecordLink(int id_serviceRecord,int idTrialTabel,decimal Payment,decimal Salary,int id_kadr,bool isDel)
+        {
+            ap.Clear();
+            ap.Add(id_serviceRecord);
+            ap.Add(idTrialTabel);
+            ap.Add(Payment);
+            ap.Add(Salary);
+            ap.Add(id_kadr);
+            ap.Add(UserSettings.User.Id);
+            ap.Add(isDel);
+
+            return executeProcedure("[ServiceRecords].[setTrialTablePayICServiceRecordLink]",
+                  new string[7] { "@id_serviceRecord", "@idTrialTabel", "@Payment", "@Salary", "@id_kadr", "@id_user", "@isDel" },
+                  new DbType[7] { DbType.Int32, DbType.Int32, DbType.Decimal, DbType.Decimal, DbType.Int32, DbType.Int32, DbType.Boolean }, ap);
+        }
     }
 }

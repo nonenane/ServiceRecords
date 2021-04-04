@@ -28,8 +28,20 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle12 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle13 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle14 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle10 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle11 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle7 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle8 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle9 = new System.Windows.Forms.DataGridViewCellStyle();
             this.TypeSR = new System.Windows.Forms.GroupBox();
             this.rbTemplate = new System.Windows.Forms.RadioButton();
             this.rbStandart = new System.Windows.Forms.RadioButton();
@@ -127,6 +139,19 @@
             this.dtpNextDate = new System.Windows.Forms.DateTimePicker();
             this.label3 = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
+            this.dgvData = new System.Windows.Forms.DataGridView();
+            this.cFIO = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.cPost = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.cZasp = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.cPeriodPay = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.cHourWork = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.cWorkDay = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.cPay = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.label21 = new System.Windows.Forms.Label();
+            this.panel1 = new System.Windows.Forms.Panel();
+            this.gbPayIC = new System.Windows.Forms.GroupBox();
+            this.btnPrintPayIC = new System.Windows.Forms.Button();
+            this.btDelPayIC = new System.Windows.Forms.Button();
             this.TypeSR.SuspendLayout();
             this.groupBox2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.picBoxConfirmationD)).BeginInit();
@@ -137,6 +162,8 @@
             this.groupBox3.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvNote)).BeginInit();
             this.grbTypeOplata.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvData)).BeginInit();
+            this.gbPayIC.SuspendLayout();
             this.SuspendLayout();
             // 
             // TypeSR
@@ -368,7 +395,7 @@
             // btAccept
             // 
             this.btAccept.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.btAccept.Location = new System.Drawing.Point(658, 659);
+            this.btAccept.Location = new System.Drawing.Point(648, 659);
             this.btAccept.Name = "btAccept";
             this.btAccept.Size = new System.Drawing.Size(110, 32);
             this.btAccept.TabIndex = 46;
@@ -380,7 +407,7 @@
             // btRefuse
             // 
             this.btRefuse.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.btRefuse.Location = new System.Drawing.Point(541, 659);
+            this.btRefuse.Location = new System.Drawing.Point(531, 659);
             this.btRefuse.Name = "btRefuse";
             this.btRefuse.Size = new System.Drawing.Size(110, 32);
             this.btRefuse.TabIndex = 47;
@@ -425,7 +452,7 @@
             // 
             this.btSelect.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.btSelect.Image = global::ServiceRecords.Properties.Resources.save_edit;
-            this.btSelect.Location = new System.Drawing.Point(878, 659);
+            this.btSelect.Location = new System.Drawing.Point(868, 659);
             this.btSelect.Name = "btSelect";
             this.btSelect.Size = new System.Drawing.Size(32, 32);
             this.btSelect.TabIndex = 22;
@@ -436,7 +463,7 @@
             // 
             this.btClose.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.btClose.Image = global::ServiceRecords.Properties.Resources.exit_8633;
-            this.btClose.Location = new System.Drawing.Point(916, 659);
+            this.btClose.Location = new System.Drawing.Point(906, 659);
             this.btClose.Name = "btClose";
             this.btClose.Size = new System.Drawing.Size(32, 32);
             this.btClose.TabIndex = 23;
@@ -448,7 +475,7 @@
             this.btnSaveComment.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.btnSaveComment.Enabled = false;
             this.btnSaveComment.Image = global::ServiceRecords.Properties.Resources.view2;
-            this.btnSaveComment.Location = new System.Drawing.Point(916, 618);
+            this.btnSaveComment.Location = new System.Drawing.Point(906, 618);
             this.btnSaveComment.Name = "btnSaveComment";
             this.btnSaveComment.Size = new System.Drawing.Size(32, 32);
             this.btnSaveComment.TabIndex = 49;
@@ -631,14 +658,14 @@
             this.dgvFond.AllowUserToDeleteRows = false;
             this.dgvFond.AllowUserToResizeRows = false;
             this.dgvFond.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
-            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle3.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle3.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            dataGridViewCellStyle3.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle3.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle3.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.dgvFond.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle3;
+            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dgvFond.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
             this.dgvFond.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgvFond.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.cFNumber,
@@ -683,6 +710,7 @@
             // 
             // groupBox3
             // 
+            this.groupBox3.Controls.Add(this.gbPayIC);
             this.groupBox3.Controls.Add(this.tbListBonus);
             this.groupBox3.Controls.Add(this.btSelectDZ);
             this.groupBox3.Controls.Add(this.cmbTypicalWorks);
@@ -699,17 +727,12 @@
             this.groupBox3.Controls.Add(this.lblObject);
             this.groupBox3.Controls.Add(this.cmbObjects);
             this.groupBox3.Controls.Add(this.chbSingleNote);
-            this.groupBox3.Controls.Add(this.chbMoreNote);
-            this.groupBox3.Controls.Add(this.dgvNote);
             this.groupBox3.Controls.Add(this.dtpSingleNote);
             this.groupBox3.Controls.Add(this.grbTypeOplata);
             this.groupBox3.Controls.Add(this.label8);
             this.groupBox3.Controls.Add(this.label16);
             this.groupBox3.Controls.Add(this.label7);
             this.groupBox3.Controls.Add(this.tbCommentNote);
-            this.groupBox3.Controls.Add(this.btAddBlock);
-            this.groupBox3.Controls.Add(this.btEditBlock);
-            this.groupBox3.Controls.Add(this.btDelBlock);
             this.groupBox3.Controls.Add(this.cmbDeps);
             this.groupBox3.Controls.Add(this.dtpDateD);
             this.groupBox3.Controls.Add(this.cmbBlock);
@@ -900,7 +923,7 @@
             // chbMoreNote
             // 
             this.chbMoreNote.AutoSize = true;
-            this.chbMoreNote.Location = new System.Drawing.Point(14, 406);
+            this.chbMoreNote.Location = new System.Drawing.Point(1055, 469);
             this.chbMoreNote.Name = "chbMoreNote";
             this.chbMoreNote.Size = new System.Drawing.Size(261, 17);
             this.chbMoreNote.TabIndex = 43;
@@ -915,14 +938,14 @@
             this.dgvNote.AllowUserToDeleteRows = false;
             this.dgvNote.AllowUserToResizeRows = false;
             this.dgvNote.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
-            dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle4.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle4.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            dataGridViewCellStyle4.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle4.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle4.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle4.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.dgvNote.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle4;
+            dataGridViewCellStyle12.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle12.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle12.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            dataGridViewCellStyle12.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle12.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle12.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle12.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dgvNote.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle12;
             this.dgvNote.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgvNote.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.cNumber,
@@ -930,11 +953,27 @@
             this.cPlaneDate,
             this.cSign,
             this.cPass});
-            this.dgvNote.Location = new System.Drawing.Point(14, 429);
+            dataGridViewCellStyle13.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle13.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle13.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            dataGridViewCellStyle13.ForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle13.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle13.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle13.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.dgvNote.DefaultCellStyle = dataGridViewCellStyle13;
+            this.dgvNote.Location = new System.Drawing.Point(1055, 492);
             this.dgvNote.MultiSelect = false;
             this.dgvNote.Name = "dgvNote";
+            dataGridViewCellStyle14.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle14.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle14.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            dataGridViewCellStyle14.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle14.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle14.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle14.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dgvNote.RowHeadersDefaultCellStyle = dataGridViewCellStyle14;
             this.dgvNote.RowHeadersVisible = false;
-            this.dgvNote.Size = new System.Drawing.Size(531, 64);
+            this.dgvNote.Size = new System.Drawing.Size(261, 64);
             this.dgvNote.TabIndex = 41;
             this.dgvNote.Visible = false;
             this.dgvNote.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvNote_CellContentClick);
@@ -1074,10 +1113,10 @@
             // 
             // btAddBlock
             // 
-            this.btAddBlock.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.btAddBlock.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.btAddBlock.Enabled = false;
             this.btAddBlock.Image = global::ServiceRecords.Properties.Resources.document_add;
-            this.btAddBlock.Location = new System.Drawing.Point(432, 499);
+            this.btAddBlock.Location = new System.Drawing.Point(1217, 562);
             this.btAddBlock.Name = "btAddBlock";
             this.btAddBlock.Size = new System.Drawing.Size(32, 32);
             this.btAddBlock.TabIndex = 32;
@@ -1087,10 +1126,10 @@
             // 
             // btEditBlock
             // 
-            this.btEditBlock.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.btEditBlock.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.btEditBlock.Enabled = false;
             this.btEditBlock.Image = global::ServiceRecords.Properties.Resources.edit;
-            this.btEditBlock.Location = new System.Drawing.Point(470, 499);
+            this.btEditBlock.Location = new System.Drawing.Point(1255, 562);
             this.btEditBlock.Name = "btEditBlock";
             this.btEditBlock.Size = new System.Drawing.Size(32, 32);
             this.btEditBlock.TabIndex = 33;
@@ -1100,10 +1139,10 @@
             // 
             // btDelBlock
             // 
-            this.btDelBlock.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.btDelBlock.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.btDelBlock.Enabled = false;
             this.btDelBlock.Image = global::ServiceRecords.Properties.Resources.document_delete;
-            this.btDelBlock.Location = new System.Drawing.Point(508, 499);
+            this.btDelBlock.Location = new System.Drawing.Point(1293, 562);
             this.btDelBlock.Name = "btDelBlock";
             this.btDelBlock.Size = new System.Drawing.Size(32, 32);
             this.btDelBlock.TabIndex = 34;
@@ -1235,11 +1274,186 @@
             this.label5.TabIndex = 28;
             this.label5.Text = "Отдел";
             // 
+            // dgvData
+            // 
+            this.dgvData.AllowUserToAddRows = false;
+            this.dgvData.AllowUserToDeleteRows = false;
+            this.dgvData.AllowUserToResizeRows = false;
+            this.dgvData.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.dgvData.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
+            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle2.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            dataGridViewCellStyle2.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dgvData.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle2;
+            this.dgvData.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dgvData.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.cFIO,
+            this.cPost,
+            this.cZasp,
+            this.cPeriodPay,
+            this.cHourWork,
+            this.cWorkDay,
+            this.cPay});
+            dataGridViewCellStyle10.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle10.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle10.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            dataGridViewCellStyle10.ForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle10.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle10.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle10.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.dgvData.DefaultCellStyle = dataGridViewCellStyle10;
+            this.dgvData.Location = new System.Drawing.Point(8, 18);
+            this.dgvData.MultiSelect = false;
+            this.dgvData.Name = "dgvData";
+            dataGridViewCellStyle11.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle11.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle11.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            dataGridViewCellStyle11.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle11.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle11.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle11.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dgvData.RowHeadersDefaultCellStyle = dataGridViewCellStyle11;
+            this.dgvData.RowHeadersVisible = false;
+            this.dgvData.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
+            this.dgvData.Size = new System.Drawing.Size(520, 132);
+            this.dgvData.TabIndex = 57;
+            this.dgvData.CellBeginEdit += new System.Windows.Forms.DataGridViewCellCancelEventHandler(this.dgvData_CellBeginEdit);
+            this.dgvData.CellEndEdit += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvData_CellEndEdit);
+            this.dgvData.CellValidating += new System.Windows.Forms.DataGridViewCellValidatingEventHandler(this.dgvData_CellValidating);
+            this.dgvData.RowPostPaint += new System.Windows.Forms.DataGridViewRowPostPaintEventHandler(this.dgvData_RowPostPaint);
+            this.dgvData.RowPrePaint += new System.Windows.Forms.DataGridViewRowPrePaintEventHandler(this.dgvData_RowPrePaint);
+            // 
+            // cFIO
+            // 
+            this.cFIO.DataPropertyName = "FIO";
+            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.cFIO.DefaultCellStyle = dataGridViewCellStyle3;
+            this.cFIO.HeaderText = "ФИО";
+            this.cFIO.Name = "cFIO";
+            this.cFIO.ReadOnly = true;
+            // 
+            // cPost
+            // 
+            this.cPost.DataPropertyName = "namePost";
+            dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.cPost.DefaultCellStyle = dataGridViewCellStyle4;
+            this.cPost.HeaderText = "Должность";
+            this.cPost.Name = "cPost";
+            this.cPost.ReadOnly = true;
+            // 
+            // cZasp
+            // 
+            this.cZasp.DataPropertyName = "nowSalary";
+            dataGridViewCellStyle5.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            dataGridViewCellStyle5.Format = "N2";
+            this.cZasp.DefaultCellStyle = dataGridViewCellStyle5;
+            this.cZasp.HeaderText = "Оклад";
+            this.cZasp.Name = "cZasp";
+            // 
+            // cPeriodPay
+            // 
+            this.cPeriodPay.DataPropertyName = "periodPay";
+            dataGridViewCellStyle6.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.cPeriodPay.DefaultCellStyle = dataGridViewCellStyle6;
+            this.cPeriodPay.HeaderText = "Период оплаты";
+            this.cPeriodPay.Name = "cPeriodPay";
+            this.cPeriodPay.ReadOnly = true;
+            // 
+            // cHourWork
+            // 
+            this.cHourWork.DataPropertyName = "minuteWork";
+            dataGridViewCellStyle7.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            dataGridViewCellStyle7.Format = "N2";
+            this.cHourWork.DefaultCellStyle = dataGridViewCellStyle7;
+            this.cHourWork.HeaderText = "Отработанные часы";
+            this.cHourWork.Name = "cHourWork";
+            this.cHourWork.ReadOnly = true;
+            // 
+            // cWorkDay
+            // 
+            this.cWorkDay.DataPropertyName = "hourWorkOnDay";
+            dataGridViewCellStyle8.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            dataGridViewCellStyle8.Format = "N2";
+            this.cWorkDay.DefaultCellStyle = dataGridViewCellStyle8;
+            this.cWorkDay.HeaderText = "Отработанные дни";
+            this.cWorkDay.Name = "cWorkDay";
+            this.cWorkDay.ReadOnly = true;
+            // 
+            // cPay
+            // 
+            this.cPay.DataPropertyName = "payment";
+            dataGridViewCellStyle9.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            dataGridViewCellStyle9.Format = "N2";
+            this.cPay.DefaultCellStyle = dataGridViewCellStyle9;
+            this.cPay.HeaderText = "Оплата";
+            this.cPay.Name = "cPay";
+            this.cPay.ReadOnly = true;
+            // 
+            // label21
+            // 
+            this.label21.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.label21.AutoSize = true;
+            this.label21.Location = new System.Drawing.Point(79, 166);
+            this.label21.Name = "label21";
+            this.label21.Size = new System.Drawing.Size(189, 13);
+            this.label21.TabIndex = 59;
+            this.label21.Text = "оклад отличается от минимального";
+            // 
+            // panel1
+            // 
+            this.panel1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.panel1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(11)))));
+            this.panel1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.panel1.Location = new System.Drawing.Point(52, 164);
+            this.panel1.Name = "panel1";
+            this.panel1.Size = new System.Drawing.Size(17, 17);
+            this.panel1.TabIndex = 58;
+            // 
+            // gbPayIC
+            // 
+            this.gbPayIC.Controls.Add(this.btnPrintPayIC);
+            this.gbPayIC.Controls.Add(this.btDelPayIC);
+            this.gbPayIC.Controls.Add(this.label21);
+            this.gbPayIC.Controls.Add(this.dgvData);
+            this.gbPayIC.Controls.Add(this.panel1);
+            this.gbPayIC.Location = new System.Drawing.Point(6, 347);
+            this.gbPayIC.Name = "gbPayIC";
+            this.gbPayIC.Size = new System.Drawing.Size(536, 191);
+            this.gbPayIC.TabIndex = 57;
+            this.gbPayIC.TabStop = false;
+            this.gbPayIC.Visible = false;
+            // 
+            // btnPrintPayIC
+            // 
+            this.btnPrintPayIC.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.btnPrintPayIC.Image = global::ServiceRecords.Properties.Resources.klpq_2511;
+            this.btnPrintPayIC.Location = new System.Drawing.Point(9, 156);
+            this.btnPrintPayIC.Name = "btnPrintPayIC";
+            this.btnPrintPayIC.Size = new System.Drawing.Size(32, 32);
+            this.btnPrintPayIC.TabIndex = 67;
+            this.btnPrintPayIC.UseVisualStyleBackColor = true;
+            // 
+            // btDelPayIC
+            // 
+            this.btDelPayIC.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.btDelPayIC.Image = global::ServiceRecords.Properties.Resources.document_delete;
+            this.btDelPayIC.Location = new System.Drawing.Point(496, 156);
+            this.btDelPayIC.Name = "btDelPayIC";
+            this.btDelPayIC.Size = new System.Drawing.Size(32, 32);
+            this.btDelPayIC.TabIndex = 66;
+            this.btDelPayIC.UseVisualStyleBackColor = true;
+            // 
             // frmServiceNote
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(960, 703);
+            this.ClientSize = new System.Drawing.Size(946, 699);
             this.ControlBox = false;
             this.Controls.Add(this.gbFond);
             this.Controls.Add(this.typeSRonTime);
@@ -1255,6 +1469,11 @@
             this.Controls.Add(this.btView);
             this.Controls.Add(this.btSelect);
             this.Controls.Add(this.btClose);
+            this.Controls.Add(this.dgvNote);
+            this.Controls.Add(this.btDelBlock);
+            this.Controls.Add(this.chbMoreNote);
+            this.Controls.Add(this.btEditBlock);
+            this.Controls.Add(this.btAddBlock);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.MaximizeBox = false;
             this.MinimizeBox = false;
@@ -1281,6 +1500,9 @@
             ((System.ComponentModel.ISupportInitialize)(this.dgvNote)).EndInit();
             this.grbTypeOplata.ResumeLayout(false);
             this.grbTypeOplata.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvData)).EndInit();
+            this.gbPayIC.ResumeLayout(false);
+            this.gbPayIC.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -1385,5 +1607,18 @@
         private System.Windows.Forms.Button btSelectDZ;
         private System.Windows.Forms.TextBox tbListBonus;
         private System.Windows.Forms.RadioButton rbKvartal;
+        private System.Windows.Forms.DataGridView dgvData;
+        private System.Windows.Forms.DataGridViewTextBoxColumn cFIO;
+        private System.Windows.Forms.DataGridViewTextBoxColumn cPost;
+        private System.Windows.Forms.DataGridViewTextBoxColumn cZasp;
+        private System.Windows.Forms.DataGridViewTextBoxColumn cPeriodPay;
+        private System.Windows.Forms.DataGridViewTextBoxColumn cHourWork;
+        private System.Windows.Forms.DataGridViewTextBoxColumn cWorkDay;
+        private System.Windows.Forms.DataGridViewTextBoxColumn cPay;
+        private System.Windows.Forms.Label label21;
+        private System.Windows.Forms.Panel panel1;
+        private System.Windows.Forms.GroupBox gbPayIC;
+        private System.Windows.Forms.Button btnPrintPayIC;
+        private System.Windows.Forms.Button btDelPayIC;
     }
 }
