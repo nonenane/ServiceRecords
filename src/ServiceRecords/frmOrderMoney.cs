@@ -20,7 +20,7 @@ namespace ServiceRecords
         public int status { private get; set; }
         public decimal maxSumma { private get; set; }
         public string valuta { private get; set; }
-        public bool isEdit { private get;  set; }        
+        public bool isEdit { private get; set; }
         public int TypeServiceRecordOnTime { private get; set; }
 
         bool checkSumInRub = false;
@@ -31,6 +31,9 @@ namespace ServiceRecords
         private int oldIdDirector = 0;
         private DateTime nowTime;
         public DateTime? DataSumma { set; private get; }
+        public string nameDep { set; private get; }
+        public string NumSZ { set; private get; }
+        
 
         public frmOrderMoney()
         {
@@ -409,15 +412,130 @@ namespace ServiceRecords
                     }
                 }
                 //if (id_doc != null)
-                    //Config.hCntDocumentsDZ.setMoveDocument(id_doc);
+                //Config.hCntDocumentsDZ.setMoveDocument(id_doc);
                 //
+
+                if (inType == 4 && UserSettings.User.StatusCode.Equals("РКВ"))
+                {
+                    if (MessageBox.Show("Вы хотите распечатать табель?", "Печать табеля", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+                    {
+                        DataTable dtTrialTable = Config.hCntMain.getTrialTablePayICServiceRecordLink(id_ServiceRecords);
+                        DataTable dtTmpIC = dtTrialTable.Clone();
+                        var groupKadr = dtTrialTable.AsEnumerable().GroupBy(g => new { id_Kadr = g.Field<int>("id_Kadr") }).Select(s => new { s.Key.id_Kadr });
+                        foreach (var gKadr in groupKadr)
+                        {
+                            EnumerableRowCollection<DataRow> rowCollect = dtTrialTable.AsEnumerable().Where(r => r.Field<int>("id_Kadr") == gKadr.id_Kadr).OrderBy(r => r.Field<DateTime>("TimeIn"));
+
+                            string periodPay = "";
+                            DateTime tmpDate = (DateTime)rowCollect.First()["TimeIn"];
+                            bool isNextTrue = false;                            
+                            for (int i = 0; i < rowCollect.Count(); i++)
+                            {
+                                DataRow row = rowCollect.ElementAt(i);
+                                TimeSpan span = ((DateTime)row["TimeIn"]).Date - tmpDate.Date;
+                                if (span.Days == 0)
+                                {
+                                    periodPay += (periodPay.Length == 0 ? "" : ",") + $"{tmpDate.ToShortDateString()}";
+                                }
+                                else
+                                if (span.Days == 1)
+                                {
+                                    isNextTrue = true;
+
+                                    if (i == rowCollect.Count() - 1)
+                                        periodPay += $"-{((DateTime)row["TimeIn"]).ToShortDateString()}";
+                                }
+                                else
+                                {
+
+                                    if (isNextTrue)
+                                    {
+                                        periodPay += $"-{tmpDate.ToShortDateString()},{((DateTime)row["TimeIn"]).ToShortDateString()}";
+                                    }
+                                    else
+                                    {
+                                        periodPay += $",{((DateTime)row["TimeIn"]).ToShortDateString()}";
+                                    }
+
+                                    isNextTrue = false;
+                                }
+                                tmpDate = (DateTime)row["TimeIn"];
+                            }
+
+
+                            DataRow newRow = dtTmpIC.NewRow();
+                            newRow["FIO"] = rowCollect.First()["FIO"];
+                            newRow["namePost"] = rowCollect.First()["namePost"];
+                            newRow["OldSalary"] = rowCollect.First()["OldSalary"];
+                            newRow["MinSalary"] = rowCollect.First()["MinSalary"];
+                            newRow["MaxSalary"] = rowCollect.First()["MaxSalary"];
+                            newRow["nowSalary"] = rowCollect.First()["nowSalary"];
+                            newRow["id_Kadr"] = rowCollect.First()["id_Kadr"];
+                            newRow["periodPay"] = periodPay;
+                            newRow["minuteWork"] = dtTrialTable.AsEnumerable().Where(r => r.Field<int>("id_Kadr") == gKadr.id_Kadr).Sum(r => r.Field<decimal>("minuteWork"));
+                            newRow["hourWorkOnDay"] = dtTrialTable.AsEnumerable().Where(r => r.Field<int>("id_Kadr") == gKadr.id_Kadr).Sum(r => r.Field<decimal>("hourWorkOnDay"));
+                            newRow["payment"] = dtTrialTable.AsEnumerable().Where(r => r.Field<int>("id_Kadr") == gKadr.id_Kadr).Sum(r => r.Field<decimal>("payment"));
+                            dtTmpIC.Rows.Add(newRow);
+
+                        }
+
+                        dtTrialTable = dtTmpIC.Copy();
+
+                        DataTable dtToReport = dtTrialTable.Copy();
+                        for (int i = dtToReport.Columns.Count - 1; i >= 0; i--)
+                        //foreach (DataColumn col in dtToReport.Columns)
+                        {
+                            DataColumn col = dtToReport.Columns[i];
+                            if (new List<string>() { "FIO", "namePost", "nowSalary", "periodPay", "minuteWork"/*, "hourWorkOnDay"*/, "Payment" }.Contains(col.ColumnName)) continue;
+                            removeColumn(dtToReport, col.ColumnName);
+                        }
+                        dtToReport.Columns.Add("sing", typeof(string)).DefaultValue = "";
+
+                        dtToReport.Columns["FIO"].SetOrdinal(0);
+                        dtToReport.Columns["namePost"].SetOrdinal(1);
+                        dtToReport.Columns["nowSalary"].SetOrdinal(2);
+                        dtToReport.Columns["periodPay"].SetOrdinal(3);
+                        dtToReport.Columns["minuteWork"].SetOrdinal(4);
+                        //dtToReport.Columns["hourWorkOnDay"].SetOrdinal(5);
+                        dtToReport.Columns["Payment"].SetOrdinal(5);
+                        dtToReport.Columns["sing"].SetOrdinal(6);
+
+
+                        Nwuram.Framework.ToWord.HandmadeReport report = new Nwuram.Framework.ToWord.HandmadeReport(Application.StartupPath + @"\Templates\tamplateIC.dotx");
+
+                        report.CurrentTable = report.GetTable(1);
+                        report.SetCellText(1, 1, $"Отдел: {nameDep}");
+                        report.SetCellText(1, 2, $"Выгрузил: {UserSettings.User.FullUsername}");
+
+                        report.SetCellText(2, 1, $"№ СЗ на ДС: {NumSZ}");
+                        report.SetCellText(2, 2, $"Дата выгрузки: {DateTime.Now.ToShortDateString()} {DateTime.Now.ToShortTimeString()}");
+
+                        report.CurrentTable = report.GetTable(2);
+
+                        report.ExportDataToTable(2, dtToReport, true);
+
+                        report.CurrentTable = report.GetTable(3);
+                        report.SetCellText(1, 6, $"{dtToReport.AsEnumerable().Sum(r => r.Field<decimal>("Payment")).ToString("0.00")}");
+
+
+
+                        report.SetPageOrientation(Microsoft.Office.Interop.Word.WdOrientation.wdOrientLandscape);
+                        report.Show();
+
+                    }
+                }
 
                 this.DialogResult = DialogResult.OK;
             }
             else return;
 
         }
- 
+
+        private void removeColumn(DataTable dtTmp, string nameColumn)
+        {
+            if (dtTmp.Columns.Contains(nameColumn)) dtTmp.Columns.Remove(nameColumn);
+        }
+
         private void btClose_Click(object sender, EventArgs e)
         {
             this.DialogResult = DialogResult.Cancel;

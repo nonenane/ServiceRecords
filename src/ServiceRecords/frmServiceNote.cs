@@ -442,6 +442,7 @@ namespace ServiceRecords
                     dtTrialTable = dtTmpIC.Copy();
 
                     btDelPayIC.Enabled = dtTrialTable.Rows.Count > 1;
+                    btnPrintPayIC.Enabled = dtTrialTable.Rows.Count != 0;
                     dgvData.AutoGenerateColumns = false;
                     dgvData.DataSource = dtTrialTable;
 
@@ -2465,6 +2466,66 @@ namespace ServiceRecords
 
             btFondViewSZ.Enabled = true;
             btFondPrintSZ.Enabled = true;
+        }
+
+        private void BtDelPayIC_Click(object sender, EventArgs e)
+        {
+            if (DialogResult.Yes == MessageBox.Show("Удалить выбранную запись?", "Удаление ИС", MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button2))
+            {
+                int id_kadr = (int)dtTrialTable.DefaultView[dgvData.CurrentRow.Index]["id_Kadr"];
+
+                Config.hCntMain.setTrialTablePayICServiceRecordLink(id, 0, 0, 0, id_kadr, true);
+
+                MessageBox.Show("Запись удалена!", "Удаление ИС", MessageBoxButtons.OK,MessageBoxIcon.Information);
+                btDelPayIC.Enabled = dtTrialTable.Rows.Count > 1;
+                btnPrintPayIC.Enabled = dtTrialTable.Rows.Count != 0;
+            }
+        }
+
+        private void BtnPrintPayIC_Click(object sender, EventArgs e)
+        {
+
+
+            DataTable dtToReport = dtTrialTable.Copy();
+            for (int i= dtToReport.Columns.Count - 1; i >=0;i--)
+            //foreach (DataColumn col in dtToReport.Columns)
+            {
+                DataColumn col = dtToReport.Columns[i];
+                if (new List<string>() { "FIO", "namePost", "nowSalary", "periodPay", "minuteWork"/*, "hourWorkOnDay"*/, "Payment" }.Contains(col.ColumnName)) continue;
+                removeColumn(dtToReport, col.ColumnName);
+            }
+            dtToReport.Columns.Add("sing", typeof(string)).DefaultValue = "";
+
+            dtToReport.Columns["FIO"].SetOrdinal(0);
+            dtToReport.Columns["namePost"].SetOrdinal(1);
+            dtToReport.Columns["nowSalary"].SetOrdinal(2);
+            dtToReport.Columns["periodPay"].SetOrdinal(3);
+            dtToReport.Columns["minuteWork"].SetOrdinal(4);
+            //dtToReport.Columns["hourWorkOnDay"].SetOrdinal(5);
+            dtToReport.Columns["Payment"].SetOrdinal(5);
+            dtToReport.Columns["sing"].SetOrdinal(6);
+
+
+            Nwuram.Framework.ToWord.HandmadeReport report = new Nwuram.Framework.ToWord.HandmadeReport(Application.StartupPath + @"\Templates\tamplateIC.dotx");
+
+            report.CurrentTable = report.GetTable(1);
+            report.SetCellText(1, 1, $"Отдел: {cmbDeps.Text}");
+            report.SetCellText(1, 2, $"Выгрузил: {UserSettings.User.FullUsername}");
+
+            report.SetCellText(2, 1, $"№ СЗ на ДС: {tbNumberNote.Text}");
+            report.SetCellText(2, 2, $"Дата выгрузки: {DateTime.Now.ToShortDateString()} {DateTime.Now.ToShortTimeString()}");
+
+            report.CurrentTable = report.GetTable(2);
+
+            report.ExportDataToTable(2, dtToReport, true);
+
+            report.CurrentTable = report.GetTable(3);
+            report.SetCellText(1, 6, $"{tbSumma.Text}");
+
+
+
+            report.SetPageOrientation(Microsoft.Office.Interop.Word.WdOrientation.wdOrientLandscape);
+            report.Show();
         }
 
         private decimal sumDopFond = 0;

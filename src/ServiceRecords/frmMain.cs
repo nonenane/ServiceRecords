@@ -939,13 +939,15 @@ namespace ServiceRecords
             //if (dtMain.DefaultView[dgvMain.CurrentRow.Index]["id_doc"] != DBNull.Value)
             //id_doc = (int)dtMain.DefaultView[dgvMain.CurrentRow.Index]["id_doc"];
 
-            frmOrderMoney frmO = new frmOrderMoney() {type = 1, status = 16,
-                                                        id_ServiceRecords = id_ServiceRecords,
+            frmOrderMoney frmO = new frmOrderMoney() { type = 1, status = 16,
+                id_ServiceRecords = id_ServiceRecords,
                 maxSumma = maxSumma,
                 valuta = valuta,
                 isEdit = false,
                 inType = _inType,
-                TypeServiceRecordOnTime = TypeServiceRecordOnTime
+                TypeServiceRecordOnTime = TypeServiceRecordOnTime,
+                nameDep = (string)dtMain.DefaultView[dgvMain.CurrentRow.Index]["nameDep"],
+                NumSZ = $"{dtMain.DefaultView[dgvMain.CurrentRow.Index]["Number"]}"
             };
 
             frmOrderMoneyMix frmO2 = new frmOrderMoneyMix() {
