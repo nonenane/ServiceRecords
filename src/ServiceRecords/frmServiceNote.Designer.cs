@@ -106,6 +106,13 @@
             this.btDelPayIC = new System.Windows.Forms.Button();
             this.label21 = new System.Windows.Forms.Label();
             this.dgvData = new System.Windows.Forms.DataGridView();
+            this.cFIO = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.cPost = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.cZasp = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.cPeriodPay = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.cHourWork = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.cWorkDay = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.cPay = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.panel1 = new System.Windows.Forms.Panel();
             this.tbListBonus = new System.Windows.Forms.TextBox();
             this.btSelectDZ = new System.Windows.Forms.Button();
@@ -145,13 +152,6 @@
             this.dtpNextDate = new System.Windows.Forms.DateTimePicker();
             this.label3 = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
-            this.cFIO = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.cPost = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.cZasp = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.cPeriodPay = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.cHourWork = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.cWorkDay = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.cPay = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.TypeSR.SuspendLayout();
             this.groupBox2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.picBoxConfirmationD)).BeginInit();
@@ -395,7 +395,7 @@
             // btAccept
             // 
             this.btAccept.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.btAccept.Location = new System.Drawing.Point(648, 659);
+            this.btAccept.Location = new System.Drawing.Point(696, 651);
             this.btAccept.Name = "btAccept";
             this.btAccept.Size = new System.Drawing.Size(110, 32);
             this.btAccept.TabIndex = 46;
@@ -407,7 +407,7 @@
             // btRefuse
             // 
             this.btRefuse.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.btRefuse.Location = new System.Drawing.Point(531, 659);
+            this.btRefuse.Location = new System.Drawing.Point(579, 651);
             this.btRefuse.Name = "btRefuse";
             this.btRefuse.Size = new System.Drawing.Size(110, 32);
             this.btRefuse.TabIndex = 47;
@@ -429,7 +429,7 @@
             // 
             this.btAddFile.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.btAddFile.Image = global::ServiceRecords.Properties.Resources.folder_htm_5356;
-            this.btAddFile.Location = new System.Drawing.Point(59, 659);
+            this.btAddFile.Location = new System.Drawing.Point(70, 651);
             this.btAddFile.Name = "btAddFile";
             this.btAddFile.Size = new System.Drawing.Size(32, 32);
             this.btAddFile.TabIndex = 24;
@@ -440,7 +440,7 @@
             // 
             this.btView.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.btView.Image = global::ServiceRecords.Properties.Resources.find_9299;
-            this.btView.Location = new System.Drawing.Point(14, 659);
+            this.btView.Location = new System.Drawing.Point(25, 651);
             this.btView.Name = "btView";
             this.btView.Size = new System.Drawing.Size(32, 32);
             this.btView.TabIndex = 25;
@@ -452,7 +452,7 @@
             // 
             this.btSelect.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.btSelect.Image = global::ServiceRecords.Properties.Resources.save_edit;
-            this.btSelect.Location = new System.Drawing.Point(868, 659);
+            this.btSelect.Location = new System.Drawing.Point(889, 650);
             this.btSelect.Name = "btSelect";
             this.btSelect.Size = new System.Drawing.Size(32, 32);
             this.btSelect.TabIndex = 22;
@@ -463,7 +463,7 @@
             // 
             this.btClose.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.btClose.Image = global::ServiceRecords.Properties.Resources.exit_8633;
-            this.btClose.Location = new System.Drawing.Point(906, 659);
+            this.btClose.Location = new System.Drawing.Point(927, 650);
             this.btClose.Name = "btClose";
             this.btClose.Size = new System.Drawing.Size(32, 32);
             this.btClose.TabIndex = 23;
@@ -475,7 +475,7 @@
             this.btnSaveComment.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.btnSaveComment.Enabled = false;
             this.btnSaveComment.Image = global::ServiceRecords.Properties.Resources.view2;
-            this.btnSaveComment.Location = new System.Drawing.Point(906, 618);
+            this.btnSaveComment.Location = new System.Drawing.Point(927, 609);
             this.btnSaveComment.Name = "btnSaveComment";
             this.btnSaveComment.Size = new System.Drawing.Size(32, 32);
             this.btnSaveComment.TabIndex = 49;
@@ -500,9 +500,9 @@
             this.rbKvartal.AutoSize = true;
             this.rbKvartal.Location = new System.Drawing.Point(111, 34);
             this.rbKvartal.Name = "rbKvartal";
-            this.rbKvartal.Size = new System.Drawing.Size(117, 17);
+            this.rbKvartal.Size = new System.Drawing.Size(111, 17);
             this.rbKvartal.TabIndex = 39;
-            this.rbKvartal.Text = "Ежекваритальная";
+            this.rbKvartal.Text = "Ежеквартальная";
             this.rbKvartal.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             this.rbKvartal.UseVisualStyleBackColor = true;
             this.rbKvartal.CheckedChanged += new System.EventHandler(this.rbKvartal_CheckedChanged);
@@ -809,7 +809,7 @@
             this.btAddBlock.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.btAddBlock.Enabled = false;
             this.btAddBlock.Image = global::ServiceRecords.Properties.Resources.document_add;
-            this.btAddBlock.Location = new System.Drawing.Point(1217, 562);
+            this.btAddBlock.Location = new System.Drawing.Point(1217, 569);
             this.btAddBlock.Name = "btAddBlock";
             this.btAddBlock.Size = new System.Drawing.Size(32, 32);
             this.btAddBlock.TabIndex = 32;
@@ -822,7 +822,7 @@
             this.btEditBlock.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.btEditBlock.Enabled = false;
             this.btEditBlock.Image = global::ServiceRecords.Properties.Resources.edit;
-            this.btEditBlock.Location = new System.Drawing.Point(1255, 562);
+            this.btEditBlock.Location = new System.Drawing.Point(1255, 569);
             this.btEditBlock.Name = "btEditBlock";
             this.btEditBlock.Size = new System.Drawing.Size(32, 32);
             this.btEditBlock.TabIndex = 33;
@@ -835,7 +835,7 @@
             this.btDelBlock.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.btDelBlock.Enabled = false;
             this.btDelBlock.Image = global::ServiceRecords.Properties.Resources.document_delete;
-            this.btDelBlock.Location = new System.Drawing.Point(1293, 562);
+            this.btDelBlock.Location = new System.Drawing.Point(1293, 569);
             this.btDelBlock.Name = "btDelBlock";
             this.btDelBlock.Size = new System.Drawing.Size(32, 32);
             this.btDelBlock.TabIndex = 34;
@@ -990,6 +990,72 @@
             this.dgvData.CellValidating += new System.Windows.Forms.DataGridViewCellValidatingEventHandler(this.dgvData_CellValidating);
             this.dgvData.RowPostPaint += new System.Windows.Forms.DataGridViewRowPostPaintEventHandler(this.dgvData_RowPostPaint);
             this.dgvData.RowPrePaint += new System.Windows.Forms.DataGridViewRowPrePaintEventHandler(this.dgvData_RowPrePaint);
+            // 
+            // cFIO
+            // 
+            this.cFIO.DataPropertyName = "FIO";
+            dataGridViewCellStyle6.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.cFIO.DefaultCellStyle = dataGridViewCellStyle6;
+            this.cFIO.HeaderText = "ФИО";
+            this.cFIO.Name = "cFIO";
+            this.cFIO.ReadOnly = true;
+            // 
+            // cPost
+            // 
+            this.cPost.DataPropertyName = "namePost";
+            dataGridViewCellStyle7.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.cPost.DefaultCellStyle = dataGridViewCellStyle7;
+            this.cPost.HeaderText = "Должность";
+            this.cPost.Name = "cPost";
+            this.cPost.ReadOnly = true;
+            // 
+            // cZasp
+            // 
+            this.cZasp.DataPropertyName = "nowSalary";
+            dataGridViewCellStyle8.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            dataGridViewCellStyle8.Format = "N2";
+            this.cZasp.DefaultCellStyle = dataGridViewCellStyle8;
+            this.cZasp.HeaderText = "Оклад";
+            this.cZasp.Name = "cZasp";
+            // 
+            // cPeriodPay
+            // 
+            this.cPeriodPay.DataPropertyName = "periodPay";
+            dataGridViewCellStyle9.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.cPeriodPay.DefaultCellStyle = dataGridViewCellStyle9;
+            this.cPeriodPay.HeaderText = "Период оплаты";
+            this.cPeriodPay.Name = "cPeriodPay";
+            this.cPeriodPay.ReadOnly = true;
+            // 
+            // cHourWork
+            // 
+            this.cHourWork.DataPropertyName = "minuteWork";
+            dataGridViewCellStyle10.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            dataGridViewCellStyle10.Format = "N2";
+            this.cHourWork.DefaultCellStyle = dataGridViewCellStyle10;
+            this.cHourWork.HeaderText = "Отработанные часы";
+            this.cHourWork.Name = "cHourWork";
+            this.cHourWork.ReadOnly = true;
+            // 
+            // cWorkDay
+            // 
+            this.cWorkDay.DataPropertyName = "hourWorkOnDay";
+            dataGridViewCellStyle11.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            dataGridViewCellStyle11.Format = "N2";
+            this.cWorkDay.DefaultCellStyle = dataGridViewCellStyle11;
+            this.cWorkDay.HeaderText = "Отработанные дни";
+            this.cWorkDay.Name = "cWorkDay";
+            this.cWorkDay.ReadOnly = true;
+            // 
+            // cPay
+            // 
+            this.cPay.DataPropertyName = "Payment";
+            dataGridViewCellStyle12.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            dataGridViewCellStyle12.Format = "N2";
+            this.cPay.DefaultCellStyle = dataGridViewCellStyle12;
+            this.cPay.HeaderText = "Оплата";
+            this.cPay.Name = "cPay";
+            this.cPay.ReadOnly = true;
             // 
             // panel1
             // 
@@ -1385,77 +1451,11 @@
             this.label5.TabIndex = 28;
             this.label5.Text = "Отдел";
             // 
-            // cFIO
-            // 
-            this.cFIO.DataPropertyName = "FIO";
-            dataGridViewCellStyle6.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            this.cFIO.DefaultCellStyle = dataGridViewCellStyle6;
-            this.cFIO.HeaderText = "ФИО";
-            this.cFIO.Name = "cFIO";
-            this.cFIO.ReadOnly = true;
-            // 
-            // cPost
-            // 
-            this.cPost.DataPropertyName = "namePost";
-            dataGridViewCellStyle7.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            this.cPost.DefaultCellStyle = dataGridViewCellStyle7;
-            this.cPost.HeaderText = "Должность";
-            this.cPost.Name = "cPost";
-            this.cPost.ReadOnly = true;
-            // 
-            // cZasp
-            // 
-            this.cZasp.DataPropertyName = "nowSalary";
-            dataGridViewCellStyle8.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-            dataGridViewCellStyle8.Format = "N2";
-            this.cZasp.DefaultCellStyle = dataGridViewCellStyle8;
-            this.cZasp.HeaderText = "Оклад";
-            this.cZasp.Name = "cZasp";
-            // 
-            // cPeriodPay
-            // 
-            this.cPeriodPay.DataPropertyName = "periodPay";
-            dataGridViewCellStyle9.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            this.cPeriodPay.DefaultCellStyle = dataGridViewCellStyle9;
-            this.cPeriodPay.HeaderText = "Период оплаты";
-            this.cPeriodPay.Name = "cPeriodPay";
-            this.cPeriodPay.ReadOnly = true;
-            // 
-            // cHourWork
-            // 
-            this.cHourWork.DataPropertyName = "minuteWork";
-            dataGridViewCellStyle10.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-            dataGridViewCellStyle10.Format = "N2";
-            this.cHourWork.DefaultCellStyle = dataGridViewCellStyle10;
-            this.cHourWork.HeaderText = "Отработанные часы";
-            this.cHourWork.Name = "cHourWork";
-            this.cHourWork.ReadOnly = true;
-            // 
-            // cWorkDay
-            // 
-            this.cWorkDay.DataPropertyName = "hourWorkOnDay";
-            dataGridViewCellStyle11.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-            dataGridViewCellStyle11.Format = "N2";
-            this.cWorkDay.DefaultCellStyle = dataGridViewCellStyle11;
-            this.cWorkDay.HeaderText = "Отработанные дни";
-            this.cWorkDay.Name = "cWorkDay";
-            this.cWorkDay.ReadOnly = true;
-            // 
-            // cPay
-            // 
-            this.cPay.DataPropertyName = "Payment";
-            dataGridViewCellStyle12.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-            dataGridViewCellStyle12.Format = "N2";
-            this.cPay.DefaultCellStyle = dataGridViewCellStyle12;
-            this.cPay.HeaderText = "Оплата";
-            this.cPay.Name = "cPay";
-            this.cPay.ReadOnly = true;
-            // 
             // frmServiceNote
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(942, 695);
+            this.ClientSize = new System.Drawing.Size(971, 694);
             this.ControlBox = false;
             this.Controls.Add(this.gbFond);
             this.Controls.Add(this.typeSRonTime);

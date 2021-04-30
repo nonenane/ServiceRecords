@@ -85,6 +85,7 @@ namespace ServiceRecords
 
             selectedMoneyRecipient = -1;
             sumTovar();
+            setFilterWork();
             dgvNote.DataSource = dtPayment;
 
             for (int i = 0; i < dgvNote.Rows.Count; i++)
@@ -697,25 +698,44 @@ namespace ServiceRecords
 
         private void FilterJournal()
         {
-            //MessageBox.Show(cbTypeGet.SelectedValue.ToString());
-            string constFilter = "";
-            if (Config.CodeUser.Equals("РКВ"))
-                //constFilter += "( id_MoneyRecipient = '" + UserSettings.User.Id + "' OR id_Creator = '" + UserSettings.User.Id + "' )";
-                constFilter += "( id_Department = '" + UserSettings.User.IdDepartment + "' OR id_Block = '" + UserSettings.User.IdDepartment + "' )";
+            try
+            {
+                //MessageBox.Show(cbTypeGet.SelectedValue.ToString());
+                string constFilter = "";
+                if (Config.CodeUser.Equals("РКВ"))
+                    //constFilter += "( id_MoneyRecipient = '" + UserSettings.User.Id + "' OR id_Creator = '" + UserSettings.User.Id + "' )";
+                    constFilter += "( id_Department = '" + UserSettings.User.IdDepartment + "' OR id_Block = '" + UserSettings.User.IdDepartment + "' )";
 
-            string filter = "";
-            filter += constFilter.Length == 0 ? (cbTypeOperation.SelectedIndex == 0 ? ""
-                                                            : " typeOperation =" + cbTypeOperation.SelectedIndex)
-                                          : (cbTypeOperation.SelectedIndex == 0 ? ""
-                                                            : " AND typeOperation =" + cbTypeOperation.SelectedIndex); // typeOperation = 1 or 2
-            filter += filter.Length == 0 && constFilter.Length == 0 ? ((int)cbTypeGet.SelectedValue == 0 ? "" : "bCashNonCash = " + ((int)cbTypeGet.SelectedValue - 1)) //TypeGet = 0 or 1
-                                    : "" + ((int)cbTypeGet.SelectedValue == 0 ? "" : " AND bCashNonCash = " + ((int)cbTypeGet.SelectedValue - 1));
-            filter += filter.Length == 0 && constFilter.Length == 0 ? (cbTypeSR.SelectedIndex <= 0 ? "" : "TypeServiceRecordOnTime = " + cbTypeSR.SelectedIndex)
-                        : "" + (cbTypeSR.SelectedIndex <= 0 ? " " : " AND TypeServiceRecordOnTime = " + cbTypeSR.SelectedIndex); //TypeServiceRecordOnTime = 1 or 2
+                string filter = "";
+                filter += constFilter.Length == 0 ? (cbTypeOperation.SelectedIndex == 0 ? ""
+                                                                : " typeOperation =" + cbTypeOperation.SelectedIndex)
+                                              : (cbTypeOperation.SelectedIndex == 0 ? ""
+                                                                : " AND typeOperation =" + cbTypeOperation.SelectedIndex); // typeOperation = 1 or 2
+                filter += filter.Length == 0 && constFilter.Length == 0 ? ((int)cbTypeGet.SelectedValue == 0 ? "" : "bCashNonCash = " + ((int)cbTypeGet.SelectedValue - 1)) //TypeGet = 0 or 1
+                                        : "" + ((int)cbTypeGet.SelectedValue == 0 ? "" : " AND bCashNonCash = " + ((int)cbTypeGet.SelectedValue - 1));
+                filter += filter.Length == 0 && constFilter.Length == 0 ? (cbTypeSR.SelectedIndex <= 0 ? "" : "TypeServiceRecordOnTime = " + cbTypeSR.SelectedIndex)
+                            : "" + (cbTypeSR.SelectedIndex <= 0 ? " " : " AND TypeServiceRecordOnTime = " + cbTypeSR.SelectedIndex); //TypeServiceRecordOnTime = 1 or 2
 
 
-            dtNoteJournal.DefaultView.RowFilter = constFilter + filter;
-            dgvNoteJournal.DataSource = dtNoteJournal;
+                if (tbJournalNumber.Text.Length != 0)
+                    filter += (filter.Length == 0 && constFilter.Length == 0 ? "" : " and ") + $"CONVERT(Number,System.String) like '%{tbJournalNumber.Text}%'";
+
+                if (tbJournalUser.Text.Length != 0)
+                    filter += (filter.Length == 0 && constFilter.Length == 0 ? "" : " and ") + $"cFio like '%{tbJournalUser.Text}%'";
+
+                if (tbJournalAuthor.Text.Length != 0)
+                    filter += (filter.Length == 0 && constFilter.Length == 0 ? "" : " and ") + $"Author like '%{tbJournalAuthor.Text}%'";
+
+                if (tbJournalDescription.Text.Length != 0)
+                    filter += (filter.Length == 0 && constFilter.Length == 0 ? "" : " and ") + $"Description like '%{tbJournalDescription.Text}%'";
+
+                dtNoteJournal.DefaultView.RowFilter = constFilter + filter;
+                dgvNoteJournal.DataSource = dtNoteJournal;
+            }
+            catch
+            {
+                dtNoteJournal.DefaultView.RowFilter = "id = -1";
+            }
         }
 
         private void cb_SelectedIndexChanged(object sender, EventArgs e)
@@ -974,6 +994,202 @@ namespace ServiceRecords
             else btnEdit.Enabled = btnDelete.Enabled = false;
 
             //btnEdit.Enabled = btnDelete.Enabled = true;
+        }
+
+        private void TbWorkNumber_TextChanged(object sender, EventArgs e)
+        {
+            setFilterWork();
+        }
+
+        private void setFilterWork()
+        {
+            if (dtPayment == null || dtPayment.Rows.Count == 0)
+            {
+                btnDelete.Enabled = btnEdit.Enabled = false;
+                return;
+            }
+            try {
+                string filter = "";
+
+                if (tbWorkNumber.Text.Length != 0)
+                    filter += (filter.Length == 0 ? "" : " and ") + $"CONVERT(Number,System.String) like '%{tbWorkNumber.Text}%'";
+
+                if (tbWorkUser.Text.Length != 0)
+                    filter += (filter.Length == 0 ? "" : " and ") + $"cFio like '%{tbWorkUser.Text}%'";
+
+                if (tbWorkAutor.Text.Length != 0)
+                    filter += (filter.Length == 0 ? "" : " and ") + $"Author like '%{tbWorkAutor.Text}%'";
+
+                if (tbWorkDescription.Text.Length != 0)
+                    filter += (filter.Length == 0 ? "" : " and ") + $"Description like '%{tbWorkDescription.Text}%'";
+
+                dtPayment.DefaultView.RowFilter = filter;
+            }
+            catch
+            {
+                dtPayment.DefaultView.RowFilter = "id = -1";
+            }
+
+            btnDelete.Enabled = btnEdit.Enabled = dtPayment.DefaultView.Count != 0;
+
+        }
+
+        private void DgvNote_ColumnWidthChanged(object sender, DataGridViewColumnEventArgs e)
+        {
+            int width = dgvNote.Location.X + 1;
+
+            foreach (DataGridViewColumn col in dgvNote.Columns)
+            {
+                if (!col.Visible) continue;
+
+                if (col.Name.Equals(cNumber.Name))
+                {
+                    tbWorkNumber.Location = new Point(width, tbWorkNumber.Location.Y);
+                    tbWorkNumber.Size = new Size(col.Width, tbWorkNumber.Size.Height);
+                }
+
+                if (col.Name.Equals(Author.Name))
+                {
+                    tbWorkAutor.Location = new Point(width, tbWorkNumber.Location.Y);
+                    tbWorkAutor.Size = new Size(col.Width, tbWorkNumber.Size.Height);
+                }
+                if (col.Name.Equals(cFio.Name))
+                {
+                    tbWorkUser.Location = new Point(width, tbWorkNumber.Location.Y);
+                    tbWorkUser.Size = new Size(col.Width, tbWorkNumber.Size.Height);
+                }
+                if (col.Name.Equals(cComment.Name))
+                {
+                    tbWorkDescription.Location = new Point(width, tbWorkNumber.Location.Y);
+                    tbWorkDescription.Size = new Size(col.Width, tbWorkNumber.Size.Height);
+                }
+
+
+                width += col.Width;
+            }
+        }
+
+        private void DgvNoteJournal_ColumnWidthChanged(object sender, DataGridViewColumnEventArgs e)
+        {
+            int width = dgvNoteJournal.Location.X + 1;
+
+            foreach (DataGridViewColumn col in dgvNoteJournal.Columns)
+            {
+                if (!col.Visible) continue;
+
+                if (col.Name.Equals(_Number.Name))
+                {
+                    tbJournalNumber.Location = new Point(width, tbJournalNumber.Location.Y);
+                    tbJournalNumber.Size = new Size(col.Width, tbJournalNumber.Size.Height);
+                }
+
+                if (col.Name.Equals(_Author.Name))
+                {
+                    tbJournalAuthor.Location = new Point(width, tbJournalNumber.Location.Y);
+                    tbJournalAuthor.Size = new Size(col.Width, tbJournalNumber.Size.Height);
+                }
+                if (col.Name.Equals(_FIO.Name))
+                {
+                    tbJournalUser.Location = new Point(width, tbJournalNumber.Location.Y);
+                    tbJournalUser.Size = new Size(col.Width, tbJournalNumber.Size.Height);
+                }
+                if (col.Name.Equals(_Description.Name))
+                {
+                    tbJournalDescription.Location = new Point(width, tbJournalNumber.Location.Y);
+                    tbJournalDescription.Size = new Size(col.Width, tbJournalNumber.Size.Height);
+                }
+
+
+                width += col.Width;
+            }
+        }
+
+        private void TbJournalDescription_TextChanged(object sender, EventArgs e)
+        {
+            FilterJournal();
+        }
+
+        private void DgvNote_CellMouseClick(object sender, DataGridViewCellMouseEventArgs e)
+        {
+            if (e.Button == MouseButtons.Right && e.RowIndex != -1)
+            {
+                DataGridView dgv = (DataGridView)sender;
+                dgv.CurrentCell = dgv[e.ColumnIndex, e.RowIndex];
+                contextMenuStrip1.Show(MousePosition);
+            }
+        }
+
+        private void ContextMenuStrip1_Opening(object sender, CancelEventArgs e)
+        {
+            if (!new List<string>() { "ОП" }.Contains(UserSettings.User.StatusCode)) { e.Cancel = true; return; }
+            if((int)dtPayment.DefaultView[dgvNote.CurrentRow.Index]["type"]!=1) { e.Cancel = true; return; }
+        }
+
+        private void СменаПолучателяДенегToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            int idOrder = (int)dtPayment.DefaultView[dgvNote.CurrentRow.Index]["id"];
+            int id_ServiceRecords = (int)dtPayment.DefaultView[dgvNote.CurrentRow.Index]["id_ServiceRecords"];
+            string nameType = (string)dtPayment.DefaultView[dgvNote.CurrentRow.Index]["nameType"];
+            decimal Summa = (decimal)dtPayment.DefaultView[dgvNote.CurrentRow.Index]["Summa"];
+            decimal maxSumma = (decimal)dtPayment.DefaultView[dgvNote.CurrentRow.Index]["maxSumma"];
+            decimal SummaInValuta = (decimal)dtPayment.DefaultView[dgvNote.CurrentRow.Index]["SummaInValuta"];
+            //int Number = (int)dtPayment.DefaultView[dgvNote.CurrentRow.Index]["Number"];            
+            int Number = dtPayment.DefaultView[dgvNote.CurrentRow.Index]["Number"] == DBNull.Value ? 0 : (int)dtPayment.DefaultView[dgvNote.CurrentRow.Index]["Number"];
+            int TypeServiceRecordOnTime = (int)dtPayment.DefaultView[dgvNote.CurrentRow.Index]["TypeServiceRecordOnTime"];
+            DateTime DataSumma = (DateTime)dtPayment.DefaultView[dgvNote.CurrentRow.Index]["DataSumma"];
+
+            string FIO = (string)dtPayment.DefaultView[dgvNote.CurrentRow.Index]["FIO"];
+            string Valuta = (string)dtPayment.DefaultView[dgvNote.CurrentRow.Index]["Valuta"];
+            int type = (int)dtPayment.DefaultView[dgvNote.CurrentRow.Index]["type"];
+            int t = type;
+            int _inType = dtPayment.DefaultView[dgvNote.CurrentRow.Index]["inType"] == DBNull.Value ? -1 : (int)dtPayment.DefaultView[dgvNote.CurrentRow.Index]["inType"];
+
+
+            frmOrderMoney frmO = new frmOrderMoney(Summa.ToString(), Valuta, idOrder, FIO, SummaInValuta)
+            {
+                type = type,
+                status = type == 1 ? 16 : 17,
+                id_ServiceRecords = id_ServiceRecords,
+                maxSumma = maxSumma,
+                valuta = Valuta,
+                idDirector = (int)dtPayment.DefaultView[dgvNote.CurrentRow.Index]["id_MoneyRecipient"],
+                isEdit = true,
+                inType = _inType,
+                TypeServiceRecordOnTime = TypeServiceRecordOnTime,
+                DataSumma = DataSumma,
+                isChangeUserMoneyTake = true
+            };
+
+            frmOrderMoneyMix frmO2 = new frmOrderMoneyMix(Summa.ToString(),
+                 //Valuta, idOrder, FIO, (int)dtPayment.DefaultView[dgvNote.CurrentRow.Index]["typeCashNonCash"]
+                 Valuta, idOrder, FIO, dtPayment.DefaultView[dgvNote.CurrentRow.Index]["typeCashNonCash"] == DBNull.Value ? 0 : (int)dtPayment.DefaultView[dgvNote.CurrentRow.Index]["typeCashNonCash"]
+                 , SummaInValuta)
+            {
+                type = type,
+                status = type == 1 ? 16 : 17,
+                id_ServiceRecords = id_ServiceRecords,
+                maxSumma = maxSumma,
+                valuta = Valuta,
+                idDirector = (int)dtPayment.DefaultView[dgvNote.CurrentRow.Index]["id_MoneyRecipient"],
+                isEdit = true
+            };
+
+            if ((bool)dtPayment.DefaultView[dgvNote.CurrentRow.Index]["Mix"])
+            {
+                frmO2.setDirector();
+                if (frmO2.ShowDialog() == DialogResult.OK)
+                {
+                    getData();
+                }
+            }
+            else
+            {
+                frmO.setDirector();
+                if (frmO.ShowDialog() == DialogResult.OK)
+                {
+                    getData();
+                }
+            }
         }
     }
 

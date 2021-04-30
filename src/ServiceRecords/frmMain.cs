@@ -912,6 +912,7 @@ namespace ServiceRecords
 
             btEditBlock.Enabled = (Config.CodeUser.Equals("РКВ")  && (id_Status == 1 || id_Status == 3 || id_Status == 6) && id_Creator == Nwuram.Framework.Settings.User.UserSettings.User.Id)
                 ||(Config.CodeUser.Equals("ОП") && (id_Status == 1 || id_Status == 3 || id_Status == 6))
+                || (Config.CodeUser.Equals("КД") && (id_Status == 4))
                 || (Config.CodeUser.Equals("КНТ") && (id_Status != 5 || id_Status != 11));
 
             btDelBlock.Enabled = (Config.CodeUser.Equals("РКВ") && (id_Status == 1 || id_Status == 3 || id_Status == 6) && id_Creator == Nwuram.Framework.Settings.User.UserSettings.User.Id)
@@ -2260,15 +2261,15 @@ namespace ServiceRecords
             bool startScan = true, isOk = false; ;
             for (int i = 0; i < dgvMain.Rows.Count; i++)
             {
-              if (dgvMain.Rows[i].Cells["Enter"].Value == null) return;
+                if (dgvMain.Rows[i].Cells["Enter"].Value == null) return;
 
-              if ((bool)dgvMain.Rows[i].Cells["Enter"].Value == true)
+                if ((bool)dgvMain.Rows[i].Cells["Enter"].Value == true)
                 {
-                  int id = (int)dtMain.DefaultView[dgvMain.Rows[i].Index]["id"];
-                  frmServiceNote frmS = new frmServiceNote();
-                  frmS.id = id;
-                  frmS.frmServiceNote_Load(sender, e);
-                  frmS.setIsView();
+                    int id = (int)dtMain.DefaultView[dgvMain.Rows[i].Index]["id"];
+                    frmServiceNote frmS = new frmServiceNote();
+                    frmS.id = id;
+                    frmS.frmServiceNote_Load(sender, e);
+                    frmS.setIsView();
 
                     if (startScan)
                     {
@@ -2279,15 +2280,15 @@ namespace ServiceRecords
                     if (isOk && startScan == false)
                         frmS.ChangeStatusAccept();
 
-               startScan = false;
+                    startScan = false;
                     Logging.StartFirstLevel(1253);
                     Logging.Comment("Подтверждены СЗ " + strLog);
                     Logging.StopFirstLevel();
                 }
             }
             getData();
-                 
-         }
+
+        }
 
         private void btnRefuse_Click(object sender, EventArgs e)
         {

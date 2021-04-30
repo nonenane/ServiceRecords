@@ -971,7 +971,7 @@
             // pPayIC
             // 
             this.pPayIC.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.pPayIC.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
+            this.pPayIC.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(133)))), ((int)(((byte)(109)))), ((int)(((byte)(245)))));
             this.pPayIC.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
             this.pPayIC.Controls.Add(this.panel11);
             this.pPayIC.ForeColor = System.Drawing.SystemColors.ControlText;

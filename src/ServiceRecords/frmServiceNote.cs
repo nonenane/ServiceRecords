@@ -297,7 +297,7 @@ namespace ServiceRecords
 
                 getMultipleReceivingMone();
 
-                if ((int)dtTmp.Rows[0]["inType"] != 4)
+                if (dtTmp.Rows[0]["inType"]==DBNull.Value || (int)dtTmp.Rows[0]["inType"] != 4)
                 {
                     EnumerableRowCollection<DataRow> rowCollect = (cmbTypicalWorks.DataSource as DataTable).AsEnumerable().Where(r => r.Field<int>("id") == 4);
                     if (rowCollect.Count() > 0) rowCollect.First().Delete();
@@ -337,7 +337,7 @@ namespace ServiceRecords
                 isCreate = false;
                 if (isView) initIsView();
 
-                if ((int)dtTmp.Rows[0]["inType"] == 4 )
+                if (dtTmp.Rows[0]["inType"]!=DBNull.Value && (int)dtTmp.Rows[0]["inType"] == 4 )
                 {
                     isLoad = true;
                     listNormDay.Clear();
@@ -434,12 +434,41 @@ namespace ServiceRecords
                         newRow["periodPay"] = periodPay;
                         newRow["minuteWork"] = listWorkData.AsEnumerable().Where(r => r.id_Kadr == gKadr.id_Kadr).Sum(r => r.minuteWork) / 60;
                         newRow["hourWorkOnDay"] = listWorkData.AsEnumerable().Where(r => r.id_Kadr == gKadr.id_Kadr).Sum(r => r.hourWorkOnDay);
-                        newRow["payment"] = listWorkData.AsEnumerable().Where(r => r.id_Kadr == gKadr.id_Kadr).Sum(r => r.money);
+                        newRow["payment"] = listWorkData.AsEnumerable().Where(r => r.id_Kadr == gKadr.id_Kadr).Sum(r => r.money).ToString("0.00");
                         dtTmpIC.Rows.Add(newRow);
 
                     }
 
                     dtTrialTable = dtTmpIC.Copy();
+
+                   
+
+                 
+                    if (!isView)
+                    {
+                        initIsView();
+                        groupBox3.Enabled = true;
+                        foreach (Control cnt in groupBox3.Controls) cnt.Enabled = false;
+                        cmbValuta.Enabled = false;
+                        gbPayIC.Enabled = true;
+                        btSelect.Visible = true;
+                        btnPrintPayIC.Visible = new List<string>(new string[] { "РКВ" }).Contains(Config.CodeUser);
+                        btDelPayIC.Visible = new List<string>(new string[] { "КНТ", "КД" }).Contains(Config.CodeUser);
+                        cZasp.ReadOnly = !new List<string>(new string[] { "КНТ", "КД" }).Contains(Config.CodeUser) && new List<int>(new int[] { 2, 6, 4 }).Contains((int)dtTmp.Rows[0]["id_Status"]);
+                        tbCommentNote.Enabled = tbCommentNote.ReadOnly = true;
+                    }
+                    else //if (new List<string>(new string[] { "РКВ" }).Contains(Config.CodeUser))
+                    {
+                        
+                        groupBox3.Enabled = true;
+                        foreach (Control cnt in groupBox3.Controls) cnt.Enabled = false;
+                        gbPayIC.Enabled = true;
+                        cmbValuta.Enabled = false;
+                        btnPrintPayIC.Visible = new List<string>(new string[] { "РКВ" }).Contains(Config.CodeUser);
+                        btDelPayIC.Visible = false;
+                        tbCommentNote.Enabled = tbCommentNote.ReadOnly = true;
+                        dgvData.ReadOnly = true;
+                    }
 
                     btDelPayIC.Enabled = dtTrialTable.Rows.Count > 1;
                     btnPrintPayIC.Enabled = dtTrialTable.Rows.Count != 0;
@@ -447,17 +476,6 @@ namespace ServiceRecords
                     dgvData.DataSource = dtTrialTable;
 
                     isLoad = false;
-                    if (!isView)
-                    {
-                        initIsView();
-                        groupBox3.Enabled = true;
-                        foreach (Control cnt in groupBox3.Controls) cnt.Enabled = false;
-                        gbPayIC.Enabled = true;
-                        btSelect.Visible = true;
-                        btnPrintPayIC.Visible = new List<string>(new string[] { "РКВ" }).Contains(Config.CodeUser);
-                        btDelPayIC.Visible = new List<string>(new string[] { "КНТ", "КД" }).Contains(Config.CodeUser);
-                        cZasp.ReadOnly = !new List<string>(new string[] { "КНТ", "КД" }).Contains(Config.CodeUser) && new List<int>(new int[] { 2, 6, 4 }).Contains((int)dtTmp.Rows[0]["id_Status"]);
-                    }
                 }
             }
             //else tbComment.Enabled = btnSaveComment.Enabled = false;
@@ -953,6 +971,8 @@ namespace ServiceRecords
             int? inType = null;
             if (cmbTypicalWorks.SelectedIndex != -1 && cmbTypicalWorks.Visible)
                 inType = (int)cmbTypicalWorks.SelectedValue;
+
+            if (cmbTypicalWorks.SelectedValue != null && (int)cmbTypicalWorks.SelectedValue == 4) inType = 4;
 
 
             if (isCreate && Allsumma <= decimal.Parse(tbSumma.Text.Trim()))
@@ -1735,6 +1755,25 @@ namespace ServiceRecords
             DataTable tb = Config.hCntMain.getFingerScan();
             try
             {
+                try
+                {
+                    if (File.Exists(NameFileFinger))
+                        File.Delete(NameFileFinger);
+                }
+                catch { }
+
+                try
+                {
+                    if (!File.Exists(NameFileFinger))
+                    {
+                        using (StreamWriter sw = File.CreateText(NameFileFinger))
+                        {                            
+                        }
+                    }
+                }
+                catch
+                { }
+
                 if (tb.Rows[0]["fingerScanOne"].ToString().Length > 1)
                     writeScanerToFile(tb, "fingerScanOne");
                 if (tb.Rows[0]["fingerScanTwo"].ToString().Length > 1)
@@ -1781,7 +1820,7 @@ namespace ServiceRecords
                 rbMonthly.Checked = false;
                 TypeServiceRecordOnTime = 1;
                 isEdit = true;
-                gbFond.Visible = false;
+                gbFond.Visible = false;                
                 fondEnableelement();
             }
         }
@@ -1793,7 +1832,7 @@ namespace ServiceRecords
                 rbOneTime.Checked = false;
                 TypeServiceRecordOnTime = 2;
                 isEdit = true;
-                gbFond.Visible = false;
+                gbFond.Visible = false;                
                 fondEnableelement();
             }
         }
@@ -1962,6 +2001,8 @@ namespace ServiceRecords
             grbTypeOplata.Enabled =
             cmbValuta.Enabled =
             TypeSR.Enabled = !rbFond.Checked;
+            if (!isLoad) rbMix_CheckedChanged(null, null);
+            //rbMoney_Click(null, null);
 
             lFond.Visible = btAddFond.Visible = btDelFond.Visible = tbFond.Visible = !rbMonthly.Checked && !rbKvartal.Checked;
 
@@ -2385,7 +2426,7 @@ namespace ServiceRecords
                 rbOneTime.Checked = false;
                 TypeServiceRecordOnTime = 4;
                 isEdit = true;
-                gbFond.Visible = false;
+                gbFond.Visible = false;                
                 fondEnableelement();
             }
         }
@@ -2425,7 +2466,7 @@ namespace ServiceRecords
             if (e.RowIndex != -1 && dtTrialTable != null && dtTrialTable.DefaultView.Count != 0)
             {
                 Color rColor = Color.White;
-                if (dtTrialTable.DefaultView[e.RowIndex]["OldSalary"] != DBNull.Value && (decimal)dtTrialTable.DefaultView[e.RowIndex]["nowSalary"] < (decimal)dtTrialTable.DefaultView[e.RowIndex]["MinSalary"])
+                if (dtTrialTable.DefaultView[e.RowIndex]["OldSalary"] != DBNull.Value && (decimal)dtTrialTable.DefaultView[e.RowIndex]["nowSalary"] != (decimal)dtTrialTable.DefaultView[e.RowIndex]["MinSalary"])
                     rColor = panel1.BackColor;
 
                 dgvData.Rows[e.RowIndex].DefaultCellStyle.BackColor = rColor;
@@ -2442,13 +2483,13 @@ namespace ServiceRecords
             if (!isStartEdit) return;
 
             decimal tmpValue;
-            if (!decimal.TryParse(e.FormattedValue.ToString(), out tmpValue)) { MessageBox.Show("Не корректное значение!", "Редактирование оклада", MessageBoxButtons.OK, MessageBoxIcon.Warning); e.Cancel = true; }
+            if (!decimal.TryParse(e.FormattedValue.ToString(), out tmpValue)) { MessageBox.Show("Не корректное значение!", "Редактирование оклада", MessageBoxButtons.OK, MessageBoxIcon.Warning); e.Cancel = true; return; }
 
             decimal MinSalary = (decimal)dtTrialTable.DefaultView[e.RowIndex]["MinSalary"];
             decimal MaxSalary = (decimal)dtTrialTable.DefaultView[e.RowIndex]["MaxSalary"];
             int id_Kadr = (int)dtTrialTable.DefaultView[e.RowIndex]["id_Kadr"];
 
-            if (MinSalary > tmpValue || tmpValue > MaxSalary) { MessageBox.Show(Config.centralText($"Введенная величина оклада\nвыходит за допустимый\nдиапазон: {MinSalary.ToString("0.00")} - {MaxSalary.ToString("0.00")}\n"), "Редактирование оклада", MessageBoxButtons.OK, MessageBoxIcon.Warning); e.Cancel = true; }
+            if (MinSalary > tmpValue || tmpValue > MaxSalary) { MessageBox.Show(Config.centralText($"Введенная величина оклада\nвыходит за допустимый\nдиапазон: {MinSalary.ToString("0.00")} - {MaxSalary.ToString("0.00")}\n"), "Редактирование оклада", MessageBoxButtons.OK, MessageBoxIcon.Warning); e.Cancel = true; return; }
 
             decimal newMoney = listWorkData.AsEnumerable().Where(r => r.id_Kadr == id_Kadr).Sum(s => s.toNextResult * tmpValue);
             dtTrialTable.DefaultView[e.RowIndex]["payment"] = newMoney;
@@ -2477,6 +2518,17 @@ namespace ServiceRecords
                 Config.hCntMain.setTrialTablePayICServiceRecordLink(id, 0, 0, 0, id_kadr, true);
 
                 MessageBox.Show("Запись удалена!", "Удаление ИС", MessageBoxButtons.OK,MessageBoxIcon.Information);
+
+                EnumerableRowCollection<DataRow> rowCollect = dtDataToSave.AsEnumerable().Where(r => r.Field<int>("id_Kadr") == id_kadr);
+                //for (int i = rowCollect.Count() - 1; i <= 0; i--)
+                    while (rowCollect.Count()!= 0)
+                        rowCollect.First().Delete();
+
+
+                dtTrialTable.DefaultView[dgvData.CurrentRow.Index].Delete();
+                dtTrialTable.AcceptChanges();
+                tbSumma.Text = dtTrialTable.DefaultView.ToTable().AsEnumerable().Sum(r => r.Field<decimal>("payment")).ToString("0.00");
+
                 btDelPayIC.Enabled = dtTrialTable.Rows.Count > 1;
                 btnPrintPayIC.Enabled = dtTrialTable.Rows.Count != 0;
             }

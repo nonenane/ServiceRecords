@@ -33,7 +33,7 @@ namespace ServiceRecords
         public DateTime? DataSumma { set; private get; }
         public string nameDep { set; private get; }
         public string NumSZ { set; private get; }
-        
+        public bool isChangeUserMoneyTake { set; private get; } = false;
 
         public frmOrderMoney()
         {
@@ -175,6 +175,9 @@ namespace ServiceRecords
                     dtpDate.MaxDate = new DateTime(nowTime.Year, Values.AsEnumerable().Max(), 1).AddMonths(1).AddDays(-1);
 
                 }
+
+                if (isChangeUserMoneyTake)
+                    tbMoney.ReadOnly = true;
             }
             else
             {
@@ -401,14 +404,16 @@ namespace ServiceRecords
 
 
                 //тут запись в ДО ДЗ
-
-                DataTable dtTmpMemo = Config.hCntMain.getMemorandums(nowTime, nowTime, id_ServiceRecords, false);
-                if (dtTmpMemo != null && dtTmpMemo.Rows.Count > 0)
+                if (!isChangeUserMoneyTake)
                 {
-                    foreach (DataRow row in dtTmpMemo.Rows)
-                    {                      
-                        int id_doc = (int)row["id_doc"];
-                        Config.hCntDocumentsDZ.setMoveDocument(id_doc);
+                    DataTable dtTmpMemo = Config.hCntMain.getMemorandums(nowTime, nowTime, id_ServiceRecords, false);
+                    if (dtTmpMemo != null && dtTmpMemo.Rows.Count > 0)
+                    {
+                        foreach (DataRow row in dtTmpMemo.Rows)
+                        {
+                            int id_doc = (int)row["id_doc"];
+                            Config.hCntDocumentsDZ.setMoveDocument(id_doc);
+                        }
                     }
                 }
                 //if (id_doc != null)
@@ -472,9 +477,9 @@ namespace ServiceRecords
                             newRow["nowSalary"] = rowCollect.First()["nowSalary"];
                             newRow["id_Kadr"] = rowCollect.First()["id_Kadr"];
                             newRow["periodPay"] = periodPay;
-                            newRow["minuteWork"] = dtTrialTable.AsEnumerable().Where(r => r.Field<int>("id_Kadr") == gKadr.id_Kadr).Sum(r => r.Field<decimal>("minuteWork"));
+                            newRow["minuteWork"] = dtTrialTable.AsEnumerable().Where(r => r.Field<int>("id_Kadr") == gKadr.id_Kadr).Sum(r => r.Field<decimal>("WorkedHours"));
                             newRow["hourWorkOnDay"] = dtTrialTable.AsEnumerable().Where(r => r.Field<int>("id_Kadr") == gKadr.id_Kadr).Sum(r => r.Field<decimal>("hourWorkOnDay"));
-                            newRow["payment"] = dtTrialTable.AsEnumerable().Where(r => r.Field<int>("id_Kadr") == gKadr.id_Kadr).Sum(r => r.Field<decimal>("payment"));
+                            newRow["payment"] = dtTrialTable.AsEnumerable().Where(r => r.Field<int>("id_Kadr") == gKadr.id_Kadr).Sum(r => r.Field<decimal>("payment")).ToString("0.00");
                             dtTmpIC.Rows.Add(newRow);
 
                         }
