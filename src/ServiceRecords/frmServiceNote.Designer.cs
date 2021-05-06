@@ -452,7 +452,7 @@
             // 
             this.btSelect.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.btSelect.Image = global::ServiceRecords.Properties.Resources.save_edit;
-            this.btSelect.Location = new System.Drawing.Point(889, 650);
+            this.btSelect.Location = new System.Drawing.Point(885, 651);
             this.btSelect.Name = "btSelect";
             this.btSelect.Size = new System.Drawing.Size(32, 32);
             this.btSelect.TabIndex = 22;
@@ -463,7 +463,7 @@
             // 
             this.btClose.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.btClose.Image = global::ServiceRecords.Properties.Resources.exit_8633;
-            this.btClose.Location = new System.Drawing.Point(927, 650);
+            this.btClose.Location = new System.Drawing.Point(923, 651);
             this.btClose.Name = "btClose";
             this.btClose.Size = new System.Drawing.Size(32, 32);
             this.btClose.TabIndex = 23;
@@ -475,7 +475,7 @@
             this.btnSaveComment.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.btnSaveComment.Enabled = false;
             this.btnSaveComment.Image = global::ServiceRecords.Properties.Resources.view2;
-            this.btnSaveComment.Location = new System.Drawing.Point(927, 609);
+            this.btnSaveComment.Location = new System.Drawing.Point(923, 610);
             this.btnSaveComment.Name = "btnSaveComment";
             this.btnSaveComment.Size = new System.Drawing.Size(32, 32);
             this.btnSaveComment.TabIndex = 49;
@@ -1455,7 +1455,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(971, 694);
+            this.ClientSize = new System.Drawing.Size(967, 690);
             this.ControlBox = false;
             this.Controls.Add(this.gbFond);
             this.Controls.Add(this.typeSRonTime);

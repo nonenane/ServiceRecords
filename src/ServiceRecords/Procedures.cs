@@ -872,7 +872,7 @@ namespace ServiceRecords
                                    decimal Summa, int type,
                                    int idUser, int idMoneyRecipient,
                                    int status,
-                                   decimal summaInValuta)
+                                   decimal summaInValuta,bool isChangeUserMoneyTake = false)
         {
             ap.Clear();
 
@@ -884,15 +884,16 @@ namespace ServiceRecords
             ap.Add(idMoneyRecipient);
             ap.Add(status);
             ap.Add(summaInValuta);
+            ap.Add(isChangeUserMoneyTake);
 
 
             return executeProcedure("[ServiceRecords].[updatePayments]",
                  new string[] {"@idOrder",  "@DataSumma", "@Summa", "@type",
                                 "@idUser", "@idMoneyRecipient", "@status",
-                                 "@summaInValuta"},
+                                 "@summaInValuta","@isChangeUserMoneyTake"},
                  new DbType[] {DbType.Int32,  DbType.DateTime, DbType.Decimal, DbType.Int32,
                                 DbType.Int32, DbType.Int32, DbType.Int32,
-                                DbType.Decimal,}, ap);
+                                DbType.Decimal,DbType.Boolean}, ap); 
         }
 
         public DataTable deletePayments(int idOrder)

@@ -2513,10 +2513,22 @@ namespace ServiceRecords
         {
             if (DialogResult.Yes == MessageBox.Show("Удалить выбранную запись?", "Удаление ИС", MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button2))
             {
+                Logging.StartFirstLevel(79);
+
+                DataRowView row = dtTrialTable.DefaultView[dgvData.CurrentRow.Index];
+
+                foreach (DataGridViewColumn col in dgvData.Columns)
+                {
+                    if (!col.Visible) continue;
+
+                    Logging.Comment($"{col.HeaderText}:{row[col.DataPropertyName]}");
+                }
+
                 int id_kadr = (int)dtTrialTable.DefaultView[dgvData.CurrentRow.Index]["id_Kadr"];
 
                 Config.hCntMain.setTrialTablePayICServiceRecordLink(id, 0, 0, 0, id_kadr, true);
 
+                Logging.StopFirstLevel();
                 MessageBox.Show("Запись удалена!", "Удаление ИС", MessageBoxButtons.OK,MessageBoxIcon.Information);
 
                 EnumerableRowCollection<DataRow> rowCollect = dtDataToSave.AsEnumerable().Where(r => r.Field<int>("id_Kadr") == id_kadr);
@@ -2536,7 +2548,9 @@ namespace ServiceRecords
 
         private void BtnPrintPayIC_Click(object sender, EventArgs e)
         {
-
+            Logging.StartFirstLevel(79);
+            Logging.Comment("Произведена выгрузка отчета по ИС");
+            Logging.StopFirstLevel();
 
             DataTable dtToReport = dtTrialTable.Copy();
             for (int i= dtToReport.Columns.Count - 1; i >=0;i--)

@@ -307,7 +307,7 @@ namespace ServiceRecords
                                               UserSettings.User.Id,
                                               idMoneyRecipient,
                                               status,
-                                              summaInValuta);
+                                              summaInValuta, isChangeUserMoneyTake);
 
                 if ((dtTMP == null || dtTMP.Rows.Count == 0) && idOrder == 0)
                 {
